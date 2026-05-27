@@ -1,0 +1,26 @@
+# GradleRIO
+build/
+.gradle/
+bin/
+out/
+
+# VS Code (keep .vscode/settings.json, ignore per-machine cruft)
+.vscode/launch.json
+.vscode/*.code-snippets
+
+# IntelliJ / Eclipse
+*.iml
+.idea/
+.project
+.classpath
+.settings/
+
+# WPILib + AdvantageKit logs
+logs/
+*.wpilog
+*.hoot
+networktables.json
+
+# OS
+.DS_Store
+Thumbs.db

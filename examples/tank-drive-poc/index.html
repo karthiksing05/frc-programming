@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tank Drive Wiring – FRCProgramming.org</title>
+
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../elevator-pid-poc/style.css" />
+  <link rel="stylesheet" href="../shared/lesson-extras.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="top-bar">
+    <div class="top-bar__inner">
+      <a href="#" class="top-bar__brand">
+        <span class="material-icons" style="font-size:22px">menu_book</span>
+        <span class="top-bar__title">FRCProgramming.org</span>
+      </a>
+      <nav class="top-bar__tabs">
+        <a href="#" class="tab active">Learning Course</a>
+        <a href="#" class="tab">Programming Handbook</a>
+        <a href="#" class="tab">Code Examples</a>
+        <a href="#" class="tab">Resources</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="material-icons">lightbulb_outline</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="breadcrumbs">
+    <span>Learning Course</span>
+    <span class="sep">›</span>
+    <span>Stage 1: Beginner</span>
+    <span class="sep">›</span>
+    <span>My First Robot</span>
+    <span class="sep">›</span>
+    <span class="current">Tank Drive Wiring</span>
+  </div>
+
+  <div class="main-layout">
+
+    <!-- LEFT: Lesson content -->
+    <aside class="lesson-panel" id="lessonPanel">
+      <div class="lesson-panel__inner">
+
+        <div class="stage-badge">Stage 1C · My First Robot</div>
+
+        <h1>Tank Drive Wiring</h1>
+
+        <div class="admonition tip">
+          <p class="admonition-title"><span class="material-icons">local_fire_department</span> Tip</p>
+          <p>Today you wire up a real <code>DriveSubsystem</code> for a tank-drive robot. You only write the small piece that's missing — the rest of the project (motor handles, joystick handles, and your <code>MathUtils.applyDeadband</code> from last lesson) is already in place.</p>
+        </div>
+
+        <h2>What you wrote last lesson is now part of your project</h2>
+        <p>Open the <strong>Project Files</strong> panel on the right. You should see:</p>
+        <ul>
+          <li><span style="color:#448aff">✓ <code>MathUtils.java</code></span> — written by you in the previous lesson, now part of your project</li>
+          <li><span style="color:#4caf50">✎ <code>DriveSubsystem.java</code></span> — the file you're editing now</li>
+          <li><span style="color:#ff9100">🔒 future files</span> — coming in later lessons</li>
+        </ul>
+        <p>If you haven't done the <a href="../functions-poc/index.html">Methods lesson</a>, do that first — this lesson literally <code>import</code>s the file you wrote there. (We've stubbed in a placeholder so this page still works, but you'll learn more by writing your own.)</p>
+
+        <div class="admonition note">
+          <p class="admonition-title"><span class="material-icons">sticky_note_2</span> The file from last lesson</p>
+          <p>Click the <code>MathUtils.java</code> tab above the editor to see exactly what your project has on disk. This isn't a copy — it's the live file from your saved project.</p>
+        </div>
+
+        <h2>What this subsystem does</h2>
+        <p>A <strong>tank drive</strong> has a left side and a right side, each driven by one or more motors. To turn, the two sides spin at different speeds. The classic mapping from a single joystick is called <em>arcade drive</em>:</p>
+        <div class="diagram-box">
+          <pre>
+   leftMotor  = forward + rotation
+   rightMotor = forward - rotation
+          </pre>
+        </div>
+        <p>Push forward → both wheels spin forward. Push sideways → one side speeds up, the other slows down → robot rotates.</p>
+
+        <h2>Your task</h2>
+        <ol>
+          <li>Read through the starter <code>DriveSubsystem.java</code> on the right.</li>
+          <li>Inside <code>periodic()</code>, fill in the <code>// TODO</code> lines so that:
+            <ul>
+              <li><code>forwardClean</code> = your <code>MathUtils.applyDeadband(forward, DEADBAND)</code></li>
+              <li><code>rotationClean</code> = your <code>MathUtils.applyDeadband(rotation, DEADBAND)</code></li>
+              <li>The arcade-drive equations above are applied</li>
+              <li>The values reach <code>m_leftMotor.set(...)</code> and <code>m_rightMotor.set(...)</code></li>
+            </ul>
+          </li>
+          <li>Press <strong>Run</strong> — the robot on the right starts taking commands from your code.</li>
+          <li>Drive with <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> (or the on-screen pad).</li>
+        </ol>
+
+        <details class="collapsible">
+          <summary><span class="material-icons">expand_more</span> Hint</summary>
+          <div class="collapsible__body">
+            <pre><code>double forwardClean  = MathUtils.applyDeadband(forward, DEADBAND);
+double rotationClean = MathUtils.applyDeadband(rotation, DEADBAND);
+
+double leftOut  = forwardClean + rotationClean;
+double rightOut = forwardClean - rotationClean;
+
+m_leftMotor.set(leftOut);
+m_rightMotor.set(rightOut);</code></pre>
+          </div>
+        </details>
+
+        <h2>Goal check</h2>
+        <ul>
+          <li>Without pressing any keys, the robot should sit still (deadband working).</li>
+          <li>Press <kbd>W</kbd> → robot drives forward.</li>
+          <li>Press <kbd>A</kbd> or <kbd>D</kbd> alone → robot rotates in place.</li>
+          <li>Press <kbd>W</kbd>+<kbd>D</kbd> → robot drives forward while curving right.</li>
+        </ul>
+
+        <div class="admonition example">
+          <p class="admonition-title"><span class="material-icons">science</span> The compounding filesystem</p>
+          <p>Notice that you didn't have to re-write <code>applyDeadband</code>. The next lesson will use both files. Each lesson adds one small, real piece of code; nothing is throwaway. By the end of Stage 1 your <em>own</em> project folder contains a working teleop robot.</p>
+        </div>
+
+        <div class="admonition note">
+          <p class="admonition-title"><span class="material-icons">sticky_note_2</span> The same lesson, with real tools</p>
+          <p>This lesson is also rendered for VS Code + AdvantageKit at <a href="../path-b-demo/lessons/02-tank-drive/README.md"><code>path-b-demo/lessons/02-tank-drive/</code></a>. Same arcade-drive math, but running against WPILib's <code>DifferentialDrivetrainSim</code>, with AdvantageScope as the visualization. See <a href="../../process/Infrastructure-Analysis.md">Infrastructure-Analysis.md §3</a> for why both paths exist.</p>
+        </div>
+
+        <div class="lesson-nav">
+          <a href="../functions-poc/index.html" class="lesson-nav__btn prev">
+            <span class="material-icons">arrow_back</span>
+            <div>
+              <div class="lesson-nav__label">Previous</div>
+              <div class="lesson-nav__page">Methods (Functions)</div>
+            </div>
+          </a>
+          <a href="../elevator-pid-poc/index.html" class="lesson-nav__btn next">
+            <div>
+              <div class="lesson-nav__label">Next</div>
+              <div class="lesson-nav__page">Elevator PID</div>
+            </div>
+            <span class="material-icons">arrow_forward</span>
+          </a>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- RIGHT: Interactive Panel -->
+    <main class="interactive-panel">
+
+      <!-- TOP STRIP: file tabs + filesystem tree -->
+      <div class="fs-strip">
+        <div class="file-tabs">
+          <div class="file-tab active" data-tab="drive">
+            <span class="material-icons" style="font-size:14px;color:#4caf50">description</span>
+            DriveSubsystem.java
+          </div>
+          <div class="file-tab" data-tab="math">
+            <span class="material-icons" style="font-size:14px;color:#448aff">description</span>
+            MathUtils.java <span class="file-tab__badge">readonly</span>
+          </div>
+        </div>
+        <div class="fs-panel">
+          <div class="fs-panel__header">
+            <span class="material-icons" style="font-size:14px">folder_open</span>
+            Project Files
+          </div>
+          <div id="fsTree"></div>
+          <div class="fs-panel__footer">
+            <span id="fsStatus">empty</span>
+            <button id="btnResetFs">Reset Project</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MIDDLE: editor + robot viz -->
+      <div class="top-interactive">
+
+        <div class="editor-section">
+          <div class="editor-toolbar">
+            <div class="editor-toolbar__file" id="editorFileLabel">
+              <span class="material-icons" style="font-size:16px;color:#4caf50">description</span>
+              src/main/java/frc/robot/subsystems/DriveSubsystem.java
+            </div>
+            <div class="editor-toolbar__actions">
+              <button class="btn btn--reset" id="btnReset"><span class="material-icons">restart_alt</span> Reset</button>
+              <button class="btn btn--run"   id="btnRun"  ><span class="material-icons">play_arrow</span> Run</button>
+            </div>
+          </div>
+          <div id="codeEditor"></div>
+          <div class="editor-status" id="editorStatus"></div>
+        </div>
+
+        <div class="robot-viz">
+          <div class="robot-viz__header">
+            <span class="material-icons" style="font-size:14px">precision_manufacturing</span>
+            Robot · top-down
+          </div>
+          <canvas id="robotCanvas" width="320" height="380"></canvas>
+          <div class="motor-bars">
+            <div class="motor-bars__one">
+              Left
+              <div class="motor-bars__bar"><div class="motor-bars__fill" id="leftBar"></div></div>
+              <span id="leftVal" style="font-family:Roboto Mono,monospace">0.00</span>
+            </div>
+            <div class="motor-bars__one">
+              Right
+              <div class="motor-bars__bar"><div class="motor-bars__fill" id="rightBar"></div></div>
+              <span id="rightVal" style="font-family:Roboto Mono,monospace">0.00</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM: controls -->
+      <div class="sim-section">
+        <div class="controls">
+          <div class="controls__label">Drive with WASD:</div>
+          <div class="wasd-pad" id="wasdPad">
+            <div class="wasd-pad__key empty"></div>
+            <div class="wasd-pad__key" data-key="w">W</div>
+            <div class="wasd-pad__key empty"></div>
+            <div class="wasd-pad__key" data-key="a">A</div>
+            <div class="wasd-pad__key" data-key="s">S</div>
+            <div class="wasd-pad__key" data-key="d">D</div>
+          </div>
+          <div class="controls__keyboard">
+            <span class="material-icons" style="font-size:14px">keyboard</span>
+            <kbd>W</kbd>/<kbd>S</kbd> = forward/back &middot;
+            <kbd>A</kbd>/<kbd>D</kbd> = rotate &middot;
+            <kbd>R</kbd> = reset position
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../shared/filesystem.js"></script>
+  <script src="simulation.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

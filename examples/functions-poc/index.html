@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Methods (Functions) – FRCProgramming.org</title>
+
+  <!-- CodeMirror 5 via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+  <!-- Reuse the elevator PoC's base theme (top bar, breadcrumbs,
+       admonitions, lesson typography) so the look stays consistent. -->
+  <link rel="stylesheet" href="../elevator-pid-poc/style.css" />
+  <link rel="stylesheet" href="../shared/lesson-extras.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── TOP BAR ──────────────────────────────────────── -->
+  <header class="top-bar">
+    <div class="top-bar__inner">
+      <a href="#" class="top-bar__brand">
+        <span class="material-icons" style="font-size:22px">menu_book</span>
+        <span class="top-bar__title">FRCProgramming.org</span>
+      </a>
+      <nav class="top-bar__tabs">
+        <a href="#" class="tab active">Learning Course</a>
+        <a href="#" class="tab">Programming Handbook</a>
+        <a href="#" class="tab">Code Examples</a>
+        <a href="#" class="tab">Resources</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="material-icons">lightbulb_outline</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── BREADCRUMBS ──────────────────────────────────── -->
+  <div class="breadcrumbs">
+    <span>Learning Course</span>
+    <span class="sep">›</span>
+    <span>Stage 1: Beginner</span>
+    <span class="sep">›</span>
+    <span>Java Fundamentals</span>
+    <span class="sep">›</span>
+    <span class="current">Methods (Functions)</span>
+  </div>
+
+  <!-- ─── MAIN LAYOUT ──────────────────────────────────── -->
+  <div class="main-layout">
+
+    <!-- LEFT: Lesson content -->
+    <aside class="lesson-panel" id="lessonPanel">
+      <div class="lesson-panel__inner">
+
+        <div class="stage-badge">Stage 1A · Java Fundamentals</div>
+
+        <h1>Methods (a.k.a. Functions)</h1>
+
+        <div class="admonition tip">
+          <p class="admonition-title"><span class="material-icons">local_fire_department</span> Tip</p>
+          <p>A <strong>method</strong> is a reusable piece of code with a name, some inputs, and an output. Today you'll write one real WPILib utility method — and the file you create is saved to your project so the <em>next</em> lesson can use it.</p>
+        </div>
+
+        <h2>Why methods exist</h2>
+        <p>In FRC code you do the same little operations all over the place: clamp a value, square a joystick input, convert encoder ticks to meters. If you copy-paste that math into ten different files, then change your mind about how it should work, you have to find and fix all ten copies.</p>
+        <p>A <strong>method</strong> lets you write the operation <em>once</em>, give it a name, and call it from anywhere. That's the entire idea.</p>
+
+        <h3>Anatomy of a method</h3>
+        <div class="diagram-box">
+          <pre>
+   public static double applyDeadband(double value, double threshold) {
+   └┬───┘ └─┬──┘ └─┬──┘ └─────┬────┘ └─────┬────┘  └────┬────┘
+    │      │      │           │            │             │
+  visible  no    returns    name        first input   second input
+  to all  object a number              (with type)    (with type)
+  classes needed
+                              ┌── body goes here ──┐
+       if (Math.abs(value) < threshold) return 0.0;
+       return value;
+   }
+          </pre>
+        </div>
+
+        <h2>The real-world problem</h2>
+        <p>Real Xbox-controller joysticks are <em>noisy</em>. Even when no one is touching them, the reading drifts between roughly &minus;0.05 and +0.05. If you forward that straight to a motor, the robot twitches and creeps across the field while the driver is just standing there.</p>
+        <p>The fix is called a <strong>deadband</strong>: ignore any reading whose magnitude is below some threshold. We'll write it once as <code>MathUtils.applyDeadband(value, threshold)</code> and reuse it everywhere a joystick value enters the robot code.</p>
+
+        <div class="admonition note">
+          <p class="admonition-title"><span class="material-icons">sticky_note_2</span> Note · Why <code>static</code>?</p>
+          <p>Methods marked <code>static</code> belong to the <em>class</em>, not to a specific object. You call them with <code>ClassName.method(...)</code> — no <code>new MathUtils()</code> needed. Utility math is the textbook case for <code>static</code>: it doesn't depend on any state, so there's nothing to put in an instance.</p>
+        </div>
+
+        <h2>Your task</h2>
+        <ol>
+          <li>The starter on the right contains <code>MathUtils.java</code> with a stub method.</li>
+          <li>Replace the <code>// TODO</code> in the body so the method returns <code>0.0</code> when the input is within the deadband, and the original <code>value</code> otherwise.</li>
+          <li>Press <strong>Run</strong> (or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>) — the joystick visualization on the right deploys your method live.</li>
+          <li><strong>Goal:</strong> the green &ldquo;motor output&rdquo; bar should sit dead still when you aren't touching the joystick, then respond cleanly once you push past the threshold.</li>
+        </ol>
+
+        <details class="collapsible">
+          <summary><span class="material-icons">expand_more</span> Hint (try it yourself first!)</summary>
+          <div class="collapsible__body">
+            <pre><code>if (Math.abs(value) &lt; threshold) {
+    return 0.0;
+}
+return value;</code></pre>
+            <p>or, as a one-liner using the ternary operator:</p>
+            <pre><code>return Math.abs(value) &lt; threshold ? 0.0 : value;</code></pre>
+          </div>
+        </details>
+
+        <h2 id="filesystem-callout">Your saved project</h2>
+        <div class="admonition example">
+          <p class="admonition-title"><span class="material-icons">science</span> What gets saved?</p>
+          <p>When you press <strong>Run</strong>, your edited <code>MathUtils.java</code> is written to your <em>persistent project filesystem</em> — the same one shown in the right-side &ldquo;Project Files&rdquo; panel. The very next lesson (<em>Tank Drive</em>) will <code>import</code> this exact file. If you wreck it now, future lessons break — just like a real robot project.</p>
+        </div>
+
+        <div class="admonition note">
+          <p class="admonition-title"><span class="material-icons">sticky_note_2</span> Graduating to the real toolchain</p>
+          <p>This lesson is also rendered as a real WPILib + AdvantageKit + JUnit project in <a href="../path-b-demo/lessons/01-methods/README.md"><code>path-b-demo/lessons/01-methods/</code></a>. Same lesson, same starter file, but using the official FRC tools. Later in Stage 1 you'll &ldquo;graduate&rdquo; — download your project as a real WPILib repo and finish the curriculum in VS Code.</p>
+        </div>
+
+        <div class="lesson-nav">
+          <a href="../elevator-pid-poc/index.html" class="lesson-nav__btn prev">
+            <span class="material-icons">arrow_back</span>
+            <div>
+              <div class="lesson-nav__label">Previous</div>
+              <div class="lesson-nav__page">Variables & Types</div>
+            </div>
+          </a>
+          <a href="../tank-drive-poc/index.html" class="lesson-nav__btn next">
+            <div>
+              <div class="lesson-nav__label">Next</div>
+              <div class="lesson-nav__page">Tank Drive (uses your code!)</div>
+            </div>
+            <span class="material-icons">arrow_forward</span>
+          </a>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- RIGHT: Interactive Panel -->
+    <main class="interactive-panel">
+
+      <!-- TOP STRIP: file tabs + filesystem tree -->
+      <div class="fs-strip">
+        <div class="file-tabs">
+          <div class="file-tab active" data-path="src/main/java/frc/robot/util/MathUtils.java">
+            <span class="material-icons" style="font-size:14px;color:#4caf50">description</span>
+            MathUtils.java
+          </div>
+        </div>
+        <div class="fs-panel">
+          <div class="fs-panel__header">
+            <span class="material-icons" style="font-size:14px">folder_open</span>
+            Project Files
+          </div>
+          <div id="fsTree"></div>
+          <div class="fs-panel__footer">
+            <span id="fsStatus">empty</span>
+            <button id="btnResetFs" title="Wipe entire saved project">Reset Project</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MIDDLE: Editor + Joystick viz side by side -->
+      <div class="top-interactive">
+
+        <!-- Code Editor -->
+        <div class="editor-section">
+          <div class="editor-toolbar">
+            <div class="editor-toolbar__file">
+              <span class="material-icons" style="font-size:16px;color:#4caf50">description</span>
+              src/main/java/frc/robot/util/MathUtils.java
+            </div>
+            <div class="editor-toolbar__actions">
+              <button class="btn btn--reset" id="btnReset" title="Reset code">
+                <span class="material-icons">restart_alt</span> Reset
+              </button>
+              <button class="btn btn--run" id="btnRun" title="Run code (Ctrl+Enter)">
+                <span class="material-icons">play_arrow</span> Run
+              </button>
+            </div>
+          </div>
+          <div id="codeEditor"></div>
+          <div class="editor-status" id="editorStatus"></div>
+        </div>
+
+        <!-- Joystick Visualization -->
+        <div class="joystick-viz">
+          <div class="joystick-viz__header">
+            <span class="material-icons" style="font-size:14px">gamepad</span>
+            Joystick Simulator
+          </div>
+
+          <div class="joystick-pad" id="joystickPad">
+            <div class="joystick-pad__dot raw" id="dotRaw"
+                 style="left:50%; top:50%"></div>
+            <div class="joystick-pad__dot"     id="dotClean"
+                 style="left:50%; top:50%"></div>
+          </div>
+
+          <div class="legend">
+            <span><span class="legend__swatch" style="background:#ff5252"></span>raw input</span>
+            <span><span class="legend__swatch" style="background:#4caf50"></span>after applyDeadband</span>
+          </div>
+
+          <div class="motor-indicator" id="motorIndicator">
+            <span class="motor-indicator__label">Motor X</span>
+            <div class="motor-indicator__bar">
+              <div class="motor-indicator__fill" id="motorXFill"></div>
+            </div>
+          </div>
+          <div class="motor-indicator" id="motorIndicatorY">
+            <span class="motor-indicator__label">Motor Y</span>
+            <div class="motor-indicator__bar">
+              <div class="motor-indicator__fill" id="motorYFill"></div>
+            </div>
+          </div>
+
+          <div style="font-size:0.72rem; color:var(--text-secondary);">
+            <label>
+              <input type="checkbox" id="noiseToggle" checked />
+              Simulate sensor noise (&plusmn;0.05)
+            </label>
+          </div>
+          <div style="font-size:0.7rem; color:var(--text-muted);">
+            Drag inside the circle &middot; or use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM: Time-series graph -->
+      <div class="sim-section">
+        <div class="graph-container">
+          <canvas id="graphCanvas" width="700" height="160"></canvas>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../shared/filesystem.js"></script>
+  <script src="simulation.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

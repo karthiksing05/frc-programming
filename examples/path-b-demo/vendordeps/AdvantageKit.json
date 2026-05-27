@@ -1,0 +1,12 @@
+{
+  "_comment": "STUB. Replace with the real file from https://github.com/Mechanical-Advantage/AdvantageKit/releases/latest/download/AdvantageKit.json",
+  "fileName": "AdvantageKit.json",
+  "name": "AdvantageKit",
+  "version": "26.0.2",
+  "uuid": "d820cb27-6b8b-49d2-a8e9-ec3a25c4f4ef",
+  "frcYear": "2026",
+  "mavenUrls": [
+    "https://maven.advantagekit.org"
+  ],
+  "jsonUrl": "https://github.com/Mechanical-Advantage/AdvantageKit/releases/latest/download/AdvantageKit.json"
+}

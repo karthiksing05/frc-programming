@@ -1,0 +1,317 @@
+/* ═══════════════════════════════════════════════════════════
+   lesson-extras.css — shared UI for filesystem panel + small
+   per-lesson widgets (joystick, robot view, etc).
+
+   Pair this with the elevator PoC's style.css for full theme.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Filesystem panel ────────────────────────────────── */
+.fs-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  overflow: hidden;
+}
+
+.fs-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--bg-surface-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.fs-tree { padding: 6px 0; }
+
+.fs-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+
+.fs-icon {
+  width: 14px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.fs-name { flex: 0 0 auto; }
+
+.fs-tag {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-left: auto;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fs-tag-editing { background: rgba(76,175,80,0.15);  color: #4caf50; }
+.fs-tag-done    { background: rgba(68,138,255,0.15); color: #448aff; }
+.fs-tag-missing { background: rgba(255,82,82,0.18);  color: #ff5252; }
+.fs-tag-locked  { background: rgba(255,145,0,0.15);  color: #ff9100; }
+
+.fs-file.fs-editing  .fs-icon { color: #4caf50; }
+.fs-file.fs-done     .fs-icon { color: #448aff; }
+.fs-file.fs-missing  .fs-icon { color: #ff5252; }
+.fs-file.fs-locked   .fs-icon,
+.fs-file.fs-locked   .fs-name { color: var(--text-muted); }
+
+.fs-panel__footer {
+  padding: 6px 10px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.fs-panel__footer button {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-size: 0.65rem;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.fs-panel__footer button:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+/* ─── Inline file-from-previous-lesson display ──────── */
+.prior-file {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin: 8px 0;
+  overflow: hidden;
+}
+.prior-file__header {
+  padding: 6px 10px;
+  background: rgba(68,138,255,0.10);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.75rem;
+  color: #448aff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.prior-file pre {
+  margin: 0;
+  padding: 8px 10px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text-primary);
+  overflow-x: auto;
+  max-height: 180px;
+}
+
+/* ─── Joystick visualization (functions PoC) ─────────── */
+.joystick-viz {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.joystick-viz__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.joystick-pad {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(circle at center,
+              rgba(76,175,80,0.06) 0%,
+              transparent 70%);
+  border: 1px dashed var(--border);
+  border-radius: 50%;
+  cursor: crosshair;
+  touch-action: none;
+}
+.joystick-pad__crosshair {
+  position: absolute;
+  inset: 0;
+}
+.joystick-pad__dot {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--md-primary);
+  box-shadow: 0 0 12px rgba(76,175,80,0.6);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.joystick-pad__dot.raw {
+  background: #ff5252;
+  width: 10px;
+  height: 10px;
+  box-shadow: 0 0 6px rgba(255,82,82,0.6);
+}
+
+.motor-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+}
+.motor-indicator__bar {
+  flex: 1;
+  height: 12px;
+  background: var(--bg-surface-elevated);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.motor-indicator__fill {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 0;
+  background: var(--md-primary);
+  transition: none;
+}
+.motor-indicator__label {
+  min-width: 60px;
+  color: var(--text-secondary);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.72rem;
+}
+.motor-indicator.buzzing .motor-indicator__bar {
+  animation: motor-shake 0.06s infinite alternate;
+}
+@keyframes motor-shake {
+  from { transform: translateX(0); }
+  to   { transform: translateX(1px); }
+}
+
+.legend {
+  display: flex;
+  gap: 12px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+.legend__swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* ─── Robot top-down view (tank-drive PoC) ───────────── */
+.robot-viz {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.robot-viz__header {
+  padding: 6px 10px;
+  background: var(--bg-surface-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+#robotCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #131313;
+}
+
+.motor-bars {
+  display: flex;
+  gap: 12px;
+  padding: 8px 10px;
+  background: var(--bg-surface-elevated);
+  border-top: 1px solid var(--border-subtle);
+}
+.motor-bars__one {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.motor-bars__bar {
+  height: 8px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.motor-bars__fill {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 0;
+  background: var(--md-primary);
+}
+
+/* ─── On-screen WASD pad ─────────────────────────────── */
+.wasd-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 36px);
+  grid-template-rows: repeat(3, 36px);
+  gap: 4px;
+  margin: 4px 0;
+}
+.wasd-pad__key {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  user-select: none;
+}
+.wasd-pad__key.held {
+  background: var(--md-primary);
+  color: #fff;
+  border-color: var(--md-primary);
+}
+.wasd-pad__key.empty { visibility: hidden; }
+
+/* ─── Smaller layout tweaks for new lessons ──────────── */
+.lesson-panel h2 { margin-top: 1.2em; }
+.lesson-panel h3 { margin-top: 0.8em; }

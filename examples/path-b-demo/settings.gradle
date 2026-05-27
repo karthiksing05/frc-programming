@@ -1,0 +1,9 @@
+/* Single-project GradleRIO setup.
+ *
+ * Per wpilibsuite/vscode-wpilib#847, the WPILib VS Code extension's
+ * commands (Build/Deploy/Simulate Robot Code) assume the project is the
+ * root. Don't be tempted into `include 'lessons:01-methods'` — that
+ * breaks the one-button UX students depend on. Lessons share one src/
+ * tree and are differentiated by JUnit @Tags + the lessons/ manifest.
+ */
+rootProject.name = 'frcprogramming-lessons'
