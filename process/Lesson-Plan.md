@@ -5,7 +5,7 @@
 >
 > **Not** the lesson content itself — that lives in `lessons/<slug>/README.md` in the actual project. This is the spec each content author works against. Per-lesson block format is consistent so an author can write a lesson by filling in a known template.
 
-> **Source-of-truth dependencies.** This doc weaves three together: the architecture in [Infrastructure-Analysis.md](Infrastructure-Analysis.md), the pedagogy in [Curriculum-Flow.md](Curriculum-Flow.md), and the reference robots in [Reference-Robots.md](Reference-Robots.md). If any of those changes meaningfully, update this. The shape of the lesson template itself is set by [Path-B-Implementation.md §15](Path-B-Implementation.md#15-appendix-b--lesson-template-spec-one-page).
+> **Source-of-truth dependencies.** This doc weaves three together: the architecture in [Infrastructure-Analysis.md](Infrastructure-Analysis.md), the pedagogy in [Curriculum-Flow.md](Curriculum-Flow.md), and the reference robots in [Reference-Robots.md](Reference-Robots.md). If any of those changes meaningfully, update this. The shape of the lesson template itself is set by [Path-B-Implementation.md §15](Path-B-Implementation.md#15-appendix-b-lesson-template-spec-one-page).
 
 ---
 
@@ -108,7 +108,7 @@ The student hasn't written a line of code yet. Goal: install once, see two real 
 
 **Not taught.** Java syntax. WPILib APIs. Git beyond `clone`.
 
-**Resources.** [WPILib install guide](https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/wpilib-setup.html) · [AdvantageScope releases](https://github.com/Mechanical-Advantage/AdvantageScope/releases) · [Infrastructure-Analysis.md §3.10](Infrastructure-Analysis.md#310-what-path-b-costs-the-student--the-honest-friction-list) (friction list — every item shows up here)
+**Resources.** [WPILib install guide](https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/wpilib-setup.html) · [AdvantageScope releases](https://github.com/Mechanical-Advantage/AdvantageScope/releases) · [Infrastructure-Analysis.md §3.10](Infrastructure-Analysis.md#310-what-path-b-costs-the-student-the-honest-friction-list) (friction list — every item shows up here)
 
 ---
 

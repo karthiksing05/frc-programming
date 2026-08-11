@@ -1,0 +1,44 @@
+{
+    "//": "WPILib extension settings. Mirrors what `WPILib: Create new project` would emit.",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.server.launchMode": "Standard",
+
+    "//javaHome": "Prefer WPILib's bundled JDK 17 (it ships with the WPILib installer). Falls back to JAVA_HOME if not present.",
+    "java.import.gradle.wrapper.enabled": true,
+    "java.import.gradle.java.home": "${userHome}/wpilib/2026/jdk",
+
+    "//debugPort": "5800 is WPILib's standard sim/desktop debug port (5800..5810 are reserved for FRC sim).",
+    "wpilib.debug.javaDebugPort": 5800,
+
+    "//telemetry": "Disable VS Code + WPILib telemetry for student privacy.",
+    "telemetry.telemetryLevel": "off",
+    "wpilib.telemetry": "off",
+
+    "//hide": "Hide build artifacts from the file tree so the lesson layout stays scannable.",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true,
+        "**/*~": true,
+        "**/build/": true,
+        "**/.gradle/": true,
+        "**/bin/": true
+    },
+    "files.watcherExclude": {
+        "**/build/**": true,
+        "**/.gradle/**": true,
+        "**/bin/**": true,
+        "**/logs/**": true
+    },
+
+    "//formatting": "Spotless runs the canonical Google Java Format; keep the editor in sync.",
+    "java.format.settings.profile": "GoogleStyle",
+    "editor.formatOnSave": true,
+
+    "//tests": "Surface JUnit results in the test explorer; per-lesson tags drive which tests show.",
+    "java.test.config": {
+        "vmArgs": ["-ea"],
+        "env": {}
+    }
+}

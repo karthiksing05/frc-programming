@@ -314,7 +314,7 @@ It's tempting to use a current-season robot — relevance is a real motivator. B
 
 ## 8. Connecting back to the rest of the docs
 
-- [Curriculum-Flow.md Appendix A](Curriculum-Flow.md#appendix-a--lesson-to-concept-map) maps lessons to concepts. **Future work:** add a column to that table linking each lesson to the specific Kelpie or Presto file it references.
+- [Curriculum-Flow.md Appendix A](Curriculum-Flow.md#appendix-a-lesson-to-concept-map) maps lessons to concepts. **Future work:** add a column to that table linking each lesson to the specific Kelpie or Presto file it references.
 - [Path-B-Implementation.md §10](Path-B-Implementation.md#10-content-authoring-at-scale) specifies the lesson template. **Future work:** lesson templates should auto-suggest a Kelpie or Presto reference based on the lesson's stage/concept.
 - [Infrastructure-Analysis.md §3.4](Infrastructure-Analysis.md#34-the-advantagekit-io-layer-pattern-as-the-teaching-substrate) explains why the IO Layer pattern matters. Kelpie and Presto are the two best examples of that pattern in the wild; this doc is where the architectural argument gets named files.
 

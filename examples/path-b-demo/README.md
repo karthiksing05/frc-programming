@@ -6,11 +6,12 @@ in practice. The browser PoCs (`../functions-poc/`, `../tank-drive-poc/`,
 `../elevator-pid-poc/`) demonstrate the same two lessons in a different
 form.
 
-> ⚠ This is a **demonstration of structure**, not a fully-runnable
-> project. Tests reference WPILib + AdvantageKit APIs and use real class
-> names, but `gradlew build` won't succeed here without a full WPILib
-> install (~2.5 GB) and AdvantageKit's actual vendordep JSON. The
-> vendordep files here are stubs pointing at the real URLs.
+> This is a **realistic, buildable skeleton** of the Path B workflow.
+> The vendordeps in `vendordeps/` are the real files pulled from
+> AdvantageKit, WPILib, and maple-sim. The Gradle wrapper scripts and
+> jar come from FRC 6328's 2025 codebase (Gradle 8.11, matching
+> GradleRIO v2026.x). Once WPILib 2026 is installed,
+> `./gradlew build` should actually work — no manual jar fetch needed.
 
 ## What this demonstrates
 
@@ -44,8 +45,15 @@ path-b-demo/
 ├── settings.gradle / build.gradle       ← single GradleRIO project (NOT multi-module)
 ├── gradle.properties / .gitignore
 ├── vendordeps/
-│   ├── AdvantageKit.json                ← stub; real URL in the file
-│   └── WPILibNewCommands.json           ← stub
+│   ├── AdvantageKit.json                ← real (v26.0.2, frcYear 2026)
+│   ├── WPILibNewCommands.json           ← real (frcYear 2026 branch)
+│   └── maple-sim.json                   ← real (v0.4.0-beta-obstacles-fix; used in lesson 26)
+├── gradle/wrapper/
+│   ├── gradle-wrapper.properties        ← Gradle 8.11 (matches GradleRIO 2026.2.1)
+│   └── gradle-wrapper.jar                ← real jar from FRC 6328 2025 codebase
+├── gradlew, gradlew.bat                 ← from GradleRIO v2026.2.1
+├── .vscode/{settings.json,launch.json}  ← WPILib extension wiring
+├── .wpilib/wpilib_preferences.json      ← projectYear=2026, language=java
 ├── .github/workflows/ci.yml             ← WPILib container + ./gradlew check
 ├── lessons/                             ← CURRICULUM (no code, just content + manifests)
 │   ├── manifest.json                    ← ordered list of all lessons
@@ -129,16 +137,37 @@ The pattern came from research summarized in [Infrastructure-Analysis.md §3](..
 
 ## What's missing for this to be real
 
-- A real `vendordeps/AdvantageKit.json` (pull from
-  [AdvantageKit's release](https://github.com/Mechanical-Advantage/AdvantageKit/releases/latest/download/AdvantageKit.json))
-- A real `gradlew` wrapper + `gradle/wrapper/` (from
-  [GradleRIO](https://github.com/wpilibsuite/GradleRIO))
-- A `.vscode/settings.json` + `tasks.json` for the WPILib extension
-- The actual VS Code extension on top of the CLI (this is its own ~2-week project)
-- A `frcprog doctor` command that checks JDK/Gradle/Network/install
-  health (high-leverage onboarding step per the research)
-- An AdvantageKit-replay-based CI grader (no team has built this yet —
-  we'd be first)
+The plumbing — vendordeps, Gradle wrapper, WPILib extension files — is
+all in place. What's left is curriculum + tooling work, not skeleton
+work:
+
+- **WPILib 2026 install** on the student's machine (~2.5 GB; ships JDK
+  17, GradleRIO, AdvantageScope, sim libs).
+- **A `tasks.json`** if we want one-click "Run lesson tests" from the
+  VS Code task picker. The frcprog CLI covers this from the terminal
+  already.
+- **The VS Code extension** on top of the CLI (its own ~2-week project).
+- **A `frcprog doctor`** command that checks JDK/Gradle/Network/install
+  health (high-leverage onboarding step per the research).
+- **An AdvantageKit-replay-based CI grader** that replays a student's
+  `.wpilog` against a reference solution (no team has built this yet
+  — we'd be first).
+- **Lessons 03+** — the framework supports an unbounded ordered list
+  via `lessons/manifest.json`; lessons 1 and 2 are written.
+
+## Pinned versions
+
+| Component             | Version                              | Source                                                                                       |
+| --------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------- |
+| WPILib                | 2026.2.1                             | `gradle.properties` / `build.gradle`                                                         |
+| GradleRIO             | 2026.2.1                             | `build.gradle`                                                                               |
+| Gradle wrapper        | 8.11                                 | `gradle/wrapper/gradle-wrapper.properties` (matches GradleRIO v2026.2.1)                     |
+| Java                  | 17                                   | bundled with WPILib; `build.gradle` `sourceCompatibility`                                    |
+| AdvantageKit          | 26.0.2                               | `vendordeps/AdvantageKit.json`                                                               |
+| WPILibNewCommands     | bundled with WPILib 2026             | `vendordeps/WPILibNewCommands.json` (frcYear 2026 branch of allwpilib)                       |
+| maple-sim             | 0.4.0-beta-obstacles-fix             | `vendordeps/maple-sim.json` (used by lesson 26 — physics-accurate swerve sim)                |
+| JUnit Jupiter         | 5.10.2                               | `build.gradle`                                                                               |
+| Spotless              | 6.25.0                               | `build.gradle`                                                                               |
 
 See [Infrastructure-Analysis.md §3](../../process/Infrastructure-Analysis.md) for
 the full picture.

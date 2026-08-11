@@ -531,7 +531,7 @@ For lesson authors deciding what goes where. Cross-reference with [Path-B-Implem
 
 ## Appendix B — A note on the Niwiden "Mentor Mantra" in lesson copy
 
-Every lesson includes a `hints.md` file with progressive hints (see [Path-B-Implementation.md §15](Path-B-Implementation.md#15-appendix-b--lesson-template-spec-one-page)). The structure of hints follows Niwiden's Mentor Mantra:
+Every lesson includes a `hints.md` file with progressive hints (see [Path-B-Implementation.md §15](Path-B-Implementation.md#15-appendix-b-lesson-template-spec-one-page)). The structure of hints follows Niwiden's Mentor Mantra:
 
 | Hint level | Mentor mode | What it gives |
 |---|---|---|

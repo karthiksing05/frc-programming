@@ -1,0 +1,28 @@
+{
+    "//": "Debug configurations for the WPILib VS Code extension. The `wpilib` debug type is contributed by the extension; it wires Gradle + HALSim under the hood.",
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "wpilib",
+            "name": "WPILib Desktop Debug (Simulate Robot Code)",
+            "request": "launch",
+            "desktop": true
+        },
+        {
+            "type": "wpilib",
+            "name": "WPILib roboRIO Debug",
+            "request": "launch",
+            "desktop": false
+        },
+        {
+            "//": "Plain Gradle test run — useful for stepping through a single lesson's JUnit suite without bringing up HALSim.",
+            "type": "java",
+            "name": "Lesson Tests (current lesson tag from frcprog CLI)",
+            "request": "launch",
+            "mainClass": "",
+            "projectName": "frcprogramming-lessons",
+            "vmArgs": "-ea",
+            "console": "internalConsole"
+        }
+    ]
+}

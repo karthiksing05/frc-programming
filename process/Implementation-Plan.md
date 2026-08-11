@@ -34,7 +34,7 @@ What we already have, mapped to what each piece does:
 | [Curriculum-Flow.md](Curriculum-Flow.md) | Pedagogy (Niwiden + Oblarg + DAG) | ✓ Complete |
 | [Reference-Robots.md](Reference-Robots.md) | The two robots (Kelpie + Presto) | ✓ Complete (pending §5 action items) |
 | [Lesson-Plan.md](Lesson-Plan.md) | All 34 lesson blocks specified | ✓ Complete |
-| [README.md](README.md) | One-line placeholder | △ Needs to become real index |
+| `README.md` (at repo root) | One-line placeholder | △ Needs to become real index |
 | **[Implementation-Plan.md](Implementation-Plan.md)** | **This doc — the synthesis** | ✓ Now |
 
 ### Example artifacts (in `examples/`)
@@ -139,7 +139,7 @@ Each row is a connection point that doesn't exist yet but needs to be built:
 | [Curriculum-Flow.md](Curriculum-Flow.md) appendix A | Lesson-Plan.md cross-references | Already done in Lesson-Plan §"Anti-pattern preempt audit" |
 | Browser PoCs | MkDocs site spine | MkDocs setup + iframe-embed mechanic + nav matching `manifest.json` |
 | [Lesson-Plan.md](Lesson-Plan.md) manifest entries | A real `lessons/manifest.json` | One-time data extraction (the doc already has all the rows) |
-| `frcprog.sh` (Bash) | A real VS Code extension | Per [Path-B-Implementation.md §16 Appendix C](Path-B-Implementation.md#16-appendix-c--vs-code-extension-feature-priority-one-screen): Tree view + Webview + Testing API; ~2 weeks |
+| `frcprog.sh` (Bash) | A real VS Code extension | Per [Path-B-Implementation.md §16 Appendix C](Path-B-Implementation.md#16-appendix-c-vs-code-extension-feature-priority-one-screen): Tree view + Webview + Testing API; ~2 weeks |
 
 That's the integration backlog. Sequencing it is §5.
 
@@ -198,7 +198,7 @@ Each lesson goes through the **two-pass authoring rhythm** from [Path-B-Implemen
 
 Goal: VS Code experience matches the browser polish.
 
-- **W10:** Build the extension MVP per [Path-B-Implementation.md §16 Appendix C](Path-B-Implementation.md#16-appendix-c--vs-code-extension-feature-priority-one-screen) — Tree view + Webview + Testing API.
+- **W10:** Build the extension MVP per [Path-B-Implementation.md §16 Appendix C](Path-B-Implementation.md#16-appendix-c-vs-code-extension-feature-priority-one-screen) — Tree view + Webview + Testing API.
 - **W11:** Polish + walkthrough for first-run onboarding. Bundle as a `.vsix`. Publish to the VS Code marketplace (or sideload-only for v0).
 
 **Phase 1 gate ([per Path-B-Implementation.md §3.2](Path-B-Implementation.md#32-phase-1-gate)):** Of your own team's 5-10 pilot students, ≥50% self-teach at least one lesson without mentor help.
@@ -308,7 +308,7 @@ These are 100% execution risk. No new design needed.
 
 ### Designed but with open questions
 
-- **AdvantageKit-replay-based grading** — designed in [Path-B-Implementation.md §3.8](Path-B-Implementation.md#38-grading-junit-today-advantagekit-replay-tomorrow), but novel territory; the CI integration is FRCProgramming.org-original work. Treat as a Phase 2-3 stretch, not Phase 0.
+- **AdvantageKit-replay-based grading** — designed in [Infrastructure-Analysis.md §3.8](Infrastructure-Analysis.md#38-grading-junit-today-advantagekit-replay-tomorrow), but novel territory; the CI integration is FRCProgramming.org-original work. Treat as a Phase 2-3 stretch, not Phase 0.
 - **GitHub Classroom vs. hand-rolled per-student-repo** — both viable; depends on the size of the pilot.
 - **The 3D model for Kelpie** — three options in [Reference-Robots.md §5.3](Reference-Robots.md#53-decide-on-kelpies-3d-model-strategy); fall back to Mechanism2d for now.
 - **Java vs Python tracks** — defer per [Curriculum-Flow.md §7.1](Curriculum-Flow.md#71-java-vs-c-vs-python). Don't make the call before Lesson 05.
@@ -394,14 +394,14 @@ GATE
 
 ## 11. After Phase 0
 
-What happens at days 91-180 (Months 4-6) maps to [Path-B-Implementation.md §4](Path-B-Implementation.md#4-phase-2--multi-team-alpha-34-months) — the multi-team alpha. It's the same plan; this doc just got you ready to enter it.
+What happens at days 91-180 (Months 4-6) maps to [Path-B-Implementation.md §4](Path-B-Implementation.md#4-phase-2-multi-team-alpha-34-months) — the multi-team alpha. It's the same plan; this doc just got you ready to enter it.
 
 The shape of months 4-6:
 - **Content:** Lessons 11-20 (Stage 1D + Stage 2A — the AdvantageKit IO Layer arc)
 - **Tech:** AdvantageKit-replay grader prototype; sticky PR comment improvements; observability dashboard
 - **Community:** Recruit 3-5 alpha teams; build the mentor recruitment funnel
 
-Months 7-12 maps to Phase 3 (public beta). The whole 18-month arc is in [Path-B-Implementation.md §1](Path-B-Implementation.md#tl-dr-for-skimmers).
+Months 7-12 maps to Phase 3 (public beta). The whole 18-month arc is in [Path-B-Implementation.md §1](Path-B-Implementation.md#tldr-for-skimmers).
 
 ---
 

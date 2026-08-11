@@ -1,7 +1,7 @@
 # Path B Implementation Roadmap
 ### Shipping VS Code + WPILib + AdvantageKit lessons at team, multi-team, and public scale
 
-> **What this document is.** [Infrastructure-Analysis.md §3](Infrastructure-Analysis.md#3-path-b--vs-code--wpilib--git-the-deep-exploration) answers "what should we build and why?" — the architecture. This doc answers "how do we actually ship it, in what order, with what resources, and how do we know it's working?" Read the architecture doc first.
+> **What this document is.** [Infrastructure-Analysis.md §3](Infrastructure-Analysis.md#3-path-b-vs-code-wpilib-git-the-deep-exploration) answers "what should we build and why?" — the architecture. This doc answers "how do we actually ship it, in what order, with what resources, and how do we know it's working?" Read the architecture doc first.
 >
 > **Who this is for.** The project lead (you), future contributors who join, and mentors who need to evaluate whether to pilot it on their team. Optimized for the person doing the work.
 
@@ -26,7 +26,7 @@ Beyond Phase 3 is steady-state: a yearly upgrade ritual at WPILib kickoff and a 
 
 Path B is a **single GitHub-template-instantiated Gradle project** that grows lesson-by-lesson. The student edits real Java in WPILib's bundled VS Code; lessons ship as content (`lessons/<slug>/README.md` + `lesson.json`) plus a tagged JUnit rubric (`@Tag("lesson-NN")`). Subsystems follow [AdvantageKit's IO Layer pattern](https://docs.advantagekit.org/data-flow/recording-inputs/io-interfaces/) so the same code runs against a real RoboRIO or against WPILib's `*Sim` classes. Visualization happens in [AdvantageScope](https://docs.advantagescope.org/) over NetworkTables 4. CI runs `./gradlew check` in the [WPILib Docker image](https://docs.wpilib.org/en/stable/docs/software/advanced-gradlerio/robot-code-ci.html) and posts a sticky PR comment.
 
-See [path-b-demo/](../examples/path-b-demo/) for the architecture rendered as code; see [Infrastructure-Analysis.md §3](Infrastructure-Analysis.md#3-path-b--vs-code--wpilib--git-the-deep-exploration) for the full justification.
+See [path-b-demo/](../examples/path-b-demo/) for the architecture rendered as code; see [Infrastructure-Analysis.md §3](Infrastructure-Analysis.md#3-path-b-vs-code-wpilib-git-the-deep-exploration) for the full justification.
 
 ---
 
@@ -55,7 +55,7 @@ Goal: take [path-b-demo/](../examples/path-b-demo/) from "architecturally honest
 
 **A teenager who has never seen the project completes Lesson 01 in under 30 minutes, on their own laptop, with no help beyond the one-page first-run doc.**
 
-This gate is non-negotiable. If the student fails, you have a real bug in onboarding — fix it before moving on. Track exactly where they got stuck; the friction points enumerated in [Infrastructure-Analysis.md §3.10](Infrastructure-Analysis.md#310-what-path-b-costs-the-student--the-honest-friction-list) are the prior — assume one of them will trigger.
+This gate is non-negotiable. If the student fails, you have a real bug in onboarding — fix it before moving on. Track exactly where they got stuck; the friction points enumerated in [Infrastructure-Analysis.md §3.10](Infrastructure-Analysis.md#310-what-path-b-costs-the-student-the-honest-friction-list) are the prior — assume one of them will trigger.
 
 **Likely failure modes** (handle them defensively):
 - JDK mismatch (system Java, not WPILib's). Mitigation: `frcprog doctor` explicitly checks and refuses to continue.

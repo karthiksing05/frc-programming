@@ -37,8 +37,9 @@ wpi.java {
 repositories {
     mavenCentral()
     /* AdvantageKit Maven repo (vendordep also installs it, but pin
-       explicitly so CI builds reproduce). */
-    maven { url 'https://maven.advantagekit.org' }
+       explicitly so CI builds reproduce). Matches the mavenUrls block
+       in vendordeps/AdvantageKit.json. */
+    maven { url 'https://frcmaven.wpi.edu/artifactory/littletonrobotics-mvn-release/' }
 }
 
 dependencies {
@@ -47,8 +48,12 @@ dependencies {
     implementation wpi.java.vendor.java()
 
     /* AdvantageKit's @AutoLog annotation processor.
-       The vendordep also wires this, but we list it for clarity. */
-    annotationProcessor "org.littletonrobotics.akit:akit-autolog:$wpi.versions.advantageKitVersion"
+       Version is read from the vendordep JSON so we never drift; this
+       is the pattern AdvantageKit docs recommend. */
+    def akitJson = new groovy.json.JsonSlurper().parseText(
+        new File(projectDir, 'vendordeps/AdvantageKit.json').text
+    )
+    annotationProcessor "org.littletonrobotics.akit:akit-autolog:$akitJson.version"
 
     /* JUnit 5 for lesson tests */
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
@@ -57,6 +62,14 @@ dependencies {
     /* Simulation deps (also pulled in by configureExecutableTasks) */
     simulationDebug wpi.sim.enableDebug()
     simulationRelease wpi.sim.enableRelease()
+}
+
+/* AdvantageKit replay-from-log task. Run with
+   `./gradlew replayWatch` after pointing it at a .wpilog file.
+   Documented in docs.advantagekit.org/data-flow/replay/. */
+task replayWatch(type: JavaExec) {
+    mainClass = 'org.littletonrobotics.junction.ReplayWatch'
+    classpath = sourceSets.main.runtimeClasspath
 }
 
 test {

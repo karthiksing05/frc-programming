@@ -4,9 +4,11 @@ build/
 bin/
 out/
 
-# VS Code (keep .vscode/settings.json, ignore per-machine cruft)
-.vscode/launch.json
+# VS Code: keep settings.json + launch.json (they're part of the lesson UX);
+# ignore per-machine cruft.
 .vscode/*.code-snippets
+.vscode/.ropeproject
+.vscode/c_cpp_properties.json
 
 # IntelliJ / Eclipse
 *.iml
