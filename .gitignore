@@ -22,3 +22,6 @@ curriculum/.frcprog/
 *.swp
 .idea/
 *.iml
+site/_site/
+site/tools/artifact_data.json
+site/frcprogramming-artifact.html

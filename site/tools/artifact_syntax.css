@@ -1,0 +1,57 @@
+/* Syntax colours, declared as tokens on :root so both themes resolve from one
+   rule set. Hues are chosen to sit beside the amber accent rather than fight
+   it: blue keywords, green strings, amber numerals, teal types. */
+:root {
+  --syn-com: #74808C;
+  --syn-key: #1F6FB2;
+  --syn-str: #2C7A57;
+  --syn-num: #A85D00;
+  --syn-typ: #1D6E72;
+  --syn-fn:  #3A4A8C;
+  --syn-ann: #8A5A9E;
+  --syn-pun: #66707C;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --syn-com: #6F7B88;
+    --syn-key: #7FB6E8;
+    --syn-str: #7FCBA4;
+    --syn-num: #F0A93C;
+    --syn-typ: #6FC5C9;
+    --syn-fn:  #9AA8E8;
+    --syn-ann: #C3A0D8;
+    --syn-pun: #8892A0;
+  }
+}
+:root[data-theme="dark"] {
+  --syn-com: #6F7B88;
+  --syn-key: #7FB6E8;
+  --syn-str: #7FCBA4;
+  --syn-num: #F0A93C;
+  --syn-typ: #6FC5C9;
+  --syn-fn:  #9AA8E8;
+  --syn-ann: #C3A0D8;
+  --syn-pun: #8892A0;
+}
+
+.doc .c, .doc .c1, .doc .cm, .doc .cs, .doc .cp, .doc .cpf, .doc .ch, .doc .cd {
+  color: var(--syn-com); font-style: italic;
+}
+.doc .k, .doc .kd, .doc .kn, .doc .kc, .doc .kp, .doc .kr, .doc .ow {
+  color: var(--syn-key);
+}
+.doc .kt, .doc .nc, .doc .nn, .doc .no, .doc .ne { color: var(--syn-typ); }
+.doc .s, .doc .s1, .doc .s2, .doc .sb, .doc .sc, .doc .sd, .doc .se,
+.doc .sh, .doc .si, .doc .sx, .doc .sr, .doc .ss, .doc .sa {
+  color: var(--syn-str);
+}
+.doc .m, .doc .mi, .doc .mf, .doc .mh, .doc .mo, .doc .il, .doc .mb {
+  color: var(--syn-num);
+}
+.doc .nf, .doc .fm, .doc .nb { color: var(--syn-fn); }
+.doc .nd, .doc .na, .doc .nl, .doc .nt { color: var(--syn-ann); }
+.doc .o, .doc .p { color: var(--syn-pun); }
+.doc .err { color: inherit; }
+.doc .gh, .doc .gu { color: var(--syn-key); font-weight: 700; }
+.doc .gd { color: var(--danger); }
+.doc .gi { color: var(--tip); }
