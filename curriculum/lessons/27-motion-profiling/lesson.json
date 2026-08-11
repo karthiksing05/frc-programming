@@ -1,0 +1,10 @@
+{
+  "slug": "27-motion-profiling",
+  "title": "Motion profiling",
+  "stage": "2D",
+  "prerequisites": [
+    "20-superstructure"
+  ],
+  "estimatedMinutes": 55,
+  "graded": false
+}

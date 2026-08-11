@@ -1,0 +1,24 @@
+{
+  "slug": "11-default-commands",
+  "title": "Default commands done right",
+  "stage": "1D",
+  "tag": "lesson-11",
+  "prerequisites": [
+    "10-telemetry"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.RobotContainerDefaultsTest"
+  ],
+  "estimatedMinutes": 35,
+  "introduces": [
+    "setDefaultCommand",
+    "Trigger.and/or/negate",
+    "debounce"
+  ],
+  "preempts": [
+    "decision logic inside default commands"
+  ]
+}

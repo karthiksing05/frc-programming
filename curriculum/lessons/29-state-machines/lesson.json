@@ -1,0 +1,10 @@
+{
+  "slug": "29-state-machines",
+  "title": "Advanced state machines",
+  "stage": "2D",
+  "prerequisites": [
+    "28-sysid"
+  ],
+  "estimatedMinutes": 50,
+  "graded": false
+}

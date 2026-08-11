@@ -1,0 +1,27 @@
+{
+  "slug": "07-tank-drive",
+  "title": "Tank drive wiring (factory pattern)",
+  "stage": "1C",
+  "tag": "lesson-07",
+  "prerequisites": [
+    "06-arm-gravity-ff"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/subsystems/drive/Drive.java",
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.subsystems.drive.DriveTest"
+  ],
+  "estimatedMinutes": 40,
+  "introduces": [
+    "command factories",
+    "DoubleSupplier",
+    "default commands"
+  ],
+  "preempts": [
+    "captured joystick values",
+    "Command subclasses for stateless work"
+  ],
+  "reference": "Oblarg command-based best practices 2025"
+}

@@ -1,6 +1,14 @@
-site_name: FRCProgramming.org
+site_name: FRCProgramming
+site_description: >-
+  An offline FRC robot programming curriculum. Real Java, real WPILib, real
+  simulation, graded locally — no network, no accounts, no server.
+
+# Served from your own machine. `./tools/frcprog site`, or site/serve.sh.
 site_url: http://localhost:8000
-site_description: A comprehensive learning guide for FRC robot programming. Like FRCDesign, but for programming.
+use_directory_urls: true
+
+docs_dir: docs
+site_dir: _site
 
 theme:
   name: material
@@ -9,7 +17,6 @@ theme:
     - navigation.indexes
     - navigation.tabs
     - navigation.tabs.sticky
-    - navigation.instant
     - navigation.footer
     - navigation.prune
     - navigation.top
@@ -21,7 +28,6 @@ theme:
     - content.code.copy
     - content.code.annotate
     - content.tooltips
-    - header.autohide
   palette:
     - scheme: slate
       primary: green
@@ -36,7 +42,7 @@ theme:
         icon: material/lightbulb
         name: Switch to dark mode
   icon:
-    logo: fontawesome/solid/code
+    logo: fontawesome/solid/robot
 
 extra_css:
   - stylesheets/extra.css
@@ -46,7 +52,6 @@ extra_javascript:
 
 plugins:
   - search
-  - glightbox
 
 markdown_extensions:
   - abbr
@@ -58,7 +63,6 @@ markdown_extensions:
   - footnotes
   - pymdownx.details
   - pymdownx.superfences
-  - pymdownx.snippets
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.highlight:
@@ -68,61 +72,88 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
+  # ───────────────────────────────────────────────────────────────────────────
+  #  The most important extension in this file.
+  #
+  #  Every lesson page on this site is a thin wrapper that INCLUDES the canonical
+  #  lesson text and the real source files out of ../curriculum/. Nothing is
+  #  copied. That means the site and the project a student is actually editing
+  #  cannot drift apart — the usual failure mode for a curriculum with both a
+  #  website and a repository.
+  #
+  #  check_paths makes a missing include a build error rather than a silently
+  #  empty page.
+  # ───────────────────────────────────────────────────────────────────────────
+  - pymdownx.snippets:
+      base_path:
+        - ..
+        - docs
+      check_paths: true
+
 nav:
   - Home: index.md
+  - Set up:
+      - setup/index.md
+      - Working offline: setup/offline.md
+      - The frcprog command: setup/frcprog.md
   - Learn:
       - learn/index.md
-      - Stage 0 — Onboarding:
-          - "0A — First-run install": learn/stage0/0a-install/index.md
-          - "0B — Meet Presto": learn/stage0/0b-meet-presto/index.md
-          - "0C — Meet Kelpie": learn/stage0/0c-meet-kelpie/index.md
-          - "0D — Git + project tour": learn/stage0/0d-git-tour/index.md
-      - Stage 1A — Java fundamentals:
-          - "01 — Methods (Functions)": learn/stage1a/01-methods/index.md
-          - "02 — Variables & types": learn/stage1a/02-variables-and-types/index.md
-          - "03 — Conditionals in teleopPeriodic": learn/stage1a/03-conditionals-in-teleop/index.md
-      - Stage 1B — Subsystems & PID:
-          - "04 — Subsystems as state machines": learn/stage1b/04-subsystems-state-machines/index.md
-          - "05 — PID introduction (Elevator)": learn/stage1b/05-pid-elevator/index.md
-          - "06 — Arm with gravity feedforward": learn/stage1b/06-arm-gravity-ff/index.md
-      - "Graduate to VS Code": graduate/index.md
-      - Stage 1C — My first robot:
-          - "07 — Tank drive wiring (factories)": learn/stage1c/07-tank-drive/index.md
-          - "08 — Joystick bindings & Triggers": learn/stage1c/08-triggers-bindings/index.md
-          - "09 — Command composition": learn/stage1c/09-command-composition/index.md
-          - "10 — Telemetry & AdvantageScope basics": learn/stage1c/10-telemetry/index.md
-      - Stage 1D — Composition, autos, refactoring:
-          - "11 — Default commands done right": learn/stage1d/11-default-commands/index.md
-          - "12 — Auto routines (basic)": learn/stage1d/12-auto-basic/index.md
-          - "13 — Path-following intro": learn/stage1d/13-path-following/index.md
-          - "14 — Refactoring with *Bindings classes": learn/stage1d/14-bindings-refactor/index.md
-          - "15 — Capstone teleop robot": learn/stage1d/15-capstone-teleop/index.md
-      - Stage 2A — AdvantageKit & mechanism mastery:
-          - "16 — The IO Layer pattern": learn/stage2a/16-io-layer/index.md
-          - "17 — AdvantageScope first-class": learn/stage2a/17-advantagescope/index.md
-          - "18 — AdvantageKit logging discipline": learn/stage2a/18-logging-discipline/index.md
-          - "19 — Log replay for debugging": learn/stage2a/19-log-replay/index.md
-          - "20 — Subsystem composition at scale": learn/stage2a/20-superstructure/index.md
-      - Stage 2B — Swerve & trajectories:
-          - "21 — Swerve drivetrain (intro)": learn/stage2b/21-swerve-intro/index.md
-          - "22 — Odometry & pose estimation": learn/stage2b/22-odometry/index.md
-          - "23 — Trajectory following": learn/stage2b/23-trajectories/index.md
-      - Stage 2C — Vision:
-          - "24 — PhotonVision single-tag": learn/stage2c/24-photonvision-singletag/index.md
-          - "25 — Multi-tag pose estimation": learn/stage2c/25-multitag/index.md
-          - "26 — maple-sim & game-piece physics": learn/stage2c/26-maplesim/index.md
-      - Stage 2D — Advanced control & capstone:
-          - "27 — Motion profiling": learn/stage2d/27-motion-profiling/index.md
-          - "28 — System identification (SysId)": learn/stage2d/28-sysid/index.md
-          - "29 — Advanced state machines": learn/stage2d/29-state-machines/index.md
-          - "30 — Season capstone": learn/stage2d/30-season-capstone/index.md
+      - "Stage 0 — Onboarding":
+          - "0A · First-run install": learn/stage0/0a-first-run-install/index.md
+          - "0B · Meet Presto": learn/stage0/0b-meet-presto/index.md
+          - "0C · Meet Kelpie": learn/stage0/0c-meet-kelpie/index.md
+          - "0D · Project tour": learn/stage0/0d-project-tour/index.md
+      - "Stage 1A — Java in context":
+          - "01 · Methods": learn/stage1a/01-methods/index.md
+          - "02 · Variables & types": learn/stage1a/02-variables-and-types/index.md
+          - "03 · Conditionals in teleopPeriodic": learn/stage1a/03-conditionals-in-teleop/index.md
+      - "Stage 1B — Subsystems & control":
+          - "04 · Subsystems as state machines": learn/stage1b/04-subsystems-state-machines/index.md
+          - "05 · PID introduction": learn/stage1b/05-pid-elevator/index.md
+          - "06 · Arm with gravity feedforward": learn/stage1b/06-arm-gravity-ff/index.md
+      - "Stage 1C — Command-based":
+          - "07 · Tank drive wiring": learn/stage1c/07-tank-drive/index.md
+          - "08 · Bindings & Triggers": learn/stage1c/08-triggers-bindings/index.md
+          - "09 · Command composition": learn/stage1c/09-command-composition/index.md
+          - "10 · Telemetry & AdvantageScope": learn/stage1c/10-telemetry/index.md
+      - "Stage 1D — Composition & autos":
+          - "11 · Default commands": learn/stage1d/11-default-commands/index.md
+          - "12 · Auto routines": learn/stage1d/12-auto-basic/index.md
+          - "13 · Trajectory auto": learn/stage1d/13-trajectory-auto/index.md
+          - "14 · Bindings refactor": learn/stage1d/14-bindings-refactor/index.md
+          - "15 · Capstone teleop": learn/stage1d/15-capstone-teleop/index.md
+      - "Stage 2A — Structure & logging":
+          - "16 · The IO Layer pattern": learn/stage2a/16-io-layer/index.md
+          - "17 · AdvantageScope first-class": learn/stage2a/17-advantagescope/index.md
+          - "18 · Logging discipline": learn/stage2a/18-logging-discipline/index.md
+          - "19 · Log replay": learn/stage2a/19-log-replay/index.md
+          - "20 · Superstructure": learn/stage2a/20-superstructure/index.md
+      - "Stage 2B — Swerve":
+          - "21 · Swerve intro": learn/stage2b/21-swerve-intro/index.md
+          - "22 · Odometry & pose estimation": learn/stage2b/22-odometry/index.md
+          - "23 · Trajectory following": learn/stage2b/23-trajectories/index.md
+      - "Stage 2C — Vision":
+          - "24 · PhotonVision single-tag": learn/stage2c/24-photonvision-singletag/index.md
+          - "25 · Multi-tag pose estimation": learn/stage2c/25-multitag/index.md
+          - "26 · maple-sim": learn/stage2c/26-maplesim/index.md
+      - "Stage 2D — Advanced":
+          - "27 · Motion profiling": learn/stage2d/27-motion-profiling/index.md
+          - "28 · System identification": learn/stage2d/28-sysid/index.md
+          - "29 · Advanced state machines": learn/stage2d/29-state-machines/index.md
+          - "30 · Season capstone": learn/stage2d/30-season-capstone/index.md
+  - Handbook:
+      - handbook/index.md
+      - Java basics: handbook/java-basics.md
+      - Command-based: handbook/command-based.md
+      - PID & feedforward: handbook/pid-and-feedforward.md
+      - The IO layer: handbook/io-layer.md
+      - Logging: handbook/logging.md
+      - Trajectories: handbook/trajectories.md
+      - Vision: handbook/vision.md
   - Robots:
       - robots/index.md
-      - Reefscape tour (Kelpie): robots/kelpie-reefscape-tour.md
-      - Crescendo tour (Presto): robots/presto-crescendo-tour.md
-  - Programming Handbook:
-      - handbook/index.md
-  - Examples:
-      - code-examples/index.md
+      - "Kelpie — Reefscape 2025": robots/kelpie-reefscape-tour.md
+      - "Presto — Crescendo 2024": robots/presto-crescendo-tour.md
+  - Playgrounds: code-examples/index.md
   - About: about.md
   - Contributing: contributing.md

@@ -1,0 +1,9 @@
+{
+  "slug": "0a-first-run-install",
+  "title": "First-run install",
+  "stage": "0",
+  "prerequisites": [],
+  "estimatedMinutes": 60,
+  "graded": false,
+  "notes": "The single highest-dropout point in FRC programming. Everything here is friction removal."
+}

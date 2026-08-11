@@ -1,4 +1,6 @@
-mkdocs==1.6.1
-mkdocs-material>=9.5
-mkdocs-glightbox==0.4.0
-pymdown-extensions==10.1
+# Pinned so a site build is reproducible. mkdocs-material requires
+# pymdown-extensions >= 10.2; pinning the old 10.1 here made `pip install -r`
+# unsolvable, which is the kind of thing that eats an afternoon.
+mkdocs>=1.6,<2
+mkdocs-material>=9.5,<10
+pymdown-extensions>=10.2

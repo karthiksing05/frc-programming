@@ -1,0 +1,24 @@
+{
+  "slug": "02-variables-and-types",
+  "title": "Variables & types",
+  "stage": "1A",
+  "tag": "lesson-02",
+  "prerequisites": [
+    "01-methods"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/Constants.java"
+  ],
+  "tests": [
+    "frc.robot.ConstantsTest"
+  ],
+  "estimatedMinutes": 30,
+  "introduces": [
+    "static final",
+    "primitive types",
+    "nested classes"
+  ],
+  "preempts": [
+    "magic numbers"
+  ]
+}

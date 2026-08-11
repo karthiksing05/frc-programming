@@ -1,0 +1,14 @@
+{
+  "slug": "26-maplesim",
+  "title": "maple-sim & game-piece physics",
+  "stage": "2C",
+  "prerequisites": [
+    "25-multitag"
+  ],
+  "estimatedMinutes": 55,
+  "graded": false,
+  "track": "extension",
+  "requires": [
+    "maple-sim"
+  ]
+}

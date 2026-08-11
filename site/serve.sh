@@ -7,9 +7,11 @@
 #    2. Installs (or refreshes) MkDocs + Material + plugins from requirements.txt
 #    3. Symlinks ../examples/ into docs/examples so iframe-embedded PoCs
 #       served at  /examples/<poc>/index.html  resolve correctly
-#    4. Symlinks ../process/ into docs/process so in-body links to the
-#       curriculum design docs resolve at  /process/<doc>.md
-#    5. Launches `mkdocs serve` bound to 0.0.0.0:8000
+#    4. Launches `mkdocs serve` bound to 0.0.0.0:8000
+#
+#  NOTE: process/ is deliberately NOT linked in. Those are the project's own
+#  design documents, not student-facing material, and their relative links point
+#  outside the docs tree.
 #
 #  Run from anywhere — the script resolves its own absolute path.
 # ─────────────────────────────────────────────────────────────────────────────
@@ -23,8 +25,6 @@ VENV_DIR="$SCRIPT_DIR/.venv"
 REQ_FILE="$SCRIPT_DIR/requirements.txt"
 EXAMPLES_SRC="$SCRIPT_DIR/../examples"
 EXAMPLES_LINK="$SCRIPT_DIR/docs/examples"
-PROCESS_SRC="$SCRIPT_DIR/../process"
-PROCESS_LINK="$SCRIPT_DIR/docs/process"
 
 # ─── 1. venv ────────────────────────────────────────────────────────────────
 # Use the project-local venv so we don't pollute the user's system Python.
@@ -70,23 +70,7 @@ if [[ ! -e "$EXAMPLES_LINK" ]]; then
   ln -s "$EXAMPLES_SRC" "$EXAMPLES_LINK"
 fi
 
-# ─── 4. process symlink ────────────────────────────────────────────────────
-# The curriculum design docs (Curriculum-Flow.md, Reference-Robots.md, etc.)
-# live in ../process/ at the repo root. Lesson pages link to them via absolute
-# /process/<doc>.md paths, so we mirror the examples-symlink pattern to make
-# those links resolve under `mkdocs serve` and in the built site.
-if [[ -L "$PROCESS_LINK" ]]; then
-  rm "$PROCESS_LINK"
-fi
-if [[ -e "$PROCESS_LINK" && ! -L "$PROCESS_LINK" ]]; then
-  echo "[serve.sh] WARN: $PROCESS_LINK exists and is not a symlink — leaving alone"
-fi
-if [[ ! -e "$PROCESS_LINK" ]]; then
-  echo "[serve.sh] Symlinking $PROCESS_SRC -> $PROCESS_LINK"
-  ln -s "$PROCESS_SRC" "$PROCESS_LINK"
-fi
-
-# ─── 5. serve ───────────────────────────────────────────────────────────────
+# ─── 4. serve ───────────────────────────────────────────────────────────────
 # Bind to 0.0.0.0 so the site is reachable from other devices on the LAN
 # (handy when previewing on a phone or tablet).
 echo "[serve.sh] Starting MkDocs at http://localhost:8000"

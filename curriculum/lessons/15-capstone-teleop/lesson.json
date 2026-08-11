@@ -1,0 +1,20 @@
+{
+  "slug": "15-capstone-teleop",
+  "title": "Capstone teleop robot",
+  "stage": "1D",
+  "tag": "lesson-15",
+  "prerequisites": [
+    "14-bindings-refactor"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.CapstoneIntegrationTest"
+  ],
+  "estimatedMinutes": 90,
+  "introduces": [],
+  "reinforces": [
+    "all of Stage 1"
+  ]
+}

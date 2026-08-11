@@ -1,0 +1,30 @@
+{
+  "slug": "04-subsystems-state-machines",
+  "title": "Subsystems as state machines",
+  "stage": "1B",
+  "tag": "lesson-04",
+  "prerequisites": [
+    "03-conditionals-in-teleop"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/subsystems/roller/RollerSubsystem.java",
+    "src/main/java/frc/robot/Robot.java",
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.subsystems.roller.RollerSubsystemTest"
+  ],
+  "estimatedMinutes": 45,
+  "introduces": [
+    "SubsystemBase",
+    "enum",
+    "periodic()",
+    "private final hardware"
+  ],
+  "preempts": [
+    "everything in teleopPeriodic",
+    "public mutable hardware",
+    "static state"
+  ],
+  "reference": "Kelpie roller/RollerSubsystem.java"
+}

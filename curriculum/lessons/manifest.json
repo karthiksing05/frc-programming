@@ -1,0 +1,333 @@
+{
+  "curriculum": "FRCProgramming — offline track",
+  "version": "1.0.0",
+  "wpilibVersion": "2026.2.1",
+  "description": "The 34 lessons of process/Lesson-Plan.md, delivered without a network. Lessons marked track=core run end-to-end on a laptop with nothing but a WPILib install: real Java, real WPILib simulation, real JUnit rubrics, graded locally by ./tools/frcprog. Lessons marked track=extension are specified and taught on the site but need a vendordep that must be downloaded once; see lessons/EXTENSIONS.md.",
+  "tracks": {
+    "core": "Fully offline. Starter code, exemplar, and a graded JUnit rubric ship in this repo.",
+    "extension": "Reading + guided walkthrough on the site. Requires one online build to fetch a vendordep (AdvantageKit, PhotonVision, PathPlanner, maple-sim)."
+  },
+  "lessons": [
+    {
+      "id": "0A",
+      "dir": "0a-first-run-install",
+      "title": "First-run install",
+      "stage": "0",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "0B",
+      "dir": "0b-meet-presto",
+      "title": "Meet Presto",
+      "stage": "0",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "0C",
+      "dir": "0c-meet-kelpie",
+      "title": "Meet Kelpie",
+      "stage": "0",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "0D",
+      "dir": "0d-project-tour",
+      "title": "Project tour + local version control",
+      "stage": "0",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 30
+    },
+    {
+      "id": "01",
+      "dir": "01-methods",
+      "title": "Methods (Functions)",
+      "stage": "1A",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 25
+    },
+    {
+      "id": "02",
+      "dir": "02-variables-and-types",
+      "title": "Variables & types",
+      "stage": "1A",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 30
+    },
+    {
+      "id": "03",
+      "dir": "03-conditionals-in-teleop",
+      "title": "Conditionals in teleopPeriodic",
+      "stage": "1A",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 35
+    },
+    {
+      "id": "04",
+      "dir": "04-subsystems-state-machines",
+      "title": "Subsystems as state machines",
+      "stage": "1B",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 45
+    },
+    {
+      "id": "05",
+      "dir": "05-pid-elevator",
+      "title": "PID introduction (Elevator)",
+      "stage": "1B",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 50
+    },
+    {
+      "id": "06",
+      "dir": "06-arm-gravity-ff",
+      "title": "Arm with gravity feedforward",
+      "stage": "1B",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 45
+    },
+    {
+      "id": "07",
+      "dir": "07-tank-drive",
+      "title": "Tank drive wiring (factory pattern)",
+      "stage": "1C",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 40
+    },
+    {
+      "id": "08",
+      "dir": "08-triggers-bindings",
+      "title": "Joystick bindings & Triggers",
+      "stage": "1C",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 35
+    },
+    {
+      "id": "09",
+      "dir": "09-command-composition",
+      "title": "Command composition",
+      "stage": "1C",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 40
+    },
+    {
+      "id": "10",
+      "dir": "10-telemetry",
+      "title": "Telemetry & AdvantageScope basics",
+      "stage": "1C",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 30
+    },
+    {
+      "id": "11",
+      "dir": "11-default-commands",
+      "title": "Default commands done right",
+      "stage": "1D",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 35
+    },
+    {
+      "id": "12",
+      "dir": "12-auto-basic",
+      "title": "Auto routines (basic)",
+      "stage": "1D",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 40
+    },
+    {
+      "id": "13",
+      "dir": "13-trajectory-auto",
+      "title": "Trajectory-following auto",
+      "stage": "1D",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 50
+    },
+    {
+      "id": "14",
+      "dir": "14-bindings-refactor",
+      "title": "Refactoring with *Bindings classes",
+      "stage": "1D",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 45
+    },
+    {
+      "id": "15",
+      "dir": "15-capstone-teleop",
+      "title": "Capstone teleop robot",
+      "stage": "1D",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 90
+    },
+    {
+      "id": "16",
+      "dir": "16-io-layer",
+      "title": "The IO Layer pattern",
+      "stage": "2A",
+      "track": "core",
+      "graded": true,
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "17",
+      "dir": "17-advantagescope",
+      "title": "AdvantageScope first-class",
+      "stage": "2A",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 40
+    },
+    {
+      "id": "18",
+      "dir": "18-logging-discipline",
+      "title": "Logging discipline",
+      "stage": "2A",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 35
+    },
+    {
+      "id": "19",
+      "dir": "19-log-replay",
+      "title": "Log replay for debugging",
+      "stage": "2A",
+      "track": "extension",
+      "graded": false,
+      "requires": [
+        "AdvantageKit"
+      ],
+      "estimatedMinutes": 50
+    },
+    {
+      "id": "20",
+      "dir": "20-superstructure",
+      "title": "Subsystem composition at scale",
+      "stage": "2A",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 50
+    },
+    {
+      "id": "21",
+      "dir": "21-swerve-intro",
+      "title": "Swerve drivetrain (intro)",
+      "stage": "2B",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 75
+    },
+    {
+      "id": "22",
+      "dir": "22-odometry",
+      "title": "Odometry & pose estimation",
+      "stage": "2B",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 55
+    },
+    {
+      "id": "23",
+      "dir": "23-trajectories",
+      "title": "Trajectory following (Choreo / PathPlanner)",
+      "stage": "2B",
+      "track": "extension",
+      "graded": false,
+      "requires": [
+        "PathPlanner or Choreo"
+      ],
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "24",
+      "dir": "24-photonvision-singletag",
+      "title": "PhotonVision single-tag",
+      "stage": "2C",
+      "track": "extension",
+      "graded": false,
+      "requires": [
+        "PhotonVision"
+      ],
+      "estimatedMinutes": 45
+    },
+    {
+      "id": "25",
+      "dir": "25-multitag",
+      "title": "Multi-tag pose estimation",
+      "stage": "2C",
+      "track": "extension",
+      "graded": false,
+      "requires": [
+        "PhotonVision"
+      ],
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "26",
+      "dir": "26-maplesim",
+      "title": "maple-sim & game-piece physics",
+      "stage": "2C",
+      "track": "extension",
+      "graded": false,
+      "requires": [
+        "maple-sim"
+      ],
+      "estimatedMinutes": 55
+    },
+    {
+      "id": "27",
+      "dir": "27-motion-profiling",
+      "title": "Motion profiling",
+      "stage": "2D",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 55
+    },
+    {
+      "id": "28",
+      "dir": "28-sysid",
+      "title": "System identification (SysId)",
+      "stage": "2D",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 60
+    },
+    {
+      "id": "29",
+      "dir": "29-state-machines",
+      "title": "Advanced state machines",
+      "stage": "2D",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 50
+    },
+    {
+      "id": "30",
+      "dir": "30-season-capstone",
+      "title": "Season capstone",
+      "stage": "2D",
+      "track": "core",
+      "graded": false,
+      "estimatedMinutes": 180
+    }
+  ]
+}

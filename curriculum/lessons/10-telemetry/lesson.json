@@ -1,0 +1,25 @@
+{
+  "slug": "10-telemetry",
+  "title": "Telemetry & AdvantageScope basics",
+  "stage": "1C",
+  "tag": "lesson-10",
+  "prerequisites": [
+    "09-command-composition"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/subsystems/flywheels/Flywheels.java"
+  ],
+  "tests": [
+    "frc.robot.subsystems.flywheels.FlywheelsTelemetryTest"
+  ],
+  "estimatedMinutes": 30,
+  "introduces": [
+    "NetworkTables publishers",
+    "AdvantageScope",
+    "step response"
+  ],
+  "preempts": [
+    "println debugging",
+    "test it on the robot"
+  ]
+}

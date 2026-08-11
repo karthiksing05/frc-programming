@@ -1,0 +1,14 @@
+{
+  "slug": "23-trajectories",
+  "title": "Trajectory following with Choreo or PathPlanner",
+  "stage": "2B",
+  "prerequisites": [
+    "22-odometry"
+  ],
+  "estimatedMinutes": 60,
+  "graded": false,
+  "track": "extension",
+  "requires": [
+    "PathPlanner or Choreo"
+  ]
+}

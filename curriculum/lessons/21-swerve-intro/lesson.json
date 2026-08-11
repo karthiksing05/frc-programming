@@ -1,0 +1,10 @@
+{
+  "slug": "21-swerve-intro",
+  "title": "Swerve drivetrain (intro)",
+  "stage": "2B",
+  "prerequisites": [
+    "20-superstructure"
+  ],
+  "estimatedMinutes": 75,
+  "graded": false
+}

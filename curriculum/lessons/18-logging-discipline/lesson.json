@@ -1,0 +1,15 @@
+{
+  "slug": "18-logging-discipline",
+  "title": "Logging discipline",
+  "stage": "2A",
+  "prerequisites": [
+    "17-advantagescope"
+  ],
+  "estimatedMinutes": 35,
+  "graded": false,
+  "introduces": [
+    "key naming conventions",
+    "inputs vs outputs",
+    "struct publishers"
+  ]
+}

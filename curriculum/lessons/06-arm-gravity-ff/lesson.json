@@ -1,0 +1,26 @@
+{
+  "slug": "06-arm-gravity-ff",
+  "title": "Arm with gravity feedforward",
+  "stage": "1B",
+  "tag": "lesson-06",
+  "prerequisites": [
+    "05-pid-elevator"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/subsystems/shoulder/ShoulderSubsystem.java",
+    "src/main/java/frc/robot/Constants.java"
+  ],
+  "tests": [
+    "frc.robot.subsystems.shoulder.ShoulderTest"
+  ],
+  "estimatedMinutes": 45,
+  "introduces": [
+    "feedforward",
+    "kG",
+    "angle-dependent compensation"
+  ],
+  "preempts": [
+    "just crank kP higher"
+  ],
+  "reference": "Kelpie shoulder/"
+}

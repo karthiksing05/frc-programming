@@ -1,0 +1,25 @@
+{
+  "slug": "08-triggers-bindings",
+  "title": "Joystick bindings & Triggers",
+  "stage": "1C",
+  "tag": "lesson-08",
+  "prerequisites": [
+    "07-tank-drive"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.RobotContainerBindingsTest"
+  ],
+  "estimatedMinutes": 35,
+  "introduces": [
+    "Trigger",
+    "onTrue",
+    "whileTrue",
+    "CommandXboxController"
+  ],
+  "preempts": [
+    "toggleOnTrue for driver controls"
+  ]
+}

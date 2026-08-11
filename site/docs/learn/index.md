@@ -1,125 +1,122 @@
-# Learning Course
+# The lessons
 
-Thirty lessons, organized into seven stages. Each lesson builds on the last — your project grows in place rather than starting over. Start at Stage 0 even if you've programmed before; the install + tour lessons are short and they catch the things that bite later.
+Thirty-four lessons across nine stages. They are sequential and the order is load-bearing —
+each one solves a problem the previous one made you feel.
 
-## How to use this course
+Start at Stage 0 even if you have programmed before. It is short, and it catches the
+things that bite later.
 
-- **Sequential.** The order matters. Each lesson assumes the previous one is complete.
-- **Self-paced.** Estimates next to each lesson are medians, not deadlines.
-- **Hands-on.** Every lesson has a rubric you run locally with `./gradlew` (or, in Stage 0–1B, an in-browser widget).
-- **Stuck?** Open the *Full reveal* details block at the bottom of the lesson. Then ask your mentor or your team's Discord — peer help beats site-help.
+[Set up first :material-arrow-right:](../setup/){ .md-button }
+[Start Lesson 0A :material-rocket-launch:](stage0/0a-first-run-install/index.md){ .md-button .md-button--primary }
+
+---
+
+## Two kinds of lesson
+
+**Graded (01–16).** Starter code with a `TODO`, a JUnit rubric that grades you, four
+hints, and a reference answer. Run `frcprog check <lesson>` and it tells you exactly
+what is wrong, in words.
+
+**Guided (17–30, and Stage 0).** A clear goal, working code to model yourself on, and
+the simulator as your check. No automatic grader.
+
+That shift is deliberate. Real programming does not come with a rubric, and at some
+point somebody has to stop writing exercises for you.
+
+Five lessons are marked ⬇ — they teach a vendor library and need one online build.
+[Details](../setup/offline.md).
 
 ---
 
 ## Stage 0 — Onboarding
 
-Get installed. Meet the two robots you'll be referencing forever. Touch Git once so it doesn't bite later.
+Install once. Meet the two robots you will be referencing forever. Touch version
+control so it does not bite later.
 
-[Start with Lesson 0A :material-arrow-right:](stage0/0a-install/){ .md-button .md-button--primary }
+- [0A · First-run install](stage0/0a-first-run-install/index.md) — 60 min
+- [0B · Meet Presto](stage0/0b-meet-presto/index.md) — 15 min
+- [0C · Meet Kelpie](stage0/0c-meet-kelpie/index.md) — 15 min
+- [0D · Project tour](stage0/0d-project-tour/index.md) — 30 min
 
-- [0A — First-run install](stage0/0a-install/)
-- [0B — Meet Presto (the shooter robot)](stage0/0b-meet-presto/)
-- [0C — Meet Kelpie (the pick-and-place robot)](stage0/0c-meet-kelpie/)
-- [0D — Git + project tour](stage0/0d-git-tour/)
+## Stage 1A — Java, in a robot
 
----
+A method, some named constants, and a deliberately messy `teleopPeriodic` — written
+that way on purpose, so that Stage 1B feels like relief.
 
-## Stage 1A — Java fundamentals
+- [01 · Methods](stage1a/01-methods/index.md) — 25 min
+- [02 · Variables & types](stage1a/02-variables-and-types/index.md) — 30 min
+- [03 · Conditionals in `teleopPeriodic`](stage1a/03-conditionals-in-teleop/index.md) — 35 min
 
-Three lessons. By the end you've written a helper method, named some constants, and felt firsthand why everything-in-`teleopPeriodic` doesn't scale.
+## Stage 1B — Subsystems & control
 
-[Start Stage 1A :material-arrow-right:](stage1a/01-methods/){ .md-button }
+Lift the mess into a real subsystem. Make a motor reach a number. Compensate for
+gravity that changes with angle.
 
-- [01 — Methods (Functions)](stage1a/01-methods/)
-- [02 — Variables & types](stage1a/02-variables-and-types/)
-- [03 — Conditionals in `teleopPeriodic`](stage1a/03-conditionals-in-teleop/)
+- [04 · Subsystems as state machines](stage1b/04-subsystems-state-machines/index.md) — 45 min
+- [05 · PID introduction](stage1b/05-pid-elevator/index.md) — 50 min
+- [06 · Arm with gravity feedforward](stage1b/06-arm-gravity-ff/index.md) — 45 min
 
----
+## Stage 1C — Command-based
 
-## Stage 1B — Subsystems & PID
+Factories, triggers, composition, telemetry. By the end you have a drivable robot
+you can see inside.
 
-Lift the `teleopPeriodic` jungle into real `SubsystemBase` classes. Make a motor reach a number with WPILib's `PIDController`. Add gravity feedforward for an arm.
-
-[Start Stage 1B :material-arrow-right:](stage1b/04-subsystems-state-machines/){ .md-button }
-
-- [04 — Subsystems as state machines](stage1b/04-subsystems-state-machines/)
-- [05 — PID introduction (Elevator)](stage1b/05-pid-elevator/)
-- [06 — Arm with gravity feedforward](stage1b/06-arm-gravity-ff/)
-
----
-
-## Stage 1C — My first robot
-
-Command-based for real. Factories from day one. Triggers. Telemetry. By the end of Stage 1C you have a teleop-drivable robot.
-
-[Start Stage 1C :material-arrow-right:](stage1c/07-tank-drive/){ .md-button }
-
-- [07 — Tank drive wiring (factory pattern)](stage1c/07-tank-drive/)
-- [08 — Joystick bindings & Triggers](stage1c/08-triggers-bindings/)
-- [09 — Command composition](stage1c/09-command-composition/)
-- [10 — Telemetry & AdvantageScope basics](stage1c/10-telemetry/)
-
----
+- [07 · Tank drive wiring](stage1c/07-tank-drive/index.md) — 40 min
+- [08 · Bindings & Triggers](stage1c/08-triggers-bindings/index.md) — 35 min
+- [09 · Command composition](stage1c/09-command-composition/index.md) — 40 min
+- [10 · Telemetry & AdvantageScope](stage1c/10-telemetry/index.md) — 30 min
 
 ## Stage 1D — Composition, autos, refactoring
 
-Default commands. First autos. Path-following. Refactoring `RobotContainer` before it becomes a 500-line god class. Stage 1D ends with a capstone — a complete teleop robot.
+Idle behaviour. Two autonomous routines. A refactor you can prove was safe. A
+capstone.
 
-[Start Stage 1D :material-arrow-right:](stage1d/11-default-commands/){ .md-button }
+- [11 · Default commands](stage1d/11-default-commands/index.md) — 35 min
+- [12 · Auto routines](stage1d/12-auto-basic/index.md) — 40 min
+- [13 · Trajectory auto](stage1d/13-trajectory-auto/index.md) — 50 min
+- [14 · Bindings refactor](stage1d/14-bindings-refactor/index.md) — 45 min
+- [15 · Capstone teleop robot](stage1d/15-capstone-teleop/index.md) — 90 min
 
-- [11 — Default commands done right](stage1d/11-default-commands/)
-- [12 — Auto routines (basic)](stage1d/12-auto-basic/)
-- [13 — Path-following intro](stage1d/13-path-following/)
-- [14 — Refactoring with `*Bindings` classes](stage1d/14-bindings-refactor/)
-- [15 — Capstone teleop robot](stage1d/15-capstone-teleop/)
+## Stage 2A — Structure & logging
 
----
+The pattern every serious team uses, and the tooling that makes yesterday's bug
+reproducible.
 
-## Stage 2A — AdvantageKit & mechanism mastery
+- [16 · The IO Layer pattern](stage2a/16-io-layer/index.md) — 60 min
+- [17 · AdvantageScope first-class](stage2a/17-advantagescope/index.md) — 40 min
+- [18 · Logging discipline](stage2a/18-logging-discipline/index.md) — 35 min
+- [19 · Log replay](stage2a/19-log-replay/index.md) — 50 min ⬇
+- [20 · Superstructure](stage2a/20-superstructure/index.md) — 50 min
 
-The IO Layer pattern. AdvantageScope as a first-class debugging surface. Logging discipline. Replay. Superstructure composition.
+## Stage 2B — Swerve
 
-[Start Stage 2A :material-arrow-right:](stage2a/16-io-layer/){ .md-button }
+The drivetrain every competitive team runs, and knowing where you are.
 
-- [16 — The IO Layer pattern](stage2a/16-io-layer/)
-- [17 — AdvantageScope first-class](stage2a/17-advantagescope/)
-- [18 — AdvantageKit logging discipline](stage2a/18-logging-discipline/)
-- [19 — Log replay for debugging](stage2a/19-log-replay/)
-- [20 — Subsystem composition at scale](stage2a/20-superstructure/)
-
----
-
-## Stage 2B — Swerve & trajectories
-
-Swerve drivetrain. Pose estimation. Trajectory following with Choreo or PathPlanner.
-
-[Start Stage 2B :material-arrow-right:](stage2b/21-swerve-intro/){ .md-button }
-
-- [21 — Swerve drivetrain (intro)](stage2b/21-swerve-intro/)
-- [22 — Odometry & pose estimation](stage2b/22-odometry/)
-- [23 — Trajectory following](stage2b/23-trajectories/)
-
----
+- [21 · Swerve intro](stage2b/21-swerve-intro/index.md) — 75 min
+- [22 · Odometry & pose estimation](stage2b/22-odometry/index.md) — 55 min
+- [23 · Trajectory following](stage2b/23-trajectories/index.md) — 60 min ⬇
 
 ## Stage 2C — Vision
 
-PhotonVision single-tag and multi-tag. Physics-accurate sim with maple-sim.
+AprilTags, sensor fusion, and physics that can push you around.
 
-[Start Stage 2C :material-arrow-right:](stage2c/24-photonvision-singletag/){ .md-button }
+- [24 · PhotonVision single-tag](stage2c/24-photonvision-singletag/index.md) — 45 min ⬇
+- [25 · Multi-tag pose estimation](stage2c/25-multitag/index.md) — 60 min ⬇
+- [26 · maple-sim](stage2c/26-maplesim/index.md) — 55 min ⬇
 
-- [24 — PhotonVision single-tag](stage2c/24-photonvision-singletag/)
-- [25 — Multi-tag pose estimation](stage2c/25-multitag/)
-- [26 — maple-sim & game-piece physics](stage2c/26-maplesim/)
+## Stage 2D — Advanced control
+
+- [27 · Motion profiling](stage2d/27-motion-profiling/index.md) — 55 min
+- [28 · System identification](stage2d/28-sysid/index.md) — 60 min
+- [29 · Advanced state machines](stage2d/29-state-machines/index.md) — 50 min
+- [30 · Season capstone](stage2d/30-season-capstone/index.md) — 180 min
 
 ---
 
-## Stage 2D — Advanced control & capstone
+## If you get stuck
 
-Motion profiling. SysId. Advanced state machines. A self-directed season capstone.
-
-[Start Stage 2D :material-arrow-right:](stage2d/27-motion-profiling/){ .md-button }
-
-- [27 — Motion profiling](stage2d/27-motion-profiling/)
-- [28 — System identification (SysId)](stage2d/28-sysid/)
-- [29 — Advanced state machines](stage2d/29-state-machines/)
-- [30 — Season capstone](stage2d/30-season-capstone/)
+1. **Read the failure message.** They are written as advice, not as stack traces.
+2. **Open the hints.** Four of them, escalating; the answer is only in the last.
+3. **Plot it.** `frcprog sim` and `frcprog scope`. Most control problems are obvious
+   as a picture and invisible as a number.
+4. **Ask a person.** Peer help beats page help, every time.

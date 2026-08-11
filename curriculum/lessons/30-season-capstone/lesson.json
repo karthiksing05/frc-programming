@@ -1,0 +1,10 @@
+{
+  "slug": "30-season-capstone",
+  "title": "Season capstone",
+  "stage": "2D",
+  "prerequisites": [
+    "29-state-machines"
+  ],
+  "estimatedMinutes": 180,
+  "graded": false
+}

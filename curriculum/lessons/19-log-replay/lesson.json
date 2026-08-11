@@ -1,0 +1,14 @@
+{
+  "slug": "19-log-replay",
+  "title": "Log replay for debugging",
+  "stage": "2A",
+  "prerequisites": [
+    "18-logging-discipline"
+  ],
+  "estimatedMinutes": 50,
+  "graded": false,
+  "track": "extension",
+  "requires": [
+    "AdvantageKit"
+  ]
+}

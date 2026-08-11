@@ -1,0 +1,23 @@
+{
+  "slug": "03-conditionals-in-teleop",
+  "title": "Conditionals in teleopPeriodic",
+  "stage": "1A",
+  "tag": "lesson-03",
+  "prerequisites": [
+    "02-variables-and-types"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/Robot.java"
+  ],
+  "tests": [
+    "frc.robot.RobotTeleopTest"
+  ],
+  "estimatedMinutes": 35,
+  "introduces": [
+    "boolean sensors",
+    "button reads",
+    "if/else if/else"
+  ],
+  "preempts": [],
+  "notes": "This lesson IS the anti-pattern. Lesson 04 resolves it."
+}

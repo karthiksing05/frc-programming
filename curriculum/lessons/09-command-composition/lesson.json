@@ -1,0 +1,27 @@
+{
+  "slug": "09-command-composition",
+  "title": "Command composition",
+  "stage": "1C",
+  "tag": "lesson-09",
+  "prerequisites": [
+    "08-triggers-bindings"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.composition.ScoreSequenceTest"
+  ],
+  "estimatedMinutes": 40,
+  "introduces": [
+    "andThen",
+    "alongWith",
+    "waitUntil",
+    "withTimeout"
+  ],
+  "preempts": [
+    "Thread.sleep",
+    "Timer.delay",
+    "unbounded waits"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "frcprog: next",
+      "type": "shell",
+      "command": "./tools/frcprog next",
+      "windows": { "command": "tools\\frcprog.cmd next" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "frcprog: check this lesson",
+      "type": "shell",
+      "command": "./tools/frcprog check ${input:lesson}",
+      "windows": { "command": "tools\\frcprog.cmd check ${input:lesson}" },
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "frcprog: check everything",
+      "type": "shell",
+      "command": "./tools/frcprog check --all",
+      "windows": { "command": "tools\\frcprog.cmd check --all" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "frcprog: simulate",
+      "type": "shell",
+      "command": "./tools/frcprog sim",
+      "windows": { "command": "tools\\frcprog.cmd sim" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "frcprog: doctor",
+      "type": "shell",
+      "command": "./tools/frcprog doctor",
+      "windows": { "command": "tools\\frcprog.cmd doctor" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "build (offline)",
+      "type": "shell",
+      "command": "./gradlew build",
+      "windows": { "command": "gradlew.bat build" },
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$gradle"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "lesson",
+      "type": "promptString",
+      "description": "Which lesson? (id like 07, or slug like 07-tank-drive)",
+      "default": "01"
+    }
+  ]
+}

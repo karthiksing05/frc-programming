@@ -1,0 +1,26 @@
+{
+  "slug": "01-methods",
+  "title": "Methods (Functions)",
+  "stage": "1A",
+  "tag": "lesson-01",
+  "prerequisites": [
+    "0d-project-tour"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/util/MathUtils.java"
+  ],
+  "tests": [
+    "frc.robot.util.MathUtilsTest"
+  ],
+  "estimatedMinutes": 25,
+  "introduces": [
+    "public static",
+    "parameters",
+    "return values",
+    "Math.abs"
+  ],
+  "preempts": [
+    "copy-pasted arithmetic"
+  ],
+  "reference": "WPILib MathUtil.applyDeadband"
+}

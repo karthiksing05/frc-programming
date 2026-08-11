@@ -1,0 +1,10 @@
+{
+  "slug": "22-odometry",
+  "title": "Odometry & pose estimation",
+  "stage": "2B",
+  "prerequisites": [
+    "21-swerve-intro"
+  ],
+  "estimatedMinutes": 55,
+  "graded": false
+}

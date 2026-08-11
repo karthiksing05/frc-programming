@@ -1,0 +1,14 @@
+{
+  "slug": "24-photonvision-singletag",
+  "title": "PhotonVision single-tag",
+  "stage": "2C",
+  "prerequisites": [
+    "23-trajectories"
+  ],
+  "estimatedMinutes": 45,
+  "graded": false,
+  "track": "extension",
+  "requires": [
+    "PhotonVision"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "//": "The Java extensions come bundled with WPILib's VS Code. This list exists so a student who accidentally opened the project in a different VS Code gets prompted rather than confused.",
+  "recommendations": [
+    "wpilibsuite.vscode-wpilib",
+    "redhat.java",
+    "vscjava.vscode-java-debug",
+    "vscjava.vscode-java-test"
+  ]
+}

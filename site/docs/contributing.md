@@ -1,50 +1,99 @@
 # Contributing
 
-FRCProgramming.org is open-source, lives on GitHub, and survives only because contributors keep showing up. We want your help — whether that's a one-line typo fix or a brand-new handbook page.
+The machinery is built for extension. Adding a lesson is a documented, checkable
+process, not a favour somebody has to grant you.
 
-The contribution model is borrowed directly from [FRCDesign.org's two-path approach](https://frcdesign.org): a low-friction PR workflow for outside contributors, and direct-access branch work for core maintainers. Both paths produce the same end result; pick whichever fits how often you plan to contribute.
+## Adding a lesson
 
-## The two paths
+1. **Add an entry to `curriculum/lessons/manifest.json`.** A `lessonNN` Gradle task
+   appears automatically for graded lessons — the build reads the manifest at
+   configuration time.
+2. **Create `curriculum/lessons/<NN>-<slug>/`** with `README.md`, `hints.md`, and
+   `lesson.json`. Copy the shape from a nearby lesson.
+3. **Add starter code** with a `TODO (LESSON NN)` comment saying what to write and
+   why.
+4. **Add a rubric** in `curriculum/src/test/java/`, tagged `@Tag("lesson")` **and**
+   `@Tag("lesson-NN")`. The first tag keeps it out of `./gradlew build`, so a fresh
+   copy of the project is green; the second is what `frcprog check` filters on.
+5. **Add the answer** as a patch in `curriculum/.meta/make-exemplars.py`, then run it.
+6. **Regenerate the site page:** the lesson pages here are generated wrappers that
+   include the canonical content, so a new lesson needs its page emitted and its nav
+   entry added.
 
-### Public contributor (most people, most of the time)
+## Validating it
 
-1. **Float the idea first.** Drop a note in the project Discord's `#website-feedback` channel (link below) describing what you want to change. For typos and obvious fixes, skip this and go straight to step 2.
-2. **Fork on GitHub.** Branch off `main` with a descriptive name (`lesson-04-cleanup`, `handbook-pid-page`, `fix-typo-stage1a`).
-3. **Edit.** Read [`site/AUTHORING.md`](https://github.com/karthiksing05/FRC-Programming/blob/main/site/AUTHORING.md) before touching a lesson; it covers the template, the admonition vocabulary, and the per-stage tone guide.
-4. **Preview locally.** Run `./serve.sh` from the repo root and confirm your changes render without warnings.
-5. **Open a PR.** Describe the *why* in the first paragraph, the *what* below. Link the related Lesson-Plan.md entry or issue if there is one.
+Two commands, and the second one is the important one.
 
-A maintainer reviews; you iterate; we merge.
+```bash
+./gradlew checkLessons          # structure, required sections, cross-references
+.meta/verify-rubrics.sh NN      # fails on starter, passes on exemplar
+```
 
-### Internal contributor (regular core maintainers)
+`checkLessons` verifies that every lesson has its three files, that `lesson.json`'s
+required fields are present, that every file named in `edits` exists, that every class
+named in `tests` exists, that prerequisites resolve, and that the answer is in
+`hints.md` behind a `<details>` rather than in the README.
 
-Same workflow, plus direct push access to feature branches. GitHub Desktop is recommended over the CLI for anyone newer to Git. Branch naming follows the same convention as above. Open a PR against `main` when ready — even internal contributors merge via review, never direct-to-`main`.
+`verify-rubrics.sh` applies the pristine starter, runs the rubric, and **requires it
+to fail**; then applies the exemplar, runs it again, and requires it to pass.
 
-If you're contributing regularly (a lesson a week, say), ask for internal status — saves the fork-and-sync overhead.
+That first half matters more than it sounds. **A rubric that passes on the untouched
+starter grades nothing**, and a student will sail through the lesson without learning
+it. This is the single easiest mistake to make when writing a lesson and the hardest
+to notice by eye.
 
-## Where to find work
+## Writing a good rubric
 
-- **Open issues** on the [GitHub repo](https://github.com/karthiksing05/FRC-Programming/issues) — the easiest entry. Look for `good-first-issue`.
-- **[`process/Lesson-Plan.md`](https://github.com/karthiksing05/FRC-Programming/blob/main/process/Lesson-Plan.md)** — the canonical spec for all 34 lesson blocks. Any lesson whose page is still a stub is fair game; claim it in `#website-feedback` first so two people don't duplicate work.
-- **Handbook stubs** — every page under [`site/docs/handbook/`](https://github.com/karthiksing05/FRC-Programming/tree/main/site/docs/handbook) currently carries a "Coming in Phase 2" marker. Pick one and write it. These are the lowest-overhead way to start because they don't have the prereq-graph constraints lessons do.
-- **Interactive PoCs** — the three browser widgets in [`examples/`](https://github.com/karthiksing05/FRC-Programming/tree/main/examples) are the model. New PoCs for under-served lessons are always welcome; follow the conventions in `examples/shared/`.
-- **Translation** — Spanish, French, and Mandarin are all on the wishlist. Reach out before starting; we need to set up the i18n plugin first.
+**Grade behaviour, not shape** — unless the lesson *is* about shape. Lesson 03's
+rubric still passes after lesson 04 refactors all of its code into a subsystem, which
+is exactly right: the robot's behaviour must not change during a refactor.
 
-## Style guide
+**Write failure messages as advice.** "Expected 0.6 but was 0.0" is useless.
+"Holding B with nothing in the intake should run the roller inward" tells the student
+where to look. They read the failure message far more often than they read the lesson.
 
-The full lesson author handbook lives in [`site/AUTHORING.md`](https://github.com/karthiksing05/FRC-Programming/blob/main/site/AUTHORING.md). It covers:
+**One check, one mistake.** A test that can fail for four reasons tells the student
+almost nothing.
 
-- The seven-section lesson template (and the rule against reordering)
-- The Material admonition vocabulary (`!!! tip`, `!!! warning`, etc. — each carries pedagogical signal)
-- Per-stage tone (Stage 0 friendly → Stage 1 patient → Stage 2 direct)
-- How to cite the two reference robots without paraphrasing comments
+**Grade the mechanism when the result is cheatable.** Lesson 06 verifies that the
+holding voltage comes from feedforward rather than from PID error — because a large
+enough `kP` passes a naive position check while missing the entire point of the
+lesson.
 
-For non-lesson pages (this one, About, the handbook): match the existing voice — declarative, concrete, low on adjectives, honest about what doesn't exist yet. Phase 0 status notes belong everywhere they're true.
+## Writing a good lesson
 
-## Discord
+**Open with the pain.** Not "today we will learn about PID" but "the carriage slams
+into the target and bounces". The concept is the answer to a question the student
+should already have.
 
-The project Discord is the central community hub — design reviews, lesson feedback, mentor coordination, weekly challenges. *(Link to be added — TBD as the server is stood up; see [Implementation-Plan.md §6 Workstream C](https://github.com/karthiksing05/FRC-Programming/blob/main/process/Implementation-Plan.md) for the rollout plan.)*
+**Say what it is not.** Every lesson has a "not taught" boundary, and stating it is a
+contract: *we are not covering X today; here is where it lives.* It also stops lessons
+from growing.
 
-## Code of conduct
+**Explain a decision at least once.** Why `<` and not `<=`. Why volts and not
+throttle. Why the sensor is inverted here rather than at every call site. Those are
+the parts that transfer.
 
-Be kind. Assume good faith. Disagree with ideas, not people. We follow the [Contributor Covenant](https://www.contributor-covenant.org/) — a formal `CODE_OF_CONDUCT.md` will land in Phase 1 with the explicit reporting flow.
+**Put the answer only in `hints.md`, behind a `<details>`.** `checkLessons` enforces
+it. The student has to choose to reveal it, which is most of what makes hints work.
+
+## Style
+
+- Java: two-space indent, 100-column soft limit, Google Java Format.
+- Comments explain *why*. The code already says what.
+- Every `TODO (LESSON NN)` names a lesson that exists — a test enforces this.
+- Markdown: sentence case headings, no trailing whitespace.
+
+## The yearly ritual
+
+WPILib ships a new version every January and it is not backwards-compatible.
+
+1. Bump `wpiVersion` in `gradle.properties` and the GradleRIO version in
+   `build.gradle`.
+2. `./gradlew build` and triage what breaks.
+3. `.meta/verify-rubrics.sh` — every lesson, both halves.
+4. Fix, re-verify, tag a release for the season.
+
+Budget two to four weeks of part-time work. Skipping it once is how a curriculum
+quietly dies: the following year the breakage is two seasons deep and nobody wants to
+start.

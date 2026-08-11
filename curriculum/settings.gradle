@@ -1,0 +1,74 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Single-project GradleRIO setup — the offline curriculum project.
+ *
+ * TWO things in this file matter, and they are both load-bearing:
+ *
+ * 1. THE `frcHome` MAVEN REPOSITORY (the pluginManagement block below).
+ *    Your WPILib installation ships a complete Maven repository at
+ *    ~/wpilib/2026/maven (C:\Users\Public\wpilib\2026\maven on Windows)
+ *    containing GradleRIO, every WPILib artifact, and JUnit 5. Pointing Gradle
+ *    at it is what makes `./gradlew build --offline` work on a laptop that has
+ *    never seen the internet since the WPILib installer ran. Delete this block
+ *    and the whole offline story collapses.
+ *
+ * 2. NO SUBPROJECTS. Do not be tempted into `include 'lessons:01-methods'`.
+ *    The WPILib VS Code extension's Build / Deploy / Simulate commands assume
+ *    the Gradle project is the workspace root — multi-project builds break the
+ *    one-button UX students depend on (wpilibsuite/vscode-wpilib#847).
+ *    Lessons share ONE src/ tree and are differentiated by JUnit @Tag plus the
+ *    lessons/manifest.json. Your code compounds; it never restarts.
+ * ───────────────────────────────────────────────────────────────────────────── */
+import org.gradle.internal.os.OperatingSystem
+
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        String frcYear = '2026'
+        File frcHome
+        if (OperatingSystem.current().isWindows()) {
+            String publicFolder = System.getenv('PUBLIC')
+            if (publicFolder == null) {
+                publicFolder = "C:\\Users\\Public"
+            }
+            def homeRoot = new File(publicFolder, "wpilib")
+            frcHome = new File(homeRoot, frcYear)
+        } else {
+            def userFolder = System.getProperty("user.home")
+            def homeRoot = new File(userFolder, "wpilib")
+            frcHome = new File(homeRoot, frcYear)
+        }
+        def frcHomeMaven = new File(frcHome, 'maven')
+        maven {
+            name = 'frcHome'
+            url = frcHomeMaven
+        }
+    }
+}
+
+Properties props = System.getProperties();
+props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true");
+
+rootProject.name = 'frcprogramming-curriculum'
+
+/* ─── Offline by default ─────────────────────────────────────────────────────
+ * Force every Gradle invocation into offline mode, including the ones VS Code's
+ * WPILib extension fires when you click "Build Robot Code" or "Simulate Robot
+ * Code". Nothing this project needs lives outside your WPILib install, so going
+ * offline costs you nothing and buys immunity to school Wi-Fi, captive portals,
+ * proxy servers, and blocked Maven mirrors — the things that actually eat a
+ * team's first meeting.
+ *
+ * NOTE: this cannot live in gradle.properties. Gradle ignores an
+ * `org.gradle.offline` property there; offline mode is only settable from the
+ * command line (`--offline`) or from here.
+ *
+ * Escape hatch — set FRCPROG_ONLINE=1 for one build when you deliberately add a
+ * vendordep that has to be downloaded:
+ *     FRCPROG_ONLINE=1 ./gradlew build --refresh-dependencies
+ * or, equivalently:
+ *     ./tools/frcprog build --online
+ * ───────────────────────────────────────────────────────────────────────────── */
+if (System.getenv('FRCPROG_ONLINE') == null) {
+    startParameter.offline = true
+}

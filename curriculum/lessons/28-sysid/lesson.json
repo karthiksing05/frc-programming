@@ -1,0 +1,10 @@
+{
+  "slug": "28-sysid",
+  "title": "System identification (SysId)",
+  "stage": "2D",
+  "prerequisites": [
+    "27-motion-profiling"
+  ],
+  "estimatedMinutes": 60,
+  "graded": false
+}

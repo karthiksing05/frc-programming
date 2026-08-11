@@ -1,0 +1,26 @@
+{
+  "slug": "12-auto-basic",
+  "title": "Auto routines (basic)",
+  "stage": "1D",
+  "tag": "lesson-12",
+  "prerequisites": [
+    "11-default-commands"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/autos/SimpleAuto.java",
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.autos.SimpleAutoTest"
+  ],
+  "estimatedMinutes": 40,
+  "introduces": [
+    "Commands.sequence",
+    "SendableChooser",
+    "autonomous routines"
+  ],
+  "preempts": [
+    "Thread.sleep in auto",
+    "unbounded auto routines"
+  ]
+}

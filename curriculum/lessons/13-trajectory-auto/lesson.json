@@ -1,0 +1,27 @@
+{
+  "slug": "13-trajectory-auto",
+  "title": "Trajectory-following auto",
+  "stage": "1D",
+  "tag": "lesson-13",
+  "prerequisites": [
+    "12-auto-basic"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/autos/TrajectoryAuto.java",
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.autos.TrajectoryAutoTest"
+  ],
+  "estimatedMinutes": 50,
+  "introduces": [
+    "TrajectoryGenerator",
+    "LTVUnicycleController",
+    "kinematics",
+    "kV"
+  ],
+  "preempts": [
+    "hand-tuned timed autos"
+  ],
+  "offlineSubstitution": "WPILib TrajectoryGenerator in place of Choreo/PathPlanner"
+}

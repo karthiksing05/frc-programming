@@ -1,0 +1,27 @@
+{
+  "slug": "05-pid-elevator",
+  "title": "PID introduction (Elevator)",
+  "stage": "1B",
+  "tag": "lesson-05",
+  "prerequisites": [
+    "04-subsystems-state-machines"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/subsystems/elevator/ElevatorSubsystem.java",
+    "src/main/java/frc/robot/Constants.java"
+  ],
+  "tests": [
+    "frc.robot.subsystems.elevator.ElevatorTest"
+  ],
+  "estimatedMinutes": 50,
+  "introduces": [
+    "PIDController",
+    "kP/kI/kD",
+    "setVoltage vs set"
+  ],
+  "preempts": [
+    "bang-bang control",
+    "throttle instead of voltage"
+  ],
+  "reference": "Kelpie elevator/ElevatorSubsystem.java"
+}

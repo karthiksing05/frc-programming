@@ -1,0 +1,20 @@
+# Gradle
+.gradle/
+build/
+bin/
+
+# Your local progress, tracked by ./tools/frcprog check
+.frcprog/
+
+# WPILib / simulation output
+logs/
+*.wpilog
+simgui*.json
+networktables.json*
+ctre_sim/
+
+# Editors and OS noise
+.DS_Store
+*.swp
+.idea/
+*.iml

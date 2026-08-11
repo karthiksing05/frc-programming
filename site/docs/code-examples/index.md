@@ -1,32 +1,61 @@
-# Code Examples
+# Playgrounds
 
-The `examples/` directory ships **two kinds of artifact**: the three browser PoCs that power Stages 0–1B (Path A), and the `path-b-demo/` skeleton that the Stage 1C+ lessons graduate to (Path B). This page is the index.
+Three small browser sandboxes. They are **not** part of the curriculum and nothing
+depends on them — they exist because some ideas land faster when you can drag a
+slider than when you can read a paragraph.
 
-!!! note "How this index works"
+They run entirely in your browser, off this same local server. No network.
 
-    During local development, `serve.sh` symlinks the project's top-level `examples/` directory into `docs/examples/`. Each PoC below is reachable at `/examples/<slug>/index.html` once you run `./serve.sh`. The links here point at those served paths.
+!!! tip "Serve them, do not open them"
 
-## Browser PoCs
+    These pages share a browser-local filesystem, and browsers partition that per
+    file when you open HTML directly from disk. Reach them through this site (or any
+    HTTP server) and they work; double-click the `.html` and they will behave oddly.
 
-Self-contained HTML + JS apps — no install, no JDK, no Gradle. They run on a Chromebook. Each one is the interactive surface for one or more early lessons.
+---
 
-- **[Functions PoC](/examples/functions-poc/index.html)** — *paired with [Lesson 01 — Methods](../learn/stage1a/01-methods/)*. The student fills in a Java method body; a JS sandbox runs it as a joystick deadband filter. First lesson to write the persistent in-browser project filesystem — the file you author here is the same file the Tank Drive PoC imports later.
+## Deadband — the maths from Lesson 01
 
-- **[Elevator PID PoC](/examples/elevator-pid-poc/index.html)** — *paired with [Lesson 05 — PID introduction](../learn/stage1b/05-pid-elevator/)*. The student tunes `kP` / `kI` / `kD` on a real elevator simulation; a step-response plot updates live. The Stage 1B "feel" lesson for control loops.
+A noisy joystick trace and a threshold you can drag. Watch the output snap flat
+inside the band and track exactly outside it.
 
-- **[Tank Drive PoC](/examples/tank-drive-poc/index.html)** — *paired with [Lesson 07 — Tank drive wiring](../learn/stage1c/07-tank-drive/)*. The student wires a subsystem factory that turns joystick Suppliers into drivetrain output. Imports the `MathUtils.applyDeadband` written in the Functions PoC — the lesson where the persistent filesystem pays off.
+Pairs with [Lesson 01 · Methods](../learn/stage1a/01-methods/).
 
-## Path B Demo
+[Open the deadband playground](/examples/functions-poc/index.html){ .md-button target=_blank }
 
-- **[path-b-demo](https://github.com/karthiksing05/FRC-Programming/tree/main/examples/path-b-demo)** — the architectural skeleton for the VS Code half of the curriculum. A real WPILib + AdvantageKit + JUnit project that shows what Stage 1C+ lessons graduate to: IO interfaces, `Constants.java`, `RobotContainer` bindings, the `frcprog` lesson runner, JUnit-tag-based rubrics. **Read it as architecture, not as a runnable widget** — the Gradle wrapper is intentionally not shipped in Phase 0. See [`examples/path-b-demo/README.md`](https://github.com/karthiksing05/FRC-Programming/blob/main/examples/path-b-demo/README.md) for the layout. Phase-0 build-out is tracked in [Implementation-Plan.md §5 Weeks 1-2](https://github.com/karthiksing05/FRC-Programming/blob/main/process/Implementation-Plan.md).
+---
 
-## How these connect to the curriculum
+## Elevator PID — the tuning from Lesson 05
 
-| PoC / artifact | Embedded by | What it teaches |
-|---|---|---|
-| `functions-poc/` | [Lesson 01](../learn/stage1a/01-methods/) | Methods, parameters, return values |
-| `elevator-pid-poc/` | [Lesson 05](../learn/stage1b/05-pid-elevator/) | `PIDController`, tuning by step response |
-| `tank-drive-poc/` | [Lesson 07](../learn/stage1c/07-tank-drive/) | Factory pattern, Suppliers, cross-lesson file reuse |
-| `path-b-demo/` | All Stage 1C+ lessons (as the project skeleton students clone) | Real WPILib structure, IO Layer, JUnit rubrics |
+Three sliders — `kP`, `kI`, `kD` — and a live step response. This is the fastest way
+to build intuition for what each gain does before you go and tune the real one in
+Java.
 
-The browser path has a known ceiling — Java in the browser caps out around "fill in a method body." Real classes, real `Trigger`s, and real WPILib API surface require the local toolchain. The graduation is one button press at the end of Stage 1B; see [Infrastructure-Analysis.md §2.3](https://github.com/karthiksing05/FRC-Programming/blob/main/process/Infrastructure-Analysis.md) for the longer story.
+Try `kP = 10, kI = 0, kD = 0` first and feel the oscillation. Then add `kD` until it
+stops. Then notice it settles slightly short, and add a sliver of `kI`.
+
+Pairs with [Lesson 05 · PID introduction](../learn/stage1b/05-pid-elevator/).
+
+[Open the PID playground](/examples/elevator-pid-poc/index.html){ .md-button target=_blank }
+
+---
+
+## Tank drive — the mixing from Lesson 07
+
+Two axes in, two wheel speeds out. Useful for seeing why `left = fwd + rot` and
+`right = fwd - rot` produce a robot that turns the way you expect, and what happens
+when the sum saturates.
+
+Pairs with [Lesson 07 · Tank drive wiring](../learn/stage1c/07-tank-drive/).
+
+[Open the drive playground](/examples/tank-drive-poc/index.html){ .md-button target=_blank }
+
+---
+
+## Why these are optional
+
+The curriculum deliberately teaches in the real toolchain: real Java, real WPILib,
+real simulation. A browser widget can show you what a gain does; it cannot teach you
+Gradle, or the requirement system, or how to read a WPILOG.
+
+Use these to build intuition quickly, then go and do the lesson properly.

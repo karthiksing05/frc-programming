@@ -1,0 +1,24 @@
+# Site build output and its virtualenv
+site/_site/
+site/.venv/
+site/docs/examples
+
+# Gradle
+curriculum/.gradle/
+curriculum/build/
+curriculum/bin/
+
+# Student-local progress
+curriculum/.frcprog/
+
+# WPILib / simulation output
+**/logs/
+*.wpilog
+**/simgui*.json
+**/networktables.json*
+
+# Editors and OS noise
+.DS_Store
+*.swp
+.idea/
+*.iml

@@ -1,0 +1,14 @@
+{
+  "slug": "25-multitag",
+  "title": "Multi-tag pose estimation",
+  "stage": "2C",
+  "prerequisites": [
+    "24-photonvision-singletag"
+  ],
+  "estimatedMinutes": 60,
+  "graded": false,
+  "track": "extension",
+  "requires": [
+    "PhotonVision"
+  ]
+}

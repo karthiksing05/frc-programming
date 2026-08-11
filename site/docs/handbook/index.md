@@ -2,15 +2,21 @@
 
 *The non-sequential reference wiki for FRC programming. Look things up; jump in anywhere.*
 
-The Programming Handbook is the topic-organized companion to the [Learning Course](../learn/). Where the course walks you through 30 lessons in a fixed order — each lesson solving a pain the previous one created — the handbook is **alphabetical by concept**, no prerequisites assumed, no narrative arc. You're meant to land here from a search bar, a Google result, or an internal link from a lesson.
+The Programming Handbook is the topic-organized companion to the [Learning Course](../learn/). Where the course walks you through thirty-four lessons in a fixed order — each lesson solving a pain the previous one created — the handbook is **alphabetical by concept**, no prerequisites assumed, no narrative arc. You're meant to land here from a search bar, a Google result, or an internal link from a lesson.
 
 The model is borrowed directly from [FRCDesign.org's Design Handbook](https://frcdesign.org): a wiki of self-contained concept pages, each grounded in real production code from our two reference robots ([Kelpie](../robots/kelpie-reefscape-tour.md) and [Presto](../robots/presto-crescendo-tour.md)).
 
-!!! warning "Status — Phase 0"
+!!! warning "These pages are stubs"
 
-    These pages are **stubs**. Real authoring is Phase 2 territory per the project's [Implementation Plan §9](https://github.com/karthiksing05/FRC-Programming/blob/main/process/Implementation-Plan.md). Each page below currently carries a "Coming in Phase 2" marker and a pointer to the lesson that already covers the same ground.
+    The handbook is deliberately the last thing built. The lessons are the curriculum;
+    the handbook is where a concept goes once enough lessons touch it that it deserves
+    one page instead of four partial explanations.
 
-    **Feel free to contribute!** Handbook pages are the easiest entry point for new authors — they don't have the prereq-graph constraints the lessons do. See [Contributing](../contributing.md).
+    Each page below currently points at the lesson that already covers the same ground.
+    Going there is not a consolation prize — right now it is the better explanation.
+
+    Handbook pages are the easiest entry point for a new author: no prerequisite graph
+    to respect and no rubric to write. See [Contributing](../contributing.md).
 
 ## Topic index
 

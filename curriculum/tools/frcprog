@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# ─────────────────────────────────────────────────────────────────────────────
+#  frcprog — launcher for tools/Frcprog.java
+#
+#  The real tool is one Java source file next to this script. Java 11+ can run a
+#  .java file directly, so there is nothing to build and nothing to install.
+#
+#  This wrapper exists only to find the right JDK. Order of preference:
+#
+#    1. JAVA_HOME, if it is set and looks usable
+#    2. WPILib's bundled JDK — the one guaranteed to exist on a machine that has
+#       completed lesson 0A
+#    3. whatever `java` is on PATH, as a last resort
+#
+#  Preferring WPILib's JDK over the system one is the same discipline as always
+#  using ./gradlew: it means every student on a team runs the same compiler, and
+#  "works on my machine" stops being a category of problem.
+# ─────────────────────────────────────────────────────────────────────────────
+set -euo pipefail
+
+HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT="$( cd "$HERE/.." && pwd )"
+
+find_java() {
+  if [[ -n "${JAVA_HOME:-}" && -x "$JAVA_HOME/bin/java" ]]; then
+    echo "$JAVA_HOME/bin/java"
+    return
+  fi
+
+  for year in 2026 2025; do
+    local candidate="$HOME/wpilib/$year/jdk/bin/java"
+    if [[ -x "$candidate" ]]; then
+      echo "$candidate"
+      return
+    fi
+  done
+
+  if command -v java >/dev/null 2>&1; then
+    command -v java
+    return
+  fi
+
+  cat >&2 <<'EOF'
+No Java found.
+
+frcprog runs on the JDK that WPILib installs. If you have not installed WPILib
+yet, that is lesson 0A and it is the right place to start:
+
+    https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/wpilib-setup.html
+
+If WPILib is installed somewhere unusual, set JAVA_HOME to its jdk folder:
+
+    export JAVA_HOME=/path/to/wpilib/2026/jdk
+EOF
+  exit 1
+}
+
+JAVA="$(find_java)"
+
+# Run from the project root so relative paths in the tool resolve predictably.
+cd "$PROJECT"
+exec "$JAVA" "$HERE/Frcprog.java" "$@"

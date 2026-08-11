@@ -1,6 +1,6 @@
 # Reference Robots
 
-Throughout the curriculum, two reference robots anchor the lessons — one shooter, one pick-and-place. Every lesson under [Learn](../learn/) cites code from one of them. By Stage 1B you'll be familiar with both; by Stage 2A you'll be cross-referencing their source on a regular basis.
+Throughout the curriculum, two reference robots anchor the lessons — one shooter, one pick-and-place. Every lesson under [Learn](../learn/index.md) cites code from one of them. By Stage 1B you'll be familiar with both; by Stage 2A you'll be cross-referencing their source on a regular basis.
 
 Click in for the full tour of each.
 

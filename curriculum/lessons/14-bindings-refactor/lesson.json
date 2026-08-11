@@ -1,0 +1,27 @@
+{
+  "slug": "14-bindings-refactor",
+  "title": "Refactoring with *Bindings classes",
+  "stage": "1D",
+  "tag": "lesson-14",
+  "prerequisites": [
+    "13-trajectory-auto"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/bindings/DriverBindings.java",
+    "src/main/java/frc/robot/bindings/OperatorBindings.java",
+    "src/main/java/frc/robot/RobotContainer.java"
+  ],
+  "tests": [
+    "frc.robot.BindingsRefactorTest"
+  ],
+  "estimatedMinutes": 45,
+  "introduces": [
+    "constructor injection",
+    "*Bindings pattern",
+    "when to refactor"
+  ],
+  "preempts": [
+    "god RobotContainer",
+    "cross-subsystem direct calls"
+  ]
+}

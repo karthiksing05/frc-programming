@@ -1,0 +1,17 @@
+{
+  "slug": "20-superstructure",
+  "title": "Subsystem composition at scale",
+  "stage": "2A",
+  "prerequisites": [
+    "18-logging-discipline"
+  ],
+  "estimatedMinutes": 50,
+  "graded": false,
+  "introduces": [
+    "Superstructure",
+    "composite triggers"
+  ],
+  "preempts": [
+    "cross-subsystem direct calls"
+  ]
+}

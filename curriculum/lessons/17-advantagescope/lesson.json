@@ -1,0 +1,15 @@
+{
+  "slug": "17-advantagescope",
+  "title": "AdvantageScope first-class",
+  "stage": "2A",
+  "prerequisites": [
+    "16-io-layer"
+  ],
+  "estimatedMinutes": 40,
+  "graded": false,
+  "introduces": [
+    "Mechanism2d",
+    "2D field view",
+    "saved layouts"
+  ]
+}

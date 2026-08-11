@@ -1,0 +1,12 @@
+{
+  "slug": "0d-project-tour",
+  "title": "Project tour + local version control",
+  "stage": "0",
+  "prerequisites": [
+    "0a-first-run-install",
+    "0b-meet-presto",
+    "0c-meet-kelpie"
+  ],
+  "estimatedMinutes": 30,
+  "graded": false
+}

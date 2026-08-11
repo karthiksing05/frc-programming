@@ -1,0 +1,25 @@
+{
+  "slug": "16-io-layer",
+  "title": "The IO Layer pattern",
+  "stage": "2A",
+  "tag": "lesson-16",
+  "prerequisites": [
+    "15-capstone-teleop"
+  ],
+  "edits": [
+    "src/main/java/frc/robot/subsystems/drive/DriveIOSim.java"
+  ],
+  "tests": [
+    "frc.robot.subsystems.drive.DriveIOSimTest"
+  ],
+  "estimatedMinutes": 60,
+  "introduces": [
+    "IO interface",
+    "inputs struct",
+    "hardware boundary"
+  ],
+  "preempts": [
+    "direct sensor reads in subsystem logic"
+  ],
+  "reference": "AdvantageKit IO interfaces; Presto flywheels/, Kelpie elevator/"
+}
