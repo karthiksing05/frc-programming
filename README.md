@@ -58,6 +58,7 @@ cd curriculum
 ./gradlew build                 # compiles; runs the smoke test, not the lesson rubrics
 ./gradlew checkLessons          # lesson structure, required sections, cross-references
 .meta/verify-rubrics.sh         # every rubric: MUST fail on the starter, MUST pass on the exemplar
+python3 .meta/audit-lessons.py  # TODO markers, hint/exemplar agreement, prose accuracy
 ```
 
 That last one is the important one, and its first half is why.

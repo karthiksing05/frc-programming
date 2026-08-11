@@ -223,9 +223,37 @@ public final class Frcprog {
     System.out.println("    " + cyan("./tools/frcprog read " + l.dir) + dim("     the full lesson"));
     System.out.println("    " + cyan("./tools/frcprog check " + l.dir) + dim("    grade yourself"));
     System.out.println();
-    System.out.println(
-        dim("  Look for the TODO (LESSON " + l.id + ") comment. It tells you what to write."));
+
+    // Only promise a TODO marker if one is actually in the file. Integration
+    // lessons like the capstone edit existing code and have none, and sending a
+    // student hunting for a comment that was never written is a small lie that
+    // costs them real time.
+    if (hasTodoMarker(l, edits)) {
+      System.out.println(
+          dim("  Look for the TODO (LESSON " + l.id + ") comment. It tells you what to write."));
+    } else {
+      System.out.println(
+          dim("  No TODO marker in this one — it builds on code you have already written."));
+      System.out.println(dim("  The lesson text is the instructions."));
+    }
     System.out.println();
+  }
+
+  /**
+   * @return true when at least one of the lesson's edit targets really contains its TODO marker
+   */
+  private static boolean hasTodoMarker(Lesson l, List<Object> edits) {
+    String marker = "TODO (LESSON " + l.id + ")";
+    for (Object e : edits) {
+      try {
+        if (Files.readString(root.resolve(String.valueOf(e))).contains(marker)) {
+          return true;
+        }
+      } catch (IOException ignored) {
+        // A missing edit target is reported by `gradlew checkLessons`, not here.
+      }
+    }
+    return false;
   }
 
   private static void cmdRead(String[] args, String file) throws IOException {

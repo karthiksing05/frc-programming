@@ -159,7 +159,14 @@ The machinery is designed for it.
 ```bash
 ./gradlew checkLessons          # structure, required sections, cross-references
 .meta/verify-rubrics.sh NN      # fails on starter, passes on exemplar
+python3 .meta/audit-lessons.py  # the checks the other two cannot make
 ```
+
+`audit-lessons.py` covers the gaps between the other two: that each lesson's edit
+target really carries its `TODO` marker, that the reference answer in `hints.md`
+is behaviourally the same code as the exemplar, that every class named in prose
+exists somewhere real, that the prerequisite graph is acyclic, and that every
+`frcprog` command a lesson tells a student to run is one the CLI implements.
 
 That second script is the important one. **A rubric that passes on the untouched
 starter grades nothing**, and a student will sail through the lesson without learning

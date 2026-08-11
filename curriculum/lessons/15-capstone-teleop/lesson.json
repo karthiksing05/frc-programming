@@ -16,5 +16,7 @@
   "introduces": [],
   "reinforces": [
     "all of Stage 1"
-  ]
+  ],
+  "integration": true,
+  "notes": "Integration lesson: no new TODO. Grades the accumulated state of Stage 1."
 }
