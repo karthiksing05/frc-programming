@@ -27,7 +27,7 @@ Logger.recordOutput("Drive/ActiveCommand", getCurrentCommand().getName());
 
 ## Lessons that cover this material today
 
-- [Lesson 10 — Telemetry & SmartDashboard](../learn/stage1c/10-telemetry-and-smartdashboard/) — first plots
+- [Lesson 10 — Telemetry & SmartDashboard](../learn/stage1c/10-telemetry/) — first plots
 - [Lesson 17 — AdvantageScope first-class](../learn/stage2a/17-advantagescope/)
 - [Lesson 18 — AdvantageKit logging discipline](../learn/stage2a/18-logging-discipline/)
 - [Lesson 19 — Log replay for debugging](../learn/stage2a/19-log-replay/)

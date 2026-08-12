@@ -6,7 +6,14 @@ The Programming Handbook is the topic-organized companion to the [Learning Cours
 
 The model is borrowed directly from [FRCDesign.org's Design Handbook](https://frcdesign.org): a wiki of self-contained concept pages, each grounded in real production code from our two reference robots ([Kelpie](../robots/kelpie-reefscape-tour.md) and [Presto](../robots/presto-crescendo-tour.md)).
 
-!!! warning "These pages are stubs"
+!!! success "Written and complete"
+
+    **[Git](git.md)** — the full version of what lesson 0D deliberately defers.
+    The loop, reading history, undoing things, branches, working with a team, and a
+    recovery section for when you are convinced you have broken everything. No
+    GitHub account required for any of it.
+
+!!! warning "The rest of these pages are stubs"
 
     The handbook is deliberately the last thing built. The lessons are the curriculum;
     the handbook is where a concept goes once enough lessons touch it that it deserves
@@ -87,6 +94,6 @@ The model is borrowed directly from [FRCDesign.org's Design Handbook](https://fr
 | Learn from scratch, in order | [Learning Course](../learn/) |
 | Look up *one* concept while building something | This handbook |
 | Read a real robot's code with annotations | [Robots](../robots/) |
-| Run an interactive widget | [Examples](../examples/) |
+| Run an interactive widget | [Examples](../code-examples/) |
 
 The course teaches *why* and *when*; the handbook teaches *what* and *how*. Both cite the same reference robots, so you can cross-link freely.

@@ -83,6 +83,13 @@ Branching, merging, rebasing, pull requests: real, useful, and not today. They
 solve problems you do not have yet, and learning them now costs you the attention
 you need for the actual lesson.
 
+When you do want them — or when something goes wrong and you need to get back —
+the handbook's **Git** page covers the whole thing: reading history, undoing at
+four different levels, branches, working with a teammate, and what to do when you
+are convinced you have destroyed everything. (You almost certainly have not;
+`git reflog` remembers.) Open it from the site, or read
+`site/docs/handbook/git.md`.
+
 **If you are not using Git:** copy the whole folder somewhere safe after each
 lesson passes, with the lesson number in the name. It is clumsy and it works, and
 it is much better than the common alternative of having no way back at all.

@@ -143,6 +143,7 @@ nav:
           - "30 · Season capstone": learn/stage2d/30-season-capstone/index.md
   - Handbook:
       - handbook/index.md
+      - Git: handbook/git.md
       - Java basics: handbook/java-basics.md
       - Command-based: handbook/command-based.md
       - PID & feedforward: handbook/pid-and-feedforward.md
