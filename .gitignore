@@ -1,27 +1,20 @@
-# Site build output and its virtualenv
-site/_site/
-site/.venv/
-site/docs/examples
-
 # Gradle
-curriculum/.gradle/
-curriculum/build/
-curriculum/bin/
+.gradle/
+build/
+bin/
 
-# Student-local progress
-curriculum/.frcprog/
+# Your local progress, tracked by ./tools/frcprog check
+.frcprog/
 
 # WPILib / simulation output
-**/logs/
+logs/
 *.wpilog
-**/simgui*.json
-**/networktables.json*
+simgui*.json
+networktables.json*
+ctre_sim/
 
 # Editors and OS noise
 .DS_Store
 *.swp
 .idea/
 *.iml
-site/_site/
-site/tools/artifact_data.json
-site/frcprogramming-artifact.html

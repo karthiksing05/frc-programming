@@ -1,118 +1,176 @@
-# FRC-Programming
+# FRCProgramming — the offline curriculum
 
-An FRC robot programming curriculum that runs entirely offline — real Java, real
-WPILib, real simulation, graded on your own laptop.
+Thirty-four lessons that teach FRC robot programming using the tools a real team
+uses: Java, WPILib, Gradle, JUnit, the WPILib simulator, and AdvantageScope.
 
-Thirty-four lessons. No accounts, no CI server, no cloud service that can be down on
-the day of your meeting.
+Everything runs on your laptop with no network, no account, and no server. You write
+real robot code in a real robot project, and a real test suite tells you whether it
+works.
 
 ---
 
-## Two halves
-
-### `curriculum/` — the project students actually work in
-
-A real GradleRIO project. Students copy this folder, open it in WPILib's VS Code,
-and work through it lesson by lesson. It grows in place: the method written in lesson
-01 is still there in the capstone, being called by a drivetrain built in lesson 07.
+## Start here
 
 ```bash
-cd curriculum
 ./tools/frcprog doctor      # is my install right?
 ./tools/frcprog next        # what should I do now?
 ```
 
-Sixteen lessons ship a JUnit rubric that grades the work locally. Eighteen are
-guided — a clear goal, working code to model, and the simulator as the check.
-
-[`curriculum/README.md`](curriculum/README.md) is the student-facing entry point.
-
-### `site/` — the same lessons, as a local website
+If `doctor` is unhappy, fix what it says before anything else. If you have not
+installed WPILib yet, that is lesson 0A:
 
 ```bash
-cd site && ./serve.sh       # http://localhost:8000
+./tools/frcprog read 0a-first-run-install
 ```
 
-MkDocs Material, served from `localhost`. Every lesson page **includes** the
-canonical lesson text and the real source files out of `curriculum/` rather than
-copying them, so the site and the project cannot drift apart.
-
 ---
 
-## Also here
+## The loop
 
-| Path | What it is |
-|---|---|
-| [`process/`](process/) | The design documents this was built from — architecture, pedagogy, the 34-lesson spec, the two reference robots, and the phased roadmap |
-| [`examples/`](examples/) | Three small browser playgrounds (deadband, PID tuning, drive mixing). Optional intuition-builders, not part of the curriculum |
-
----
-
-## Verifying it
-
-Three commands. Run them before shipping any change to a lesson.
+Every lesson is the same four steps.
 
 ```bash
-cd curriculum
-
-./gradlew build                 # compiles; runs the smoke test, not the lesson rubrics
-./gradlew checkLessons          # lesson structure, required sections, cross-references
-.meta/verify-rubrics.sh         # every rubric: MUST fail on the starter, MUST pass on the exemplar
-python3 .meta/audit-lessons.py  # TODO markers, hint/exemplar agreement, prose accuracy
+./tools/frcprog next                 # what to do, and which file
+./tools/frcprog read 07-tank-drive   # the lesson
+#   ... edit the file, find the TODO (LESSON 07) comment ...
+./tools/frcprog check 07-tank-drive  # grade yourself
 ```
 
-That last one is the important one, and its first half is why.
+Stuck? `./tools/frcprog hints 07-tank-drive` gives you four hints, escalating, with
+the answer only in the last one.
 
-**A rubric that also passes on the untouched starter grades nothing** — a student
-would sail through the lesson without learning it, and nobody would notice for
-months. `verify-rubrics.sh` applies the pristine starter, requires the rubric to
-fail, then applies the reference answer and requires it to pass. Both halves, every
-graded lesson.
+Want to see it move? `./tools/frcprog sim` starts the robot simulator, and
+`./tools/frcprog scope` opens AdvantageScope for plots.
+
+---
+
+## What is in here
+
+```
+curriculum/
+├── src/main/java/frc/robot/     the robot. One tree, growing lesson by lesson.
+├── src/test/java/frc/robot/     the rubrics. Read them — they are the spec.
+├── lessons/<NN>-<slug>/         README.md, hints.md, lesson.json
+├── tools/frcprog                the command line (and Frcprog.java, which is it)
+├── .meta/                       reference answers and pristine starters
+├── OFFLINE.md                   how the no-network guarantee works
+└── lessons/EXTENSIONS.md        the five lessons that need a download
+```
+
+**One source tree, and it grows.** The `applyDeadband` method you write in lesson 01
+is called by the drivetrain you build in lesson 07 and is still there in the capstone.
+Nothing restarts. By lesson 15 this folder holds a robot you could deploy.
+
+**The tests are not hidden.** `src/test/java` contains the exact code that grades
+each lesson. Reading a rubric before you start is not cheating; it is reading the
+specification.
+
+---
+
+## The curriculum
+
+| Stage | Lessons | What you end up with |
+|---|---|---|
+| **0** — Onboarding | 0A–0D | Installed, oriented, and able to save your work |
+| **1A** — Java in context | 01–03 | A method, named constants, and a deliberately messy `teleopPeriodic` |
+| **1B** — Subsystems & control | 04–06 | A state machine, a PID position loop, and gravity feedforward |
+| **1C** — Command-based | 07–10 | A drivable robot with buttons, sequences, and live plots |
+| **1D** — Composition & autos | 11–15 | Default commands, two autos, a refactor, and a capstone |
+| **2A** — Structure & logging | 16–20 | The IO Layer pattern, logging discipline, replay, superstructure |
+| **2B** — Swerve | 21–23 | Holonomic drive, pose estimation, trajectory following |
+| **2C** — Vision | 24–26 | AprilTags, multi-tag fusion, physics-accurate simulation |
+| **2D** — Advanced | 27–30 | Motion profiling, SysId, state machines, a season-scale capstone |
+
+Lessons **01–16 are graded**: starter code with a TODO, a JUnit rubric, and a
+reference answer. Lessons **17–30 are guided**: a clear goal, working code to model
+yourself on, and the simulator as your check. That shift is deliberate — at some
+point somebody has to stop writing exercises for you.
+
+`./tools/frcprog list` shows the whole thing with your progress against it.
+
+---
+
+## Every command
+
+```
+frcprog next                 what to do now, and where
+frcprog read <lesson>        the lesson text, in your terminal
+frcprog check <lesson>       run the rubric and grade yourself
+frcprog check --all          run every rubric — your local CI
+frcprog hints <lesson>       four hints, answer last
+frcprog list                 every lesson and its status
+frcprog progress             how far through you are
+frcprog sim                  launch the robot simulator
+frcprog scope                launch AdvantageScope
+frcprog site                 serve the lesson site at localhost:8000
+frcprog reset <lesson>       restore the starter code for a lesson
+frcprog solution <lesson>    overwrite with the reference answer
+frcprog doctor               check your install before blaming your code
+frcprog build [--online]     build; --online only when adding a vendordep
+```
+
+`<lesson>` accepts an id (`07`) or a slug (`07-tank-drive`).
+
+On Windows, `tools\frcprog.cmd` instead of `./tools/frcprog`.
+
+---
+
+## Reading the lessons on a page instead
+
+Every lesson also renders as a website, served from your own machine:
 
 ```bash
-cd site && source .venv/bin/activate && mkdocs build --strict
+./tools/frcprog site      # then open http://localhost:8000
 ```
 
-builds the site and fails loudly if any included file has moved.
+The site is the same lesson text with the annotated source alongside it. Some people
+prefer the terminal, some prefer the page; both are the same content, so use
+whichever you will actually read.
 
 ---
 
-## Requirements
+## The offline guarantee
 
-**WPILib 2026** and nothing else.
+Every dependency this project needs already lives inside your WPILib install, and
+Gradle is configured to run offline for every build — including the ones VS Code's
+WPILib buttons fire.
 
-Its installer brings a Java 17 JDK, its own VS Code, AdvantageScope, the simulation
-tools, and — the part that makes this work — a complete offline Maven repository
-containing GradleRIO, every WPILib library, and JUnit 5.
+Five lessons teach vendor libraries and need one online build each. They are marked
+⬇ in `frcprog list`, and [`lessons/EXTENSIONS.md`](lessons/EXTENSIONS.md) explains
+exactly what and why.
 
-Gradle is configured to run offline for every invocation, including the builds VS
-Code's WPILib buttons fire. Five lessons teach vendor libraries (AdvantageKit,
-PathPlanner or Choreo, PhotonVision, maple-sim) and need one online build each;
-they are marked ⬇ and documented in
-[`curriculum/lessons/EXTENSIONS.md`](curriculum/lessons/EXTENSIONS.md).
-
-The site needs Python 3 and one `pip install` for MkDocs. After that it serves
-offline. If you would rather not, `frcprog read <lesson>` renders every lesson in the
-terminal.
+Details in [`OFFLINE.md`](OFFLINE.md).
 
 ---
 
-## Pinned versions
+## If you are a mentor
 
-WPILib **2026.2.1** · Java **17** · JUnit **5.10.1**
-
-Do not bump these without re-running `.meta/verify-rubrics.sh`. WPILib makes breaking
-changes every January and every lesson has to be re-validated — see
-[`process/Path-B-Implementation.md` §6.1](process/Path-B-Implementation.md) for the
-yearly ritual, and [`curriculum/docs/MENTOR-GUIDE.md`](curriculum/docs/MENTOR-GUIDE.md)
-for the short version.
+[`docs/MENTOR-GUIDE.md`](docs/MENTOR-GUIDE.md) covers running this with a group:
+pacing, where students actually get stuck, what to say when they do, how to review
+work, and how to add lessons of your own.
 
 ---
 
-## Adding a lesson
+## Version pins
 
-The machinery is built for it: add a manifest entry and a Gradle task appears; add a
-tagged test and `frcprog check` finds it; add a patch to `.meta/make-exemplars.py` and
-the reference answer is generated cumulatively.
+WPILib **2026.2.1**, Java **17**, JUnit **5.10.1**.
 
-Full instructions in [`curriculum/docs/MENTOR-GUIDE.md`](curriculum/docs/MENTOR-GUIDE.md).
+Do not bump these without re-running `.meta/verify-rubrics.sh`. WPILib makes
+breaking changes every January, and every lesson has to be re-validated against them
+— see [`process/Path-B-Implementation.md` §6.1](../process/Path-B-Implementation.md)
+for the yearly ritual.
+
+---
+
+## Where this branch comes from
+
+This branch is **generated**. It is the student-facing robot project, with the
+Gradle build at the repository root so that WPILib's VS Code commands work when
+you open the folder directly.
+
+- Everything — this project plus the website, the design documents and the
+  browser playgrounds — lives on the **`dev`** branch.
+- The website, laid out for a static host, is on the **`website`** branch.
+
+Do not send pull requests against this branch; it is overwritten by
+`tools/publish-branches.sh` on every publish. Work on `dev`.
