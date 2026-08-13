@@ -14,17 +14,21 @@ Re-verify any row with the commands in [How to check this](#how-to-check-this).
 
 ## A note on the branch
 
-Work started on a branch called `repo-tutorial`. It was renamed to `main`
-mid-project, and the layout was then reorganised into three branches on request:
+Work started on a branch called `repo-tutorial`, which was renamed to `main`
+mid-project. The settled layout is three branches, each with one job:
 
-| Branch | Holds |
-|---|---|
-| `dev` | everything — curriculum, site, process docs, tooling |
-| `main` | the Gradle project at the repo root, so students clone and open |
-| `website` | the MkDocs site alone, shaped for Vercel |
+| Branch | Holds | Edit it? |
+|---|---|---|
+| `dev` | everything — `curriculum/`, `site/`, `process/`, `examples/`, `tools/` | **yes, this is the one** |
+| `main` | `curriculum/` promoted to the repo root, so a plain clone opens as a WPILib project | no — generated |
+| `website` | `site/` promoted to the root, shaped for a static host | no — generated |
 
-`repo-tutorial` no longer exists as a name. `git reflog` still shows the rename if
-you want the history.
+`main` and `website` are rebuilt from `dev` by `tools/publish-branches.sh` and are
+overwritten on every run, so a commit made directly to either is lost. `dev` is
+the only source of truth.
+
+`repo-tutorial` no longer exists; `git reflog` still shows the rename if you want
+the history.
 
 ---
 

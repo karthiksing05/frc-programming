@@ -42,16 +42,7 @@ set -euo pipefail
 REPO="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 cd "$REPO"
 
-# The everything-branch. It was created as `repo-tutorial`, renamed to `dev` at
-# one point, and the name has been ambiguous since. Prefer `repo-tutorial` and
-# fall back to `dev`, so the script works whichever one you have.
-if git rev-parse --verify --quiet repo-tutorial >/dev/null; then
-  SOURCE_BRANCH="repo-tutorial"
-  MIRROR_BRANCH="dev"
-else
-  SOURCE_BRANCH="dev"
-  MIRROR_BRANCH=""
-fi
+SOURCE_BRANCH="dev"
 
 targets=("${@:-}")
 if [[ -z "${targets[0]:-}" ]]; then
@@ -302,25 +293,6 @@ for t in "${targets[@]}"; do
 done
 
 git switch --quiet "$START_BRANCH"
-
-# ─── Keep the alias branch in step ──────────────────────────────────────────
-# `dev` and `repo-tutorial` are two names for the same everything-branch. Fast
-# -forward the alias so they cannot drift apart — but only if it is strictly
-# behind, so a commit made on the alias by mistake is never thrown away.
-PUSH_LIST="$SOURCE_BRANCH ${targets[*]}"
-if [[ -n "$MIRROR_BRANCH" ]] && git rev-parse --verify --quiet "$MIRROR_BRANCH" >/dev/null; then
-  if [[ "$(git rev-parse "$MIRROR_BRANCH")" == "$(git rev-parse "$SOURCE_BRANCH")" ]]; then
-    PUSH_LIST="$PUSH_LIST $MIRROR_BRANCH"
-  elif git merge-base --is-ancestor "$MIRROR_BRANCH" "$SOURCE_BRANCH"; then
-    git branch --force "$MIRROR_BRANCH" "$SOURCE_BRANCH"
-    echo "  ✓ $MIRROR_BRANCH fast-forwarded to $SOURCE_BRANCH"
-    PUSH_LIST="$PUSH_LIST $MIRROR_BRANCH"
-  else
-    echo "  ! $MIRROR_BRANCH has commits that $SOURCE_BRANCH does not — left alone."
-    echo "    Merge them into $SOURCE_BRANCH; both names are meant to be the same branch."
-  fi
-fi
-
 echo
 echo "Done. Publish with:"
-echo "    git push origin $PUSH_LIST"
+echo "    git push origin $SOURCE_BRANCH ${targets[*]}"
