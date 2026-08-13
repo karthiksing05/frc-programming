@@ -96,6 +96,7 @@ nav:
       - setup/index.md
       - Working offline: setup/offline.md
       - The frcprog command: setup/frcprog.md
+      - Running the simulator: setup/simulator.md
   - Learn:
       - learn/index.md
       - "Stage 0 — Onboarding":

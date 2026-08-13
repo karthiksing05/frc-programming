@@ -56,6 +56,25 @@ the gyro changes what "forward" means, which is almost never what you wanted.
 
 **Calling `update` more than once per loop**, which double-counts wheel travel.
 
+
+## See it
+
+Setup: **[Running the simulator](../../../setup/simulator.md)**.
+
+```bash
+./tools/frcprog sim
+./tools/frcprog scope        # second terminal
+```
+
+Add a **2D Field** tab and drag `Drive/Pose` onto it. Drive around and watch the
+robot track.
+
+Sign errors are obvious here and invisible in a number: drive forward and the robot
+should move up the field, not sideways or backwards.
+
+Then plot the pose X and Y on a Line Graph and drive a square. You should see the
+two traces trade off cleanly, and end near where you started.
+
 ## Done
 
 Pose updates correctly, `resetPose` works, and `Drive/Pose` renders on the field

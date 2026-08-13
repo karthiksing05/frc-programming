@@ -63,10 +63,27 @@ looks like physics and is bookkeeping.
 **Skipping optimize**, so modules take the long way and the robot lurches on every
 direction change.
 
+
 ## See it
 
-AdvantageScope has a **Swerve** tab that draws four arrows. Publish your
-`SwerveModuleState[]` and drop it on. Wrong-direction modules are instantly obvious.
+Setup: **[Running the simulator](../../../setup/simulator.md)**.
+
+```bash
+./tools/frcprog sim
+./tools/frcprog scope        # second terminal
+```
+
+AdvantageScope has a **Swerve** tab built for this. Add it with **+**, then drag
+your published `SwerveModuleState[]` onto it.
+
+You get four arrows, one per module, showing direction and speed.
+
+- Push forward: all four point the same way, same length
+- Turn in place: all four tangential to the circle, forming a pinwheel
+- Strafe: all four point sideways
+
+A module pointing somewhere unexpected is instantly visible here and nearly
+impossible to spot in numbers. Add a **2D Field** tab with the pose alongside it.
 
 ## Done
 

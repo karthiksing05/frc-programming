@@ -34,50 +34,132 @@ operator.rightBumper().whileTrue(scoreCommand());
 Four checks. Number 2 watches the whole run loop by loop and fails if the roller
 fires before the flywheels are up to speed.
 
-## The operators
+## How it works
 
-| Operator | Means |
-|---|---|
-| `a.andThen(b)` | a, then b when a finishes |
-| `a.alongWith(b)` | both at once, done when **both** finish |
-| `a.raceWith(b)` | both at once, done when **either** finishes |
-| `a.deadlineFor(b)` | both, done when **a** finishes |
-| `a.until(cond)` | a until the condition is true |
-| `a.withTimeout(t)` | a for at most t seconds |
+### Compositions are commands
 
-`alongWith` here, because the flywheels must keep spinning *while* the roller
-feeds. `andThen` would spin up, stop, then feed into slowing wheels.
+`a.andThen(b)` does not run anything. It returns a **new Command** that, when
+scheduled, runs `a` then `b`.
 
-## Two rules
+That is why they nest arbitrarily. A composition is a command, so it can be an
+argument to another composition. The whole tree is scheduled as one unit and
+cancelled as one unit.
 
-**Never `Thread.sleep` or `Timer.delay`.** Robot code runs on one thread. Sleeping
-stops every subsystem's `periodic()`, stops odometry, stops the watchdog being fed.
-The robot goes deaf while the driver pushes a stick nothing is reading.
-`Commands.waitSeconds` and `waitUntil` yield instead. Check 4 greps for both.
+### The operators
 
-**Wait for the condition, not a duration.** `waitUntil(flywheels::isReadyToShoot)`,
-not `waitSeconds(0.5)`. Half a second is right for one battery at one temperature.
-Ask the mechanism and it is right every time.
+| Operator | Runs | Finishes when |
+|---|---|---|
+| `a.andThen(b)` | a, then b | b finishes |
+| `a.alongWith(b)` | both at once | **both** finish |
+| `a.raceWith(b)` | both at once | **either** finishes |
+| `a.deadlineFor(b)` | both at once | **a** finishes |
+| `a.until(cond)` | a | cond becomes true |
+| `a.withTimeout(t)` | a | t seconds elapse |
 
-**And bound it anyway.** `isReadyToShoot` depends on an encoder. If that wire comes
-loose, `waitUntil` waits forever holding both subsystems. Anything that waits on a
-sensor gets a timeout.
+Read the one you wrote aloud: *spin the flywheels up, and alongside that, wait until
+they are ready and then run the roller for four tenths of a second, and give the
+whole thing a second and a half.*
 
-## Why it lives in RobotContainer
+That is the sentence at the top of this page, with the same structure.
+
+??? question "Predict: why alongWith and not andThen for the outer step?"
+
+    ```java
+    return flywheels.spinUpCommand()
+        .andThen(roller.ejectCommand().withTimeout(0.4));
+    ```
+
+    `andThen` waits for the first command to **finish**. `spinUpCommand()` never
+    finishes on its own; it holds the target until cancelled.
+
+    So the roller step is never reached. The shooter spins forever and nothing is
+    ever fed.
+
+    Even if it did finish, you would then be feeding a game piece into wheels that
+    had already stopped being commanded and were slowing down.
+
+    `alongWith` keeps the flywheels running **during** the feed, which is what the
+    mechanism needs.
+
+### Requirements compose too
+
+The composition requires the union of what its parts require: flywheels and roller.
+
+If anything else needs either subsystem while this is running, the scheduler
+cancels the whole composition rather than letting half of it continue. That is
+usually what you want, and it is worth knowing it is happening.
+
+### Never block the thread
+
+Robot code runs on **one** thread.
+
+```java
+Thread.sleep(500);   // never
+Timer.delay(0.5);    // never
+```
+
+Sleeping stops every subsystem's `periodic()`, stops odometry updating, stops
+NetworkTables publishing, and stops the watchdog being fed. The robot goes deaf for
+half a second while the driver pushes a stick nothing is reading.
+
+`Commands.waitSeconds(t)` and `Commands.waitUntil(cond)` are commands that report
+"not finished yet" each loop and let everything else carry on. Check 4 greps your
+source for both blocking versions.
+
+### Wait for the condition, not the clock
+
+`waitUntil(flywheels::isReadyToShoot)`, not `waitSeconds(0.5)`.
+
+Half a second is right for one battery, at one temperature, at one target speed. On
+a sagging battery spin-up takes longer and the shot goes short. Asking the mechanism
+is right every time.
+
+??? info "But bound it anyway"
+
+    `isReadyToShoot` depends on an encoder. If that wire comes loose mid-match,
+    `waitUntil` waits forever, holding both subsystems, until somebody power-cycles
+    the robot.
+
+    **Anything that waits on a sensor gets a timeout.** A broken sensor should cost
+    you one scoring cycle, not the rest of the match.
+
+    That is what `.withTimeout(1.5)` on the outside is doing. It is not there for the
+    happy path.
+
+### Why this lives in RobotContainer
 
 The sequence needs two subsystems. You could put `scoreWith(Flywheels f)` on the
-roller. Do not. Once a subsystem holds a reference to another you cannot reason
-about either alone, or test either alone, and the dependency graph grows edges
-nobody drew.
+roller instead. Do not.
+
+Once a subsystem holds a reference to another, you cannot reason about either
+alone, you cannot test either alone, and the dependency graph grows edges nobody
+drew deliberately. Within a season it becomes a thing nobody can hold in their head.
+
+Cross-subsystem behaviour lives in one file, where you can see all of it.
 
 ## See it
 
 ```bash
 ./tools/frcprog sim
+./tools/frcprog scope        # second terminal
 ```
 
-Plot `Flywheels/TargetRPM` and `ActualRPM`, hold the right bumper, watch the roller
-kick in where the two traces meet.
+Setup: **[Running the simulator](../../../setup/simulator.md)**.
+
+Plot three signals on one graph: `Flywheels/TargetRPM`, `Flywheels/ActualRPM`, and
+the roller output.
+
+Hold your right-bumper key and watch the sequence unfold:
+
+1. Target jumps to 3000 immediately
+2. Actual climbs toward it over about half a second
+3. The roller stays at 0 the whole time
+4. The moment actual crosses the ready threshold, the roller kicks to −0.6
+5. 0.4 s later the roller stops
+6. Everything winds down
+
+That staircase is your composition drawn in time. If the roller trace moves at step
+1 instead of step 4, your `waitUntil` is in the wrong place.
 
 ## Done
 
