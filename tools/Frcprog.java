@@ -99,6 +99,7 @@ public final class Frcprog {
         case "reset" -> cmdReset(rest);
         case "progress" -> cmdProgress();
         case "doctor" -> System.exit(cmdDoctor());
+        case "new-lesson" -> cmdNewLesson(List.of(rest));
         case "help", "-h", "--help" -> usage();
         default -> {
           System.err.println(red("Unknown command: " + command));
@@ -141,6 +142,9 @@ public final class Frcprog {
             "  " + cyan("frcprog reset <lesson>") + "      restore the starter code for a lesson",
             "  " + cyan("frcprog solution <lesson>") + "   overwrite with the reference answer",
             "  " + cyan("frcprog doctor") + "              check your install before blaming code",
+            "",
+            bold("Writing lessons") + dim("  (mentors and curriculum authors)"),
+            "  " + cyan("frcprog new-lesson <NN>-<slug>") + "  scaffold a lesson that already lints",
             "",
             dim("  <lesson> can be an id (07) or a slug (07-tank-drive)."),
             dim("  Everything here works with no network connection."),
@@ -995,6 +999,259 @@ public final class Frcprog {
    * none of them are Java. This command knows them all, checks them in order, and says what to do —
    * because the alternative is a mentor rediscovering the same six problems every September.
    */
+  /**
+   * Scaffold a new lesson that already satisfies {@code ./gradlew checkLessons}.
+   *
+   * <p>The linter is strict on purpose — required headings, required manifest fields, every path in
+   * {@code edits} and every class in {@code tests} existing on disk. Written by hand that is a
+   * twenty-minute fight with an error list. This emits a skeleton that passes on the first run, so
+   * the author spends their time on the prose instead.
+   *
+   * <p>For a graded lesson it insists you name the file the student edits and the JUnit class that
+   * grades them. Those are the two decisions that determine whether a lesson teaches anything, and
+   * defaulting them would only mean guessing wrong quietly.
+   */
+  private static void cmdNewLesson(List<String> args) throws IOException {
+    String dirName = null, title = null, testFqcn = null, editPath = null, stage = null;
+    boolean graded = false;
+    int minutes = 30;
+    for (int i = 0; i < args.size(); i++) {
+      String a = args.get(i);
+      switch (a) {
+        case "--graded" -> graded = true;
+        case "--title" -> title = args.get(++i);
+        case "--test" -> testFqcn = args.get(++i);
+        case "--edits" -> editPath = args.get(++i);
+        case "--stage" -> stage = args.get(++i);
+        case "--minutes" -> minutes = Integer.parseInt(args.get(++i));
+        default -> {
+          if (a.startsWith("-")) throw new UserError("Unknown flag " + a);
+          dirName = a;
+        }
+      }
+    }
+    if (dirName == null) {
+      throw new UserError(
+          "Usage: frcprog new-lesson <NN>-<slug> [--graded --test <FQCN> --edits <path>]");
+    }
+    if (!dirName.matches("[0-9][0-9A-Za-z]-[a-z0-9-]+")) {
+      throw new UserError(
+          "Lesson directory must look like 31-swerve-odometry (id, dash, lowercase slug); got "
+              + dirName);
+    }
+    String id = dirName.substring(0, 2).toUpperCase(Locale.ROOT);
+    if (graded && (testFqcn == null || editPath == null)) {
+      throw new UserError(
+          "A graded lesson needs --test <FQCN> (the JUnit class that grades it) and --edits <path>"
+              + " (the file the student changes). Both are checked by ./gradlew checkLessons.");
+    }
+    if (title == null) {
+      String[] words = dirName.substring(3).split("-");
+      StringBuilder sb = new StringBuilder();
+      for (String w : words) {
+        sb.append(Character.toUpperCase(w.charAt(0))).append(w.substring(1)).append(' ');
+      }
+      title = sb.toString().trim();
+    }
+    if (stage == null) stage = id;
+
+    Path dir = root.resolve("lessons").resolve(dirName);
+    if (Files.exists(dir)) throw new UserError("lessons/" + dirName + " already exists.");
+
+    List<Lesson> existing = loadLessons();
+    for (Lesson l : existing) {
+      if (l.id.equalsIgnoreCase(id)) {
+        throw new UserError("Lesson id " + id + " is already taken by " + l.dir + ".");
+      }
+    }
+    String prevDir = existing.isEmpty() ? null : existing.get(existing.size() - 1).dir;
+
+    Path testFile = null;
+    if (graded) {
+      testFile = root.resolve("src/test/java/" + testFqcn.replace('.', '/') + ".java");
+      if (!Files.exists(root.resolve(editPath))) {
+        throw new UserError(
+            "--edits points at " + editPath + ", which does not exist. Create the starter first.");
+      }
+    }
+
+    Files.createDirectories(dir);
+
+    String checkIt =
+        graded
+            ? String.join(
+                "\n",
+                "",
+                "## Check it",
+                "",
+                "```bash",
+                "./tools/frcprog check " + dirName,
+                "```",
+                "",
+                "- TODO: one bullet per assertion, in the words a student would use",
+                "",
+                "## See it",
+                "",
+                "```bash",
+                "./tools/frcprog sim",
+                "```",
+                "",
+                "TODO: what to open in the Simulation GUI or AdvantageScope, and what a correct",
+                "run looks like versus a wrong one.",
+                "")
+            : "";
+
+    Files.writeString(
+        dir.resolve("README.md"),
+        String.join(
+            "\n",
+            "# " + id + " — " + title,
+            "",
+            "> **Stage " + stage + " · ~" + minutes + " min"
+                + (prevDir == null ? "" : " · after [" + prevDir + "](../" + prevDir + ")") + "**",
+            "",
+            "TODO: one paragraph. What goes wrong on a real robot without this? Lead with the",
+            "problem, not the feature — the concept lands when it is the answer to something.",
+            "",
+            "## Do this",
+            "",
+            "1. TODO",
+            "2. TODO",
+            checkIt,
+            "## Done",
+            "",
+            "TODO: how the student knows they are finished, and what comes next.",
+            ""));
+
+    Files.writeString(
+        dir.resolve("hints.md"),
+        String.join(
+            "\n",
+            "# Hints — " + id + " " + title,
+            "",
+            "## Hint 1 — Where to start",
+            "",
+            "TODO: a nudge toward the right question. No code.",
+            "",
+            "## Hint 2 — The shape of the answer",
+            "",
+            "TODO: describe the structure. Still no code.",
+            "",
+            "## Hint 3 — Almost there",
+            "",
+            "TODO: near-answer scaffolding with the key part left blank.",
+            "",
+            "## Hint 4 — Reference answer",
+            "",
+            "<details>",
+            "<summary>The answer</summary>",
+            "",
+            "```java",
+            "// TODO",
+            "```",
+            "",
+            "TODO: and a version that looks right but is not, with the reason why.",
+            "",
+            "</details>",
+            ""));
+
+    StringBuilder j = new StringBuilder("{\n");
+    j.append("  \"slug\": \"").append(dirName).append("\",\n");
+    j.append("  \"title\": \"").append(title).append("\",\n");
+    j.append("  \"stage\": \"").append(stage).append("\",\n");
+    if (graded) j.append("  \"tag\": \"lesson-").append(id).append("\",\n");
+    j.append("  \"prerequisites\": [")
+        .append(prevDir == null ? "" : "\n    \"" + prevDir + "\"\n  ")
+        .append("],\n");
+    if (graded) {
+      j.append("  \"edits\": [\n    \"").append(editPath).append("\"\n  ],\n");
+      j.append("  \"tests\": [\n    \"").append(testFqcn).append("\"\n  ],\n");
+    }
+    j.append("  \"estimatedMinutes\": ").append(minutes).append("\n}\n");
+    Files.writeString(dir.resolve("lesson.json"), j.toString());
+
+    if (graded && !Files.exists(testFile)) {
+      Files.createDirectories(testFile.getParent());
+      String pkg = testFqcn.substring(0, testFqcn.lastIndexOf('.'));
+      String cls = testFqcn.substring(testFqcn.lastIndexOf('.') + 1);
+      Files.writeString(
+          testFile,
+          String.join(
+              "\n",
+              "package " + pkg + ";",
+              "",
+              "import static org.junit.jupiter.api.Assertions.assertEquals;",
+              "",
+              "import org.junit.jupiter.api.DisplayName;",
+              "import org.junit.jupiter.api.Tag;",
+              "import org.junit.jupiter.api.Test;",
+              "",
+              "/**",
+              " * Rubric for lesson " + id + " — " + title + ".",
+              " *",
+              " * <p>Write the assertions before the lesson prose. A rubric is the specification;"
+                  + " the prose",
+              " * only has to get the student to it. Every @DisplayName is shown to the student when"
+                  + " it fails,",
+              " * so write them as advice (\"a small reading should collapse to zero\"), not as"
+                  + " labels (\"test 1\").",
+              " */",
+              "@Tag(\"lesson\")",
+              "@Tag(\"lesson-" + id + "\")",
+              "class " + cls + " {",
+              "",
+              "  @Test",
+              "  @DisplayName(\"1. TODO: say what should be true, in the student's words\")",
+              "  void firstAssertion() {",
+              "    // This deliberately fails until you write the rubric. A lesson whose rubric",
+              "    // passes on the untouched starter grades nothing at all.",
+              "    assertEquals(1, 0, \"TODO: replace with a real assertion\");",
+              "  }",
+              "}",
+              ""));
+    }
+
+    // Append to the manifest by insertion rather than reserialising, so the
+    // existing hand-tuned formatting and comments-in-description survive.
+    Path manifest = root.resolve("lessons/manifest.json");
+    String text = Files.readString(manifest);
+    int close = text.lastIndexOf("\n  ]");
+    if (close < 0) throw new UserError("Could not find the end of the lessons array in manifest.json");
+    String entry =
+        ",\n    {\n"
+            + "      \"id\": \"" + id + "\",\n"
+            + "      \"dir\": \"" + dirName + "\",\n"
+            + "      \"title\": \"" + title + "\",\n"
+            + "      \"stage\": \"" + stage + "\",\n"
+            + "      \"track\": \"core\",\n"
+            + "      \"graded\": " + graded + ",\n"
+            + "      \"estimatedMinutes\": " + minutes + "\n"
+            + "    }";
+    Files.writeString(manifest, text.substring(0, close) + entry + text.substring(close));
+
+    System.out.println();
+    System.out.println(green("  ✓ ") + bold("lessons/" + dirName) + " created");
+    System.out.println("     " + dim("README.md · hints.md · lesson.json"));
+    if (graded) {
+      System.out.println(green("  ✓ ") + "src/test/java/" + testFqcn.replace('.', '/') + ".java");
+      System.out.println("     " + dim("tagged lesson / lesson-" + id + ", failing on purpose"));
+    }
+    System.out.println(green("  ✓ ") + "lessons/manifest.json updated");
+    System.out.println();
+    System.out.println(bold("  Next"));
+    System.out.println("     1. Write the rubric assertions first — they are the specification.");
+    System.out.println("     2. Fill the TODOs in README.md and hints.md.");
+    if (graded) {
+      System.out.println("     3. Add the answer to .meta/make-exemplars.py, then:");
+      System.out.println("           " + cyan("python3 .meta/make-exemplars.py"));
+      System.out.println("           " + cyan("bash .meta/verify-rubrics.sh"));
+      System.out.println(
+          "        " + dim("which proves it fails on the starter and passes on the answer."));
+    }
+    System.out.println("     " + (graded ? "4" : "3") + ". " + cyan("./gradlew checkLessons"));
+    System.out.println();
+  }
+
   private static int cmdDoctor() throws Exception {
     System.out.println();
     System.out.println(bold("  frcprog doctor"));

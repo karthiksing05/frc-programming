@@ -159,18 +159,33 @@ their screens.
 
 ## Adding your own lessons
 
-The machinery is designed for it.
+The machinery is designed for it. Start with the generator, which writes a lesson
+that already passes `checkLessons` — the linter is strict, and hand-rolling a
+conforming lesson is otherwise twenty minutes of arguing with an error list:
 
-1. Add an entry to `lessons/manifest.json`. A `lessonNN` Gradle task appears
-   automatically for graded lessons.
-2. Create `lessons/<NN>-<slug>/` with `README.md`, `hints.md`, `lesson.json`. Copy
-   the shape from a nearby lesson.
-3. Add starter code with a `TODO (LESSON NN)` comment.
-4. Add a rubric in `src/test/java/`, tagged `@Tag("lesson")` **and**
-   `@Tag("lesson-NN")`. The first tag keeps it out of `./gradlew build`; the second
-   makes `frcprog check` find it.
-5. Add the answer as a patch in `.meta/make-exemplars.py`, then run it.
-6. Validate:
+```bash
+./tools/frcprog new-lesson 31-swerve-odometry --graded \
+    --test frc.robot.util.SwerveOdometryTest \
+    --edits src/main/java/frc/robot/util/SwerveOdometry.java
+```
+
+That creates the lesson directory, a rubric class tagged `@Tag("lesson")` **and**
+`@Tag("lesson-31")`, and the manifest entry — so the `lesson31` Gradle task exists
+immediately. The rubric it writes fails on purpose: a lesson starts red or it is
+not a lesson.
+
+For a graded lesson it makes you name the test class and the file the student
+edits, rather than defaulting them. Those two decide whether the lesson teaches
+anything, and a wrong guess would be silent.
+
+Then:
+
+1. Write the starter code with a `TODO (LESSON NN)` comment.
+2. **Write the rubric assertions before the prose.** The rubric is the
+   specification; the README only has to walk a student to it.
+3. Fill the TODOs in `README.md` and `hints.md`.
+4. Add the answer as a patch in `.meta/make-exemplars.py`, then run it.
+5. Validate:
 
 ```bash
 ./gradlew checkLessons          # structure, required sections, cross-references
@@ -209,10 +224,30 @@ it. `verify-rubrics.sh` checks both halves and refuses to let that ship.
 
 WPILib ships a new version every January and it is not backwards-compatible.
 
-1. Bump `wpiVersion` in `gradle.properties` and the GradleRIO version in
-   `build.gradle`.
+Install the new WPILib, then:
+
+```bash
+./gradlew makeRebase           # what would change, and where
+./gradlew makeRebase -Papply   # write it
+```
+
+The season is written down in six files — `build.gradle`, `gradle.properties`,
+`settings.gradle`, `.wpilib/wpilib_preferences.json`, `.vscode/settings.json`, and
+every vendordep. Miss one and the project builds on your laptop and fails on a
+student's. `makeRebase` reads the year and GradleRIO version out of your actual
+WPILib install rather than taking your word for it, and edits an explicit list of
+files rather than doing a blind find-and-replace, so a "2026" sitting in prose is
+left alone.
+
+It stops there on purpose. Then:
+
+1. Re-download each vendordep from its vendor's URL for the new season —
+   `makeRebase` retargets the year but cannot know the new dependency versions.
 2. `./gradlew build` and triage what breaks.
-3. `.meta/verify-rubrics.sh` — every lesson, both halves.
+3. `.meta/verify-rubrics.sh` — every lesson, both halves. **This is the one that
+   matters.** WPILib changes sim physics and controller behaviour between seasons,
+   so a gain that was tuned to pass last year can fail this year — and worse, a
+   rubric that now passes on the untouched starter grades nothing.
 4. Fix, re-verify, and tag a release for the season.
 
 Budget two to four weeks of part-time work. Skipping it once is how a curriculum
