@@ -1,38 +1,30 @@
-# Lesson 24 — PhotonVision single-tag
+# Lesson 24 — AprilTags
 
-> **Stage 2C · ~45 minutes · Prerequisite: 23-trajectories**
-> **Extension lesson — needs one online build. See `lessons/EXTENSIONS.md`.**
+**Stage 2C · 45 min · Needs: 23**
 
-!!! note "This is a guided lesson"
+!!! warning "Needs one online build"
 
-    Lessons 01–16 hand you a rubric and grade you. From here on, the work is
-    open-ended: there is a clear goal, working code to model yourself on, and no
-    automated grader. That is not a downgrade — it is what programming looks like
-    once somebody stops writing exercises for you.
+    This lesson uses a vendor library. See `lessons/EXTENSIONS.md` for the
+    four-step install. Everything else in the curriculum runs offline.
 
-    Your check is the simulator and AdvantageScope. If the mechanism does what the
-    lesson describes, and you can point at the plot that proves it, you are done.
+!!! note "Guided lesson"
 
-Odometry knows how far the wheels turned. It does not know that you are three
-degrees off the goal, or that a collision moved you half a metre. A camera looking at
-an AprilTag does.
+    No rubric from here on. Clear goal, working code to copy from, and the
+    simulator as your check. If it does what this page describes and you can point
+    at the plot that proves it, you are done.
 
-## What you'll learn
+Odometry cannot tell you that you are three degrees off the goal. A camera can.
 
-1. What an AprilTag is and why FRC fields are covered in them.
-2. Build a `VisionIO` layer, the same shape as lesson 16's.
-3. Simulate a camera, so this lesson runs on a laptop.
-4. Feed a vision measurement into the pose estimator from lesson 22.
+## Do this
 
-## Before you start
+1. Install the PhotonVision vendordep
+2. **Get the simulated camera producing targets first.** `VisionSystemSim` plus the
+   field layout will show you what it sees. If it sees nothing, no amount of
+   estimator work helps.
+3. Build a `VisionIO` layer, same shape as lesson 16's
+4. Feed measurements in one at a time and watch the pose on the field view
 
-Needs the PhotonVision vendordep. See `lessons/EXTENSIONS.md`.
-
-## What you'll do
-
-An AprilTag is a printed square with a pattern that encodes an ID. The field layout
-tells you exactly where each tag is. See one in a camera image and you can compute
-where the camera must be — and therefore where the robot is.
+The core:
 
 ```java
 var result = camera.getLatestResult();
@@ -40,47 +32,45 @@ if (result.hasTargets()) {
   var target = result.getBestTarget();
   Optional<Pose3d> tagPose = fieldLayout.getTagPose(target.getFiducialId());
   if (tagPose.isPresent()) {
-    Pose3d robotPose =
-        PhotonUtils.estimateFieldToRobotAprilTag(
-            target.getBestCameraToTarget(), tagPose.get(), cameraToRobot);
+    Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(
+        target.getBestCameraToTarget(), tagPose.get(), cameraToRobot);
     drive.addVisionMeasurement(robotPose.toPose2d(), result.getTimestampSeconds());
   }
 }
 ```
 
-### Vision *corrects* odometry, it does not replace it
+## Three things that matter
 
-`addVisionMeasurement`, not `resetPose`. Vision is noisy, arrives late, and
-occasionally lies — a reflection, a partially-occluded tag, a tag someone left on a
-cart in the pit. Slamming the pose to a vision reading every frame produces a robot
-whose position jumps around, and anything using that pose jumps with it.
+**`addVisionMeasurement`, not `resetPose`.** Vision is noisy, late, and occasionally
+lies: a reflection, a half-occluded tag, a tag someone left on a cart. Slamming the
+pose every frame gives you a robot that jumps, and everything using that pose jumps
+too. Fusing means good measurements pull gently and bad ones get outvoted.
 
-Fusing it in means good measurements pull you gently toward truth and bad ones get
-outvoted.
+**Reject obvious nonsense** before accepting anything:
 
-### Reject the obvious nonsense
+- pose outside the field
+- tag too far to trust
+- high ambiguity score
 
-Before accepting any measurement:
+Single-tag poses have a real mathematical ambiguity: two poses can produce the same
+image. That is why lesson 25 exists.
 
-- Is the pose inside the field?
-- Is the tag close enough to be trustworthy?
-- Is the ambiguity score low? (Single-tag poses have a genuine mathematical
-  ambiguity — two poses can produce the same image.)
+**Pass the timestamp.** A measurement describes where you were when the shutter
+opened, tens of milliseconds ago. The timestamp lets the estimator rewind, insert
+it, and replay forward. Ignore it and you correct your current position with old
+information, which at speed makes things worse.
 
-That ambiguity is the main reason lesson 25 exists.
+## Watch out for
 
-### Latency
+**A wrong camera-to-robot transform.** Every pose is then offset by exactly that
+error, consistently, which reads as "vision is broken".
 
-A vision measurement describes where you were when the shutter opened, tens of
-milliseconds ago. Passing the timestamp is what lets the estimator rewind, insert the
-measurement, and replay forward. Ignore it and you are correcting your current
-position with old information — which, at speed, makes things worse rather than
-better.
+**Using `Timer.getFPGATimestamp()`** instead of the result's own timestamp.
 
-## Done?
+## Done
 
-The simulated camera sees a tag, the pose estimate improves when it does, and
-obviously-wrong measurements are rejected.
+The simulated camera sees a tag, the estimate improves when it does, and bad
+measurements are rejected.
 
 ```bash
 ./tools/frcprog next

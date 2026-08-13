@@ -81,26 +81,25 @@ routines, live telemetry, and a test suite that proves all of it.
 ./tools/frcprog sim                  # watch it move
 ```
 
-Stuck? Four hints, escalating, with the answer only in the last one.
+Stuck? Four hints, escalating. The answer is only in the last one.
 
-Every lesson page on this site is the same text, with the real source file and the
-real rubric alongside it. The site includes those files directly out of the project,
-so it cannot drift from what you are editing.
+Every lesson page here shows the same text plus the real source file and the real
+rubric. Those are included straight from the project, so this site cannot drift
+from what you are editing.
 
 ---
 
 ## Why offline
 
-Because the alternative fails at exactly the wrong moment.
+The alternative fails at exactly the wrong moment.
 
 A first team meeting is thirty students on one school access point. A build-season
-Saturday is a district captive portal that blocks Maven Central. A competition pit
-has no useful internet at all.
+Saturday is a district captive portal blocking Maven Central. A competition pit has
+no useful internet at all.
 
-Every dependency this curriculum needs already lives inside your WPILib install, and
-Gradle is configured to run offline for every build — including the ones VS Code's
-WPILib buttons fire. Five lessons teach vendor libraries and need one online build
-each; they are marked, and they say so.
+Everything this curriculum needs is already inside your WPILib install, and Gradle
+runs offline for every build, including the ones VS Code's buttons fire. Five
+lessons teach vendor libraries and need one online build each. They are marked.
 
 [How the offline guarantee works :material-arrow-right:](setup/offline.md)
 
@@ -110,16 +109,9 @@ each; they are marked, and they say so.
 
 Worth knowing up front.
 
-**No real hardware.** Everything is simulation. You will not wire a motor or flash a
-roboRIO here — that needs an actual robot and a mentor, and mixing it in would have
-doubled the install friction.
-
-**No Git beyond three commands.** Enough to never lose work. Branching and pull
-requests are real and useful and are not this.
-
-**Java only.** WPILib supports C++ and Python; Java is the FRC majority and has the
-best library support.
-
-**Tank drive before swerve.** Every competitive team runs swerve, and starting there
-would mean four modules of kinematics before you have written a subsystem. Swerve is
-Stage 2B.
+| Not covered | Why |
+|---|---|
+| Real hardware | Everything is simulation. Wiring a motor needs an actual robot and a mentor. |
+| Git beyond three commands | Enough to never lose work. The [handbook](handbook/git.md) has the rest. |
+| C++ and Python | WPILib supports both. Java is the FRC majority with the best library support. |
+| Swerve before tank drive | Swerve first means four modules of kinematics before you have written a subsystem. It is Stage 2B. |
