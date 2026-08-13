@@ -95,6 +95,7 @@ nav:
   - Set up:
       - setup/index.md
       - Working offline: setup/offline.md
+      - The feedback loop: setup/loop.md
       - The frcprog command: setup/frcprog.md
       - Running the simulator: setup/simulator.md
   - Learn:

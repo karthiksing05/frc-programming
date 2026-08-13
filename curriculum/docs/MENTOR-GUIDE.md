@@ -25,6 +25,22 @@ Most interventions should be *ask*. Almost none should be *do*.
 
 ---
 
+## Get them running `watch` on day one
+
+```bash
+./tools/frcprog watch
+```
+
+It re-runs the current lesson's rubric on every save and advances when one passes.
+Students who use it iterate several times a minute. Students who do not will edit
+for ten minutes, run a check, and get five failures at once with no idea which
+change caused which.
+
+The single highest-leverage thing you can say in the first session is "leave that
+running in the other terminal".
+
+---
+
 ## Pacing
 
 The `estimatedMinutes` in each lesson is a median for a motivated beginner working
@@ -87,8 +103,8 @@ Roughly in order — try each before moving down.
    model they are testing, which is often where the bug is.
 3. **"Where would you look to find out?"** Points at the plot, the rubric, the hints —
    and builds the habit of having somewhere to look.
-4. **"Try hint 1."** The hints are written to escalate; sending them there is not
-   giving up.
+4. **"Run `frcprog hint`."** It gives one hint and remembers. Sending them there is
+   not giving up. Discourage `hints` (plural), which prints the answer.
 5. **Describe the fix in words.** Not the code. "You need to read the joystick inside
    the lambda rather than outside it."
 6. **Only then**, if they have been stuck fifteen minutes and are demoralised, sit
