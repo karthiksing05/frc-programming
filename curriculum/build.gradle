@@ -309,6 +309,111 @@ tasks.register('checkLessons') {
     }
 }
 
+// ─── `./gradlew makeRebase` — the January season bump ───────────────────────
+// WPILib ships a new season every kickoff and makes breaking changes with it.
+// The version is written down in seven places; miss one and the project builds
+// on your laptop and fails on a student's. This finds all seven, tells you
+// which ones disagree with what you actually have installed, and with -Papply
+// rewrites them.
+//
+// It deliberately does NOT run the validation for you. Bumping WPILib can
+// change PID behaviour, sim physics, and deprecations, so every rubric has to
+// be re-proven against the reference answers afterwards — see the checklist it
+// prints, and process/Path-B-Implementation.md §6.1.
+tasks.register('makeRebase') {
+    group = 'lessons'
+    description = 'Retarget the project at a newly installed WPILib season (-Papply to write)'
+    doLast {
+        def apply = project.hasProperty('apply')
+
+        // What is actually installed?
+        def home = org.gradle.internal.os.OperatingSystem.current().isWindows()
+                ? new File(System.getenv('PUBLIC') ?: 'C:\\Users\\Public', 'wpilib')
+                : new File(System.getProperty('user.home'), 'wpilib')
+        def years = (home.listFiles() ?: [] as File[])
+                .findAll { it.directory && it.name ==~ /\d{4}/ }
+                .collect { it.name }.sort()
+        if (!years) {
+            throw new GradleException("No WPILib installation found under ${home}. Install WPILib first.")
+        }
+        def newYear = years.last()
+        def grDir = new File(home, "${newYear}/maven/edu/wpi/first/GradleRIO")
+        def versions = (grDir.listFiles() ?: [] as File[])
+                .findAll { it.directory && it.name ==~ /\d{4}\.\d+\.\d+/ }
+                .collect { it.name }.sort()
+        if (!versions) {
+            throw new GradleException("WPILib ${newYear} is installed but its offline Maven repo has no "
+                    + "GradleRIO under ${grDir}. Re-run the WPILib installer and choose the full install.")
+        }
+        def newVersion = versions.last()
+
+        def curYear = file('settings.gradle').text.find(/frcYear = '(\d{4})'/) { m, y -> y }
+        def curVersion = wpiVersion
+
+        logger.lifecycle("  installed   WPILib ${newYear}  ·  GradleRIO ${newVersion}")
+        logger.lifecycle("  project     WPILib ${curYear}  ·  GradleRIO ${curVersion}")
+        logger.lifecycle("")
+
+        if (newYear == curYear && newVersion == curVersion) {
+            logger.lifecycle("  ✓ Already targeting the newest installed season. Nothing to do.")
+            return
+        }
+
+        // Every place the season is written down. Kept explicit rather than a
+        // blind find-and-replace so a stray "2026" in prose is never rewritten.
+        def edits = [
+                ['build.gradle'                    , curVersion, newVersion],
+                ['gradle.properties'               , curVersion, newVersion],
+                ['settings.gradle'                 , curYear   , newYear   ],
+                ['.wpilib/wpilib_preferences.json' , curYear   , newYear   ],
+                ['.vscode/settings.json'           , curYear   , newYear   ],
+        ]
+        (file('vendordeps').listFiles() ?: [] as File[])
+                .findAll { it.name.endsWith('.json') }
+                .each { edits << ["vendordeps/${it.name}".toString(), curYear, newYear] }
+
+        def touched = 0, missing = []
+        edits.each { path, from, to ->
+            def f = file(path)
+            if (!f.exists()) { missing << path; return }
+            def before = f.text
+            def after = before.replace(from, to)
+            if (before == after) return
+            def n = before.count(from)
+            touched++
+            logger.lifecycle("  ${apply ? '✓' : '·'} ${path}  (${n} occurrence${n == 1 ? '' : 's'}: ${from} → ${to})")
+            if (apply) f.text = after
+        }
+        missing.each { logger.lifecycle("  ! ${it} not found — check it by hand") }
+
+        logger.lifecycle("")
+        if (!apply) {
+            logger.lifecycle("  Dry run. Re-run with -Papply to write these changes:")
+            logger.lifecycle("      ./gradlew makeRebase -Papply")
+            return
+        }
+        if (touched == 0) {
+            logger.lifecycle("  Nothing changed.")
+            return
+        }
+
+        logger.lifecycle("  Vendordeps carry a version of their own that this task does NOT touch.")
+        logger.lifecycle("  Re-download each one from its vendor's ${newYear} URL before going further.")
+        logger.lifecycle("")
+        logger.lifecycle("  Then re-prove the curriculum against the new season, in this order:")
+        logger.lifecycle("      ./gradlew build              # does it still compile at all")
+        logger.lifecycle("      ./gradlew checkLessons       # lesson content still well-formed")
+        logger.lifecycle("      python3 .meta/make-exemplars.py")
+        logger.lifecycle("      bash .meta/verify-rubrics.sh # EVERY rubric fails on starter, passes on answer")
+        logger.lifecycle("      python3 .meta/audit-lessons.py")
+        logger.lifecycle("")
+        logger.lifecycle("  verify-rubrics.sh is the one that matters. WPILib changes sim physics and")
+        logger.lifecycle("  controller behaviour between seasons, so a tuned gain that passed in ${curYear}")
+        logger.lifecycle("  can fail in ${newYear}. A rubric that now passes on the untouched starter is")
+        logger.lifecycle("  worse than a failing one: it grades nothing and nobody notices.")
+    }
+}
+
 // ─── `./gradlew lessonInfo` — machine-readable task list ────────────────────
 // `frcprog` shells out to this when it needs to know what Gradle knows.
 tasks.register('lessonInfo') {

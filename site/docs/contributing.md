@@ -5,18 +5,33 @@ process, not a favour somebody has to grant you.
 
 ## Adding a lesson
 
-1. **Add an entry to `curriculum/lessons/manifest.json`.** A `lessonNN` Gradle task
-   appears automatically for graded lessons — the build reads the manifest at
-   configuration time.
-2. **Create `curriculum/lessons/<NN>-<slug>/`** with `README.md`, `hints.md`, and
-   `lesson.json`. Copy the shape from a nearby lesson.
-3. **Add starter code** with a `TODO (LESSON NN)` comment saying what to write and
-   why.
-4. **Add a rubric** in `curriculum/src/test/java/`, tagged `@Tag("lesson")` **and**
-   `@Tag("lesson-NN")`. The first tag keeps it out of `./gradlew build`, so a fresh
-   copy of the project is green; the second is what `frcprog check` filters on.
-5. **Add the answer** as a patch in `curriculum/.meta/make-exemplars.py`, then run it.
-6. **Regenerate the site page:** the lesson pages here are generated wrappers that
+Start with the generator. `checkLessons` is strict, and a hand-written lesson
+usually takes a few rounds to satisfy it:
+
+```bash
+./tools/frcprog new-lesson 31-swerve-odometry --graded \
+    --test frc.robot.util.SwerveOdometryTest \
+    --edits src/main/java/frc/robot/util/SwerveOdometry.java
+```
+
+That writes the lesson directory, a rubric class carrying both required tags, and
+the manifest entry — so the `lesson31` Gradle task exists straight away and the
+whole thing lints on the first run. The rubric it generates **fails on purpose**: a
+lesson that starts green teaches nothing.
+
+For a graded lesson you have to name the test class and the file the student edits.
+Those two decide whether the lesson teaches anything, so the generator asks instead
+of guessing.
+
+Then fill it in:
+
+1. **Write the starter code** with a `TODO (LESSON NN)` comment saying what to write
+   and why.
+2. **Write the rubric assertions before the prose.** The rubric is the
+   specification; the lesson text only has to walk a student to it.
+3. **Fill the TODOs** in `README.md` and `hints.md`.
+4. **Add the answer** as a patch in `curriculum/.meta/make-exemplars.py`, then run it.
+5. **Regenerate the site page:** the lesson pages here are generated wrappers that
    include the canonical content, so a new lesson needs its page emitted and its nav
    entry added.
 
@@ -88,10 +103,22 @@ it. The student has to choose to reveal it, which is most of what makes hints wo
 
 WPILib ships a new version every January and it is not backwards-compatible.
 
-1. Bump `wpiVersion` in `gradle.properties` and the GradleRIO version in
-   `build.gradle`.
+Install the new WPILib, then:
+
+```bash
+./gradlew makeRebase           # what would change, and where
+./gradlew makeRebase -Papply   # write it
+```
+
+The season is written down in six files, and missing one gives you a project that
+builds on your laptop and fails on a student's. `makeRebase` reads the year and
+GradleRIO version out of your actual install rather than taking your word for it.
+
+1. Re-download each vendordep from its vendor's URL for the new season —
+   `makeRebase` retargets the year but cannot know new dependency versions.
 2. `./gradlew build` and triage what breaks.
-3. `.meta/verify-rubrics.sh` — every lesson, both halves.
+3. `.meta/verify-rubrics.sh` — every lesson, both halves. WPILib changes sim physics
+   between seasons, so a gain tuned last year can fail this year.
 4. Fix, re-verify, tag a release for the season.
 
 Budget two to four weeks of part-time work. Skipping it once is how a curriculum
