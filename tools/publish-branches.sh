@@ -166,11 +166,41 @@ s = s.replace("""      base_path:
 p.write_text(s)
 PY
 
+  cat > build.sh <<'EOF'
+#!/usr/bin/env bash
+# Build the static site.
+#
+# WHY A VIRTUALENV AND NOT A BARE `pip install`
+#
+# Hosted build images increasingly ship a Python marked "externally managed"
+# (PEP 668) — Vercel's is managed by uv. Installing into it fails with:
+#
+#     error: externally-managed-environment
+#     × This environment is externally managed
+#
+# A virtualenv is unmanaged by definition, so this works on those images and on
+# an ordinary laptop without needing to detect which one it is running on.
+# It also avoids --break-system-packages, which does what its name says.
+set -euo pipefail
+
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip >/dev/null
+.venv/bin/python -m pip install -r requirements.txt
+
+# --strict so a missing snippet include fails the deploy rather than quietly
+# publishing a page with an empty code block.
+.venv/bin/mkdocs build --strict
+
+echo "Built $(find _site -name '*.html' | wc -l | tr -d ' ') pages into _site/"
+EOF
+  chmod +x build.sh
+
   cat > vercel.json <<'EOF'
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pip install -r requirements.txt && mkdocs build",
+  "buildCommand": "bash build.sh",
   "outputDirectory": "_site",
+  "installCommand": "true",
   "framework": null,
   "cleanUrls": true,
   "trailingSlash": true
@@ -199,7 +229,8 @@ docs/               the pages
 docs/examples/      the browser playgrounds, served at /examples/
 curriculum/         lesson text and robot source, included by the lesson pages
 requirements.txt    mkdocs + material + pymdown-extensions
-vercel.json         build command and output directory
+build.sh            creates a virtualenv, installs, runs mkdocs build --strict
+vercel.json         points the host at build.sh
 ```
 
 `curriculum/` is here because every lesson page **includes** the canonical lesson
@@ -226,9 +257,14 @@ Any static host works. `vercel.json` is pre-configured:
 
 | Setting | Value |
 |---|---|
-| Build command | `pip install -r requirements.txt && mkdocs build` |
+| Build command | `bash build.sh` |
 | Output directory | `_site` |
-| Install command | *(leave empty — the build command installs)* |
+| Install command | `true` (a no-op — `build.sh` installs into a virtualenv) |
+
+`build.sh` builds inside a virtualenv on purpose. Vercel's build image ships a
+Python that is "externally managed" (PEP 668), so a bare
+`pip install -r requirements.txt` fails with `externally-managed-environment`.
+A virtualenv is unmanaged, so the same script works on the host and on a laptop.
 
 Set `site_url` in `mkdocs.yml` to the deployed URL once you have it, so search
 and canonical links point at the right place.
