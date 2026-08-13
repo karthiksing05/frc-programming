@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="http://localhost:8000/handbook/command-based/">
+        <link rel="canonical" href="http://localhost:8000/setup/loop/">
       
       
-        <link rel="prev" href="../java-basics/">
+        <link rel="prev" href="../offline/">
       
       
-        <link rel="next" href="../pid-and-feedforward/">
+        <link rel="next" href="../frcprog/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Command-based - FRCProgramming</title>
+        <title>The feedback loop - FRCProgramming</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#the-command-based-framework" class="md-skip">
+        <a href="#the-feedback-loop" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Command-based
+              The feedback loop
             
           </span>
         </div>
@@ -228,11 +228,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../setup/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -272,13 +274,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../handbook/" class="md-tabs__link">
           
   
   
@@ -441,6 +441,8 @@
       
   
   
+    
+  
   
   
     
@@ -456,9 +458,14 @@
       
         
       
+        
+      
     
     
     
+      
+        
+        
       
       
         
@@ -466,18 +473,17 @@
     
     
       
-        
-        
-      
     
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
-  
-  
-  
-    <a href="../../setup/" class="md-nav__link">
-      
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -491,12 +497,294 @@
   
   
 
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Set up
   
 
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working offline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The feedback loop
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The feedback loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-see" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you see
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this shape
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why this shape">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#one-concept-per-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One concept per exercise
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instant-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instant feedback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-from-failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start from failing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hints-that-escalate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hints that escalate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-watches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it watches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-this-does-not-apply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where this does not apply
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frcprog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The frcprog command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running the simulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -583,8 +871,6 @@
       
   
   
-    
-  
   
   
     
@@ -614,26 +900,24 @@
     
     
       
-        
-        
-      
       
         
       
     
     
       
+        
+        
+      
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
+  
+  
+  
+    <a href="../../handbook/" class="md-nav__link">
+      
   
   
   <span class="md-ellipsis">
@@ -647,345 +931,12 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Handbook
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../git/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Git
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../java-basics/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Java basics
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+        <span class="md-nav__icon md-icon"></span>
       
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Command-based
+    </a>
   
 
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Command-based
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-this-page-will-cover" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What this page will cover
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#one-useful-nugget-right-now" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        One useful nugget right now
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lessons-that-cover-this-material-today" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Lessons that cover this material today
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pid-and-feedforward/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    PID & feedforward
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../io-layer/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    The IO layer
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Logging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../trajectories/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Trajectories
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vision/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Vision
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
     </li>
   
@@ -1164,10 +1115,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-this-page-will-cover" class="md-nav__link">
+  <a href="#what-you-see" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What this page will cover
+        What you see
       
     </span>
   </a>
@@ -1175,10 +1126,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#one-useful-nugget-right-now" class="md-nav__link">
+  <a href="#why-this-shape" class="md-nav__link">
     <span class="md-ellipsis">
       
-        One useful nugget right now
+        Why this shape
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why this shape">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#one-concept-per-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One concept per exercise
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instant-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instant feedback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-from-failing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start from failing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hints-that-escalate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hints that escalate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running it
       
     </span>
   </a>
@@ -1186,10 +1198,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lessons-that-cover-this-material-today" class="md-nav__link">
+  <a href="#what-it-watches" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lessons that cover this material today
+        What it watches
       
     </span>
   </a>
@@ -1197,10 +1209,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
+  <a href="#where-this-does-not-apply" class="md-nav__link">
     <span class="md-ellipsis">
       
-        See also
+        Where this does not apply
       
     </span>
   </a>
@@ -1253,7 +1265,7 @@
         <a href="../" class="md-path__link">
           
   <span class="md-ellipsis">
-    Handbook
+    Set up
   </span>
 
         </a>
@@ -1272,43 +1284,157 @@
 
 
 
-<h1 id="the-command-based-framework">The Command-Based framework</h1>
-<div class="admonition warning">
-<p class="admonition-title">Coming in Phase 2</p>
-<p>This page is a stub. The full handbook entry is authored in Phase 2 — see <a href="https://github.com/karthiksing05/FRC-Programming/blob/main/process/Implementation-Plan.md">Implementation Plan §9</a>. Until then, lessons 04–14 are the canonical reference.</p>
-</div>
-<h2 id="what-this-page-will-cover">What this page will cover</h2>
-<p>The four primitives of WPILib's command-based framework, taught as a reference (not a tutorial):</p>
-<ul>
-<li><strong>Subsystem</strong> — an abstraction over a collection of hardware that operates as one unit</li>
-<li><strong>Command</strong> — a unit of work that requires zero or more subsystems</li>
-<li><strong>Trigger</strong> — a <code>BooleanSupplier</code> wrapper that fires commands on edges</li>
-<li><strong>CommandScheduler</strong> — the runtime, the requirement system, what <code>Robot.robotPeriodic</code> actually does</li>
-</ul>
-<p>Plus the patterns: factories over subclasses, Suppliers over captured values, triggers over getters, composition operators (<code>andThen</code>, <code>alongWith</code>, <code>race</code>, <code>deadline</code>).</p>
-<h2 id="one-useful-nugget-right-now">One useful nugget right now</h2>
-<p><strong>Write factories, not Command subclasses, for stateless commands.</strong> From the <a href="https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html">WPILib docs</a>: <em>"teams should rarely need to write custom command classes."</em></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Intake</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">SubsystemBase</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Command</span><span class="w"> </span><span class="nf">intakeNote</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">run</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">motor</span><span class="p">.</span><span class="na">setVoltage</span><span class="p">(</span><span class="mf">12.0</span><span class="p">))</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">                </span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="k">this</span><span class="p">::</span><span class="n">hasNote</span><span class="p">)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">                </span><span class="p">.</span><span class="na">finallyDo</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">motor</span><span class="p">.</span><span class="na">setVoltage</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+<h1 id="the-feedback-loop">The feedback loop</h1>
+<p>One terminal, running the whole time you work:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>./tools/frcprog<span class="w"> </span>watch
 </code></pre></div>
-<p>Subclasses remain appropriate only for genuinely stateful commands (multi-phase motion profiles, etc.).</p>
-<h2 id="lessons-that-cover-this-material-today">Lessons that cover this material today</h2>
-<ul>
-<li><a href="../../learn/stage1b/04-subsystems-state-machines/">Lesson 04 — Subsystems as state machines</a></li>
-<li><a href="../../learn/stage1c/07-tank-drive/">Lesson 07 — Tank drive wiring</a> — factories introduced</li>
-<li><a href="../../learn/stage1c/08-triggers-bindings/">Lesson 08 — Joystick bindings &amp; triggers</a></li>
-<li><a href="../../learn/stage1c/09-command-composition/">Lesson 09 — Command composition</a></li>
-</ul>
-<h2 id="see-also">See also</h2>
-<ul>
-<li><a href="https://github.com/karthiksing05/FRC-Programming/blob/main/process/Curriculum-Flow.md">Curriculum-Flow.md §3</a> — Oblarg's three principles</li>
-<li><a href="https://bovlb.github.io/frc-tips/commands/best-practices.html">BoVLB's distillation</a> — the single most concentrated summary</li>
-</ul>
+<p>Edit a file. Save. The rubric re-runs by itself and the screen redraws with the
+result. Pass a lesson and it moves to the next one without being asked.</p>
+<p>That is the loop. Everything else on this page is detail.</p>
+<hr />
+<h2 id="what-you-see">What you see</h2>
+<p><strong>While it is failing:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>  watch  01 — Methods (Functions)   (saved)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  ──────────────────────────────────────────────────────────────────
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  ✗ 3 of 6 checks passing
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  ✗ 1. A small positive reading collapses to zero
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>      A stick reading 0.05 with a 0.1 deadband is noise, not intent — return 0.0
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  ✗ 2. A small negative reading collapses to zero
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>      Sticks drift both ways. Math.abs() is what makes one comparison cover both signs.
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  Save to re-run.  frcprog hint 01-methods in another terminal for a nudge.
+</code></pre></div>
+<p>The failure text is written to be read. "Expected 0.0 but was 0.05" tells you
+nothing; the sentence above it tells you what to look at.</p>
+<p><strong>When it will not compile:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>  ✗ Does not compile.
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    src/main/java/frc/robot/util/MathUtils.java:32: error: &#39;;&#39; expected
+</code></pre></div>
+<p>File and line, without the Gradle stack trace around it.</p>
+<p><strong>When it passes:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>  ✓ Passed   6 checks
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  Moving on to 02 — Variables &amp; types
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>     ./tools/frcprog read 02-variables-and-types
+</code></pre></div>
+<hr />
+<h2 id="why-this-shape">Why this shape</h2>
+<p>Borrowed from <a href="https://github.com/rust-lang/rustlings">Rustlings</a>, which teaches
+Rust the same way. Four ideas, and this curriculum uses all four.</p>
+<h3 id="one-concept-per-exercise">One concept per exercise</h3>
+<p>Lesson 01 is a deadband. Lesson 02 is constants. Lesson 06 is a single line of
+gravity compensation. When a check fails you know which idea you got wrong,
+because only one is new.</p>
+<h3 id="instant-feedback">Instant feedback</h3>
+<p>The gap between "changed something" and "found out whether it worked" is most of
+what makes a learning loop feel good or feel like homework. <code>watch</code> makes it about
+two seconds and removes the decision to check at all.</p>
+<h3 id="start-from-failing">Start from failing</h3>
+<p>Every starter fails. Not because something is broken, but because your job is to
+make it pass, and a red check is a precise statement of what is missing.</p>
+<p>That property is machine-enforced here. <code>.meta/verify-rubrics.sh</code> applies the
+untouched starter and <strong>requires the rubric to fail</strong>, then applies the reference
+answer and requires it to pass. A rubric that passed on the starter would grade
+nothing, and a student would sail through the lesson learning nothing. All sixteen
+graded lessons pass both halves.</p>
+<h3 id="hints-that-escalate">Hints that escalate</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>./tools/frcprog<span class="w"> </span>hint<span class="w"> </span><span class="m">01</span>-methods
+</code></pre></div>
+<p>Gives you <strong>one</strong> hint. Ask again for the next. It remembers where you are.</p>
+<table>
+<thead>
+<tr>
+<th>Hint</th>
+<th>Gives you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>a conceptual nudge: what question to ask</td>
+</tr>
+<tr>
+<td>2</td>
+<td>the shape of the answer, no code</td>
+</tr>
+<tr>
+<td>3</td>
+<td>near-answer scaffolding with the key part blank</td>
+</tr>
+<tr>
+<td>4</td>
+<td>the working answer, and usually a version that looks right and is not</td>
+</tr>
+</tbody>
+</table>
+<p><code>frcprog hints</code> (plural) prints all four at once, answer included. Use it when you
+have decided you want it. The reason it is not the default is that the cheapest
+hint is always the last one, and reading it costs you the lesson.</p>
+<hr />
+<h2 id="running-it">Running it</h2>
+<p>Two terminals is the comfortable setup:</p>
+<table>
+<thead>
+<tr>
+<th>Terminal</th>
+<th>Running</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>./tools/frcprog watch</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>free, for <code>hint</code>, <code>read</code>, <code>sim</code>, git</td>
+</tr>
+</tbody>
+</table>
+<p>In VS Code, <code>Ctrl-\`` opens a panel and the</code>+<code>splits it. Put</code>watch` on the left
+and keep the right one for everything else.</p>
+<p><strong>Pin a specific lesson</strong> instead of the next unfinished one:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>./tools/frcprog<span class="w"> </span>watch<span class="w"> </span><span class="m">05</span>-pid-elevator
+</code></pre></div>
+<p>Useful when you are re-doing something, or tuning gains and want the rubric to
+re-run every time you change a number.</p>
+<p><strong>Stop it</strong> with <code>Ctrl-C</code>.</p>
+<hr />
+<h2 id="what-it-watches">What it watches</h2>
+<p>Every <code>.java</code> file under <code>src/main/java</code> and <code>src/test/java</code>.</p>
+<p>It polls modification times about three times a second, then waits for the writes
+to settle before running, so one save triggers one run even when your editor writes
+a temp file and renames it.</p>
+<details class="info">
+<summary>Why polling and not a filesystem watcher</summary>
+<p>Java has <code>WatchService</code>, which is the obvious choice and the wrong one here.</p>
+<p>On macOS it has no native backend, so the JDK implements it by polling anyway,
+with a latency of up to ten seconds. A ten-second feedback loop is not a
+feedback loop.</p>
+<p>Polling a few dozen files three times a second costs nothing measurable and
+behaves the same on every platform.</p>
+</details>
+<hr />
+<h2 id="where-this-does-not-apply">Where this does not apply</h2>
+<p>Honest about the limits.</p>
+<p><strong>Lessons 17 to 30 have no rubric.</strong> They are open-ended: build a swerve drive, add
+vision, write a season capstone. There is no assertion that captures "your swerve
+modules point the right way", and pretending otherwise would be worse than saying
+so. Your check there is the simulator and AdvantageScope, and the lessons tell you
+exactly what to look at.</p>
+<p><strong>Some lessons touch more than one file.</strong> Lesson 04 changes a subsystem, a
+container and a robot class, because moving hardware ownership genuinely requires
+all three. Splitting that into three exercises would teach the mechanics and hide
+the point.</p>
+<p><strong>There is no exercise for Java syntax on its own.</strong> That is deliberate, not an
+oversight. This curriculum introduces every concept as the answer to a problem you
+just felt, so there is no lesson on "the <code>for</code> loop" waiting to be drilled. If you
+want that style for the language itself, do Rustlings, or the equivalent for Java,
+and come back.</p>
 
 
 
@@ -1346,7 +1472,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../java-basics/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Java basics">
+          <a href="../offline/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Working offline">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1356,20 +1482,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Java basics
+                Working offline
               </div>
             </div>
           </a>
         
         
           
-          <a href="../pid-and-feedforward/" class="md-footer__link md-footer__link--next" aria-label="Next: PID &amp; feedforward">
+          <a href="../frcprog/" class="md-footer__link md-footer__link--next" aria-label="Next: The frcprog command">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                PID & feedforward
+                The frcprog command
               </div>
             </div>
             <div class="md-footer__button md-icon">

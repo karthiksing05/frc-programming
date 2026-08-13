@@ -27,17 +27,25 @@ installed WPILib yet, that is lesson 0A:
 
 ## The loop
 
-Every lesson is the same four steps.
+Leave this running in a terminal while you work:
+
+```bash
+./tools/frcprog watch
+```
+
+Edit a file, save, and the rubric re-runs by itself. Pass a lesson and it moves to
+the next one. That is the whole loop.
+
+The rest, when you want them:
 
 ```bash
 ./tools/frcprog next                 # what to do, and which file
 ./tools/frcprog read 07-tank-drive   # the lesson
-#   ... edit the file, find the TODO (LESSON 07) comment ...
-./tools/frcprog check 07-tank-drive  # grade yourself
+./tools/frcprog check 07-tank-drive  # grade once, without watching
 ```
 
-Stuck? `./tools/frcprog hints 07-tank-drive` gives you four hints, escalating, with
-the answer only in the last one.
+Stuck? `./tools/frcprog hint 07-tank-drive` gives you **one** hint. Ask again for
+the next. `hints` (plural) prints all four including the answer.
 
 Want to see it move? `./tools/frcprog sim` starts the robot simulator, and
 `./tools/frcprog scope` opens AdvantageScope for plots.
@@ -93,11 +101,13 @@ point somebody has to stop writing exercises for you.
 ## Every command
 
 ```
+frcprog watch                re-runs the rubric every time you save
 frcprog next                 what to do now, and where
 frcprog read <lesson>        the lesson text, in your terminal
 frcprog check <lesson>       run the rubric and grade yourself
 frcprog check --all          run every rubric — your local CI
-frcprog hints <lesson>       four hints, answer last
+frcprog hint <lesson>        one more hint than last time
+frcprog hints <lesson>       all four at once, answer included
 frcprog list                 every lesson and its status
 frcprog progress             how far through you are
 frcprog sim                  launch the robot simulator

@@ -88,6 +88,8 @@ public final class Frcprog {
         case "next" -> cmdNext();
         case "read" -> cmdRead(rest, "README.md");
         case "hints" -> cmdRead(rest, "hints.md");
+        case "hint" -> cmdHint(rest);
+        case "watch" -> System.exit(cmdWatch(rest));
         case "check" -> System.exit(cmdCheck(rest));
         case "sim" -> System.exit(cmdSim());
         case "build" -> System.exit(cmdBuild(rest));
@@ -117,10 +119,13 @@ public final class Frcprog {
             bold("frcprog") + " — the FRCProgramming curriculum, offline",
             "",
             bold("Working through a lesson"),
+            "  " + cyan("frcprog watch") + "               "
+                + bold("re-runs the rubric every time you save"),
             "  " + cyan("frcprog next") + "                what to do now, and where",
             "  " + cyan("frcprog read <lesson>") + "       the lesson text, in your terminal",
             "  " + cyan("frcprog check <lesson>") + "      run the rubric and grade yourself",
-            "  " + cyan("frcprog hints <lesson>") + "      progressive hints, answer last",
+            "  " + cyan("frcprog hint <lesson>") + "       one more hint than last time",
+            "  " + cyan("frcprog hints <lesson>") + "      all four at once",
             "",
             bold("Seeing it move"),
             "  " + cyan("frcprog sim") + "                 launch the robot simulator",
@@ -256,6 +261,375 @@ public final class Frcprog {
     return false;
   }
 
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  watch — the tight loop
+  //
+  //  Edit, save, and the rubric re-runs. No command to remember, no window to
+  //  switch to. Borrowed straight from Rustlings, because the gap between
+  //  "changed something" and "found out whether it worked" is most of what makes
+  //  a learning loop feel good or feel like homework.
+  //
+  //  Polls file timestamps rather than using WatchService. On macOS, WatchService
+  //  is itself implemented as a poller with a latency of up to ten seconds, which
+  //  would defeat the point entirely.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+
+  /**
+   * Deletes a lesson's previous JUnit XML.
+   *
+   * <p>Gradle leaves the last run's reports in place. If the next build fails before
+   * any test executes, which is what a compile error does, reading that directory
+   * reports the PREVIOUS verdict. A student who has just broken the syntax gets told
+   * their checks pass. Clearing first makes "no results" mean "nothing ran".
+   */
+  private static void clearResults(String reportDir) {
+    Path dir = root.resolve("build/test-results").resolve(reportDir);
+    if (!Files.isDirectory(dir)) {
+      return;
+    }
+    try (var files = Files.list(dir)) {
+      for (Path f : files.toList()) {
+        Files.deleteIfExists(f);
+      }
+    } catch (IOException ignored) {
+      // Worst case we read a stale file, which is what we had before.
+    }
+  }
+
+  private static final long POLL_MS = 350;
+  private static final long SETTLE_MS = 250;
+
+  private static int cmdWatch(String[] args) throws Exception {
+    Lesson lesson = args.length > 0 ? requireLesson(args) : firstUnfinished();
+    if (lesson == null) {
+      System.out.println();
+      System.out.println(green(bold("  Every graded lesson is passing. Nothing to watch.")));
+      System.out.println();
+      return 0;
+    }
+
+    Map<Path, Long> stamps = sourceStamps();
+    runWatchPass(lesson, "watching");
+
+    while (true) {
+      Thread.sleep(POLL_MS);
+      Map<Path, Long> now = sourceStamps();
+      if (now.equals(stamps)) {
+        continue;
+      }
+
+      // Editors write in bursts, and some write a temp file then rename. Wait
+      // for the dust to settle so one save triggers one run.
+      Map<Path, Long> settled;
+      do {
+        settled = now;
+        Thread.sleep(SETTLE_MS);
+        now = sourceStamps();
+      } while (!now.equals(settled));
+
+      stamps = now;
+
+      if (runWatchPass(lesson, "saved")) {
+        Lesson next = firstUnfinished();
+        if (next == null) {
+          System.out.println(green(bold("  That was the last one. All graded lessons pass.")));
+          System.out.println();
+          return 0;
+        }
+        if (!next.id.equals(lesson.id)) {
+          lesson = next;
+          System.out.println();
+          System.out.println("  Moving on to " + bold(lesson.id + " — " + lesson.title));
+          System.out.println("     " + cyan("./tools/frcprog read " + lesson.dir));
+          System.out.println();
+        }
+      }
+    }
+  }
+
+  /**
+   * Runs one lesson's rubric and redraws the screen.
+   *
+   * @return true if it passed
+   */
+  private static boolean runWatchPass(Lesson lesson, String why) throws Exception {
+    clearScreen();
+    System.out.println();
+    System.out.println(
+        dim("  watch")
+            + "  "
+            + bold(lesson.id + " — " + lesson.title)
+            + dim("   (" + why + ")"));
+    System.out.println(dim("  ".repeat(1)) + dim("─".repeat(66)));
+    System.out.println();
+
+    clearResults("lesson-" + lesson.id);
+    Captured build = gradleCaptured("lesson" + lesson.id);
+    Results results = readResults("lesson-" + lesson.id);
+
+    if (results.total == 0) {
+      System.out.println(red("  ✗ Does not compile."));
+      System.out.println();
+      for (String line : compileErrors(build.output)) {
+        System.out.println("    " + line);
+      }
+      System.out.println();
+      footer(lesson, false);
+      return false;
+    }
+
+    if (build.exitCode != 0 && results.failures.isEmpty()) {
+      System.out.println(red("  ✗ The build failed, but no check reported a failure."));
+      System.out.println();
+      for (String line : compileErrors(build.output)) {
+        System.out.println("    " + line);
+      }
+      System.out.println();
+      footer(lesson, false);
+      return false;
+    }
+
+    if (build.exitCode == 0) {
+      System.out.println(
+          green(bold("  ✓ Passed")) + dim("   " + results.total + " checks"));
+      recordProgress(lesson.id, true);
+      System.out.println();
+      footer(lesson, true);
+      return true;
+    }
+
+    System.out.println(
+        red(bold("  ✗ " + results.passed + " of " + results.total + " checks passing")));
+    System.out.println();
+    for (Failure f : results.failures) {
+      System.out.println("  " + red("✗") + " " + bold(f.name));
+      for (String line : f.message.split("\n")) {
+        if (!line.isBlank()) {
+          System.out.println("      " + line.strip());
+        }
+      }
+      System.out.println();
+    }
+    recordProgress(lesson.id, false);
+    footer(lesson, false);
+    return false;
+  }
+
+  private static void footer(Lesson lesson, boolean passed) {
+    if (passed) {
+      System.out.println(dim("  Save again to re-check, or Ctrl-C to stop."));
+    } else {
+      System.out.println(
+          dim("  Save to re-run.  ")
+              + cyan("frcprog hint " + lesson.dir)
+              + dim(" in another terminal for a nudge.  Ctrl-C to stop."));
+    }
+    System.out.println();
+  }
+
+  /** Pulls the javac errors out of a Gradle log, dropping the build chatter. */
+  private static List<String> compileErrors(String output) {
+    List<String> out = new ArrayList<>();
+    for (String line : output.split("\n")) {
+      String t = line.strip();
+      if (t.contains(".java:") && (t.contains("error:") || t.contains("warning:"))) {
+        // Trim the absolute path down to something readable.
+        out.add(t.replace(root.toString() + "/", ""));
+      } else if (t.startsWith("symbol:") || t.startsWith("location:")) {
+        out.add("  " + t);
+      }
+      if (out.size() > 14) {
+        out.add(dim("  ... run ./gradlew build to see the rest"));
+        break;
+      }
+    }
+    if (out.isEmpty()) {
+      out.add("Run " + cyan("./gradlew build") + " to see the compiler output.");
+    }
+    return out;
+  }
+
+  private static void clearScreen() {
+    if (COLOR) {
+      System.out.print("\033[2J\033[H");
+      System.out.flush();
+    } else {
+      System.out.println("\n".repeat(3));
+    }
+  }
+
+  /** Modification times of every Java source file, so a save is detectable. */
+  private static Map<Path, Long> sourceStamps() {
+    Map<Path, Long> out = new TreeMap<>();
+    for (String dir : new String[] {"src/main/java", "src/test/java"}) {
+      Path base = root.resolve(dir);
+      if (!Files.isDirectory(base)) {
+        continue;
+      }
+      try (var walk = Files.walk(base)) {
+        walk.filter(p -> p.toString().endsWith(".java"))
+            .forEach(
+                p -> {
+                  try {
+                    out.put(p, Files.getLastModifiedTime(p).toMillis());
+                  } catch (IOException ignored) {
+                    // A file vanishing mid-walk just means the next poll sees it.
+                  }
+                });
+      } catch (IOException ignored) {
+        // Same.
+      }
+    }
+    return out;
+  }
+
+  private static Lesson firstUnfinished() throws IOException {
+    Map<String, Boolean> done = loadProgress();
+    for (Lesson l : loadLessons()) {
+      if (l.graded && !Boolean.TRUE.equals(done.get(l.id))) {
+        return l;
+      }
+    }
+    return null;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  hint — one at a time
+  //
+  //  `hints` prints the whole file, answer included. That is the right thing when
+  //  somebody has decided they want it. It is the wrong default, because the
+  //  cheapest hint is always the last one and reading it costs you the lesson.
+  //
+  //  `hint` gives you one more than last time, and remembers.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  private static void cmdHint(String[] args) throws IOException {
+    List<String> rest = new ArrayList<>(Arrays.asList(args));
+    boolean reset = rest.remove("--reset");
+
+    Lesson lesson =
+        rest.isEmpty() ? firstUnfinished() : requireLesson(rest.toArray(new String[0]));
+    if (lesson == null) {
+      throw new UserError("Which lesson? Try `frcprog list`.");
+    }
+
+    List<String> hints = splitHints(lesson);
+    if (hints.isEmpty()) {
+      throw new UserError("Lesson " + lesson.id + " has no hints file to read.");
+    }
+
+    if (reset) {
+      recordHintsSeen(lesson.id, 0);
+      System.out.println();
+      System.out.println(dim("  Hints for lesson " + lesson.id + " reset."));
+      System.out.println();
+      return;
+    }
+
+    int seen = loadHintsSeen().getOrDefault(lesson.id, 0);
+    if (seen >= hints.size()) {
+      System.out.println();
+      System.out.println(
+          yellow("  That was the last hint for lesson " + lesson.id + "."));
+      System.out.println();
+      System.out.println("  " + cyan("./tools/frcprog hints " + lesson.dir) + dim("   read them all again"));
+      System.out.println("  " + cyan("./tools/frcprog hint " + lesson.dir + " --reset") + dim("   start over"));
+      System.out.println();
+      return;
+    }
+
+    System.out.println();
+    System.out.println(
+        dim("  Lesson " + lesson.id + "  ·  hint " + (seen + 1) + " of " + hints.size()));
+    System.out.println();
+    for (String line : hints.get(seen).split("\n")) {
+      System.out.println("  " + renderMarkdownLine(line));
+    }
+    System.out.println();
+
+    recordHintsSeen(lesson.id, seen + 1);
+
+    if (seen + 1 < hints.size()) {
+      System.out.println(
+          dim("  Stuck still? ")
+              + cyan("./tools/frcprog hint " + lesson.dir)
+              + dim("  for the next one."));
+    }
+    System.out.println();
+  }
+
+  /** Splits hints.md on its `## Hint N` headings. */
+  private static List<String> splitHints(Lesson lesson) throws IOException {
+    Path p = root.resolve("lessons").resolve(lesson.dir).resolve("hints.md");
+    if (!Files.exists(p)) {
+      return List.of();
+    }
+    List<String> out = new ArrayList<>();
+    StringBuilder current = null;
+    for (String line : Files.readString(p).split("\n")) {
+      if (line.startsWith("## Hint")) {
+        if (current != null) {
+          out.add(current.toString().strip());
+        }
+        current = new StringBuilder();
+      }
+      if (current != null) {
+        current.append(line).append('\n');
+      }
+    }
+    if (current != null) {
+      out.add(current.toString().strip());
+    }
+    return out;
+  }
+
+  private static Map<String, Integer> loadHintsSeen() {
+    Map<String, Integer> out = new LinkedHashMap<>();
+    try {
+      if (!Files.exists(progressFile())) {
+        return out;
+      }
+      @SuppressWarnings("unchecked")
+      Map<String, Object> m = (Map<String, Object>) Json.parse(Files.readString(progressFile()));
+      if (m.get("hints") instanceof Map<?, ?> hm) {
+        hm.forEach(
+            (k, v) -> out.put(String.valueOf(k), v instanceof Number n ? n.intValue() : 0));
+      }
+    } catch (Exception ignored) {
+      // A corrupt progress file must never block a student.
+    }
+    return out;
+  }
+
+  private static void recordHintsSeen(String id, int count) {
+    try {
+      Map<String, Boolean> lessons = loadProgress();
+      Map<String, Integer> hints = loadHintsSeen();
+      hints.put(id, count);
+
+      StringBuilder sb = new StringBuilder("{\n  \"lessons\": {\n");
+      int i = 0;
+      for (var e : lessons.entrySet()) {
+        sb.append("    \"").append(e.getKey()).append("\": ").append(e.getValue());
+        sb.append(++i < lessons.size() ? ",\n" : "\n");
+      }
+      sb.append("  },\n  \"hints\": {\n");
+      i = 0;
+      for (var e : hints.entrySet()) {
+        sb.append("    \"").append(e.getKey()).append("\": ").append(e.getValue());
+        sb.append(++i < hints.size() ? ",\n" : "\n");
+      }
+      sb.append("  }\n}\n");
+
+      Files.createDirectories(progressFile().getParent());
+      Files.writeString(progressFile(), sb.toString());
+    } catch (IOException ignored) {
+      // Tracking is a convenience, not a gate.
+    }
+  }
+
   private static void cmdRead(String[] args, String file) throws IOException {
     Lesson l = requireLesson(args);
     Path p = root.resolve("lessons").resolve(l.dir).resolve(file);
@@ -313,6 +687,7 @@ public final class Frcprog {
     // only thing the student sees is the report below. If the XML is missing,
     // the build failed before any test ran — almost always a compile error —
     // and THAT output is worth showing verbatim, so it is replayed instead.
+    clearResults("lesson-" + l.id);
     Captured build = gradleCaptured("lesson" + l.id);
     Results results = readResults("lesson-" + l.id);
 
@@ -346,8 +721,8 @@ public final class Frcprog {
       }
       System.out.println(
           dim("  Stuck? ")
-              + cyan("./tools/frcprog hints " + l.dir)
-              + dim("  — four hints, the answer only in the last one."));
+              + cyan("./tools/frcprog hint " + l.dir)
+              + dim("  gives you one hint. Ask again for the next.")); 
       recordProgress(l.id, false);
     }
     System.out.println();
