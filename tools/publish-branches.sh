@@ -80,10 +80,19 @@ prepare_branch() {
   else
     git switch --quiet --create "$branch" "$SOURCE_BRANCH"
   fi
-  # Remove every tracked file. The branch's contents are entirely replaced on
+  # Remove every TRACKED file. The branch's contents are entirely replaced on
   # each run; anything not re-added below is meant to be gone.
+  #
+  # Deliberately not `rm -rf` over the whole directory. That also destroys
+  # ignored files — site/.venv, build/, .frcprog/progress.json — which are not
+  # in the way and are somebody's local state. The dirty-tree guard above uses
+  # `git status --porcelain`, which does not report ignored files, so wiping
+  # them would be silent.
+  git ls-files -z | xargs -0 rm -f 2>/dev/null || true
   git rm -r --quiet --cached . >/dev/null 2>&1 || true
-  find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+  # Drop directories the removal left empty, but leave anything still holding
+  # ignored files alone.
+  find . -mindepth 1 -type d -empty ! -path "./.git/*" -delete 2>/dev/null || true
 }
 
 commit_branch() {
