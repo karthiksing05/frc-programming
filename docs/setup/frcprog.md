@@ -21,6 +21,13 @@ so there is nothing extra to install and nothing to build.
 
 ## Working through a lesson
 
+`frcprog watch`
+:   **The one to leave running.** Re-runs the current lesson's rubric every time you
+    save a Java file, and moves to the next lesson when one passes. Pass a lesson
+    name to pin it. `Ctrl-C` to stop.
+
+    See [The feedback loop](loop.md).
+
 `frcprog next`
 :   What to do now, which file to open, and the two commands you will need. Run this
     when you do not know what to do.
@@ -33,8 +40,12 @@ so there is nothing extra to install and nothing to build.
 :   Runs the rubric and grades you. Failures are printed as advice, not as stack
     traces — the assertion messages are written to be read.
 
+`frcprog hint <lesson>`
+:   **One** hint. Ask again for the next; it remembers where you got to.
+    `--reset` starts over.
+
 `frcprog hints <lesson>`
-:   Four hints, escalating. The answer is only in the last one.
+:   All four at once, answer included. Use it when you have decided you want it.
 
 ---
 

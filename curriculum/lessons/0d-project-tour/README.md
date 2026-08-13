@@ -35,17 +35,30 @@ in lesson 15, used by a drivetrain you have not built yet.
 **The tests are not hidden.** `src/test/java` is the exact code that grades you.
 Reading it before you start is reading the spec, not cheating.
 
-## The five commands
+## The loop you will actually use
+
+Leave this running in a terminal the whole time you work:
+
+```bash
+./tools/frcprog watch
+```
+
+Edit a file, save it, and the rubric re-runs on its own. No command to remember.
+Pass a lesson and it moves to the next one.
+
+Two terminals is the comfortable setup: `watch` in one, everything else in the
+other. In VS Code, `` Ctrl-` `` opens a panel and `+` splits it.
+
+The rest:
 
 ```bash
 ./tools/frcprog next             # what do I do now?
 ./tools/frcprog read 01-methods  # the lesson
-./tools/frcprog check 01-methods # grade me
-./tools/frcprog hints 01-methods # I am stuck
+./tools/frcprog hint 01-methods  # one hint. Ask again for the next.
 ./tools/frcprog list             # where am I?
 ```
 
-Run each one now.
+Run each one now, including `watch`. Press `Ctrl-C` to stop it.
 
 ## Saving your work
 
