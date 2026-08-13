@@ -114,6 +114,12 @@ so there is nothing extra to install and nothing to build.
 :   A plain build. `--online` enables the network for exactly one build, which you
     need only when adding a vendor library.
 
+`frcprog new-lesson <NN>-<slug>`
+:   For mentors and curriculum authors, not students. Scaffolds a lesson that
+    already passes `./gradlew checkLessons`, with a rubric that fails on purpose.
+
+    See [Contributing](../contributing.md).
+
 ---
 
 ## Progress, and where it lives
