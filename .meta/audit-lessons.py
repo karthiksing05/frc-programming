@@ -187,6 +187,8 @@ REFERENCE_ROBOT_FILES = {
 }
 # Naming schemes a lesson names in order to REJECT them.
 COUNTEREXAMPLES = {"ElevatorBindings", "ShooterBindings", "IntakeNoteCommand"}
+# Names used in a hypothetical: "suppose next season you add a JAMMED state".
+HYPOTHETICALS = {"JAMMED", "EXTENDING", "HOOKED", "RETRACTING", "CLIMBED", "INTAKING", "EJECTING"}
 
 KNOWN_PROSE = {
     # Words that look like class names but are plain English or our own labels.
@@ -206,7 +208,7 @@ for entry in manifest:
     for name in set(CLASSNAME.findall(text)):
         if (name in KNOWN_PROSE or name in wpilib_classes or name in JDK_CLASSES
                 or name in VENDOR_CLASSES or name in STUDENT_CREATES
-                or name in REFERENCE_ROBOT_FILES or name in COUNTEREXAMPLES):
+                or name in REFERENCE_ROBOT_FILES or name in COUNTEREXAMPLES or name in HYPOTHETICALS):
             continue
         if name in project_text:
             continue

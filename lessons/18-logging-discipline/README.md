@@ -72,6 +72,29 @@ Logging costs bandwidth, disk and a little loop time.
 anything you added "just in case" and have never looked at. The second category is
 what turns a useful log into an unusable one.
 
+
+## See it
+
+Setup: **[Running the simulator](../../../setup/simulator.md)**.
+
+```bash
+./tools/frcprog sim
+./tools/frcprog scope        # second terminal
+```
+
+The check here is the sidebar, not a plot. Connect, then look at the tree.
+
+A good one is browsable by mechanism, with inputs and outputs separated, and every
+setpoint sitting next to its measurement. A bad one is a flat alphabetical list.
+
+**Restart the simulator after adding a publisher.** They are created once during
+construction, so a new one will not appear until the robot restarts. That trips
+everybody the first time.
+
+Then drop a `Pose2d` you published as a struct onto a **2D Field** tab. If it
+renders as a robot, your structured type is right. If it will not drop, you
+published three doubles instead.
+
 ## Done
 
 Every subsystem uses one scheme, and every setpoint sits beside its measurement.

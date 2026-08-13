@@ -57,6 +57,29 @@ and will bring NetworkTables down. Constructor only.
 **A canvas too small** for the mechanism, so the ligament draws off the edge and
 looks missing.
 
+
+## See it
+
+Setup: **[Running the simulator](../../../setup/simulator.md)**.
+
+```bash
+./tools/frcprog sim
+./tools/frcprog scope        # second terminal
+```
+
+1. **File → Connect to Simulator**
+2. Add a tab with **+** and choose **Mechanism**
+3. Pick your published mechanism from the dropdown
+4. In the sim, enable Teleoperated and tap your elevator key
+
+The carriage should rise in the drawing as the real height changes. Move the
+shoulder and watch it pivot.
+
+Now open a **2D Field** tab and drag `Drive/Pose` onto it. Drive around with the
+keyboard and watch the robot move on the field.
+
+Build the four-tab layout described above and **File → Save Layout**.
+
 ## Done
 
 The mechanism view moves with the real subsystem, and you have a saved layout.
