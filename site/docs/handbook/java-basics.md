@@ -32,9 +32,9 @@ The wrong version compiles, deploys, and "works" the first frame — then never 
 
 ## Lessons that cover this material today
 
-- [Lesson 01 — Methods](../learn/stage1a/01-methods/) — your first method, deadband filter
-- [Lesson 02 — Variables & types](../learn/stage1a/02-variables-and-types/) — `Constants.java`, typed PID gains
-- [Lesson 07 — Tank drive wiring](../learn/stage1c/07-tank-drive/) — Suppliers in action
+- [Lesson 01 — Methods](../learn/stage1a/01-methods/index.md) — your first method, deadband filter
+- [Lesson 02 — Variables & types](../learn/stage1a/02-variables-and-types/index.md) — `Constants.java`, typed PID gains
+- [Lesson 07 — Tank drive wiring](../learn/stage1c/07-tank-drive/index.md) — Suppliers in action
 
 ## See also
 

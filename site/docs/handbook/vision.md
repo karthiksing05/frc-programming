@@ -29,8 +29,8 @@ poseEstimator.addVisionMeasurement(
 
 ## Lessons that cover this material today
 
-- [Lesson 24 — PhotonVision single-tag](../learn/stage2c/24-photonvision-singletag/)
-- [Lesson 25 — Multi-tag pose estimation](../learn/stage2c/25-multitag/)
+- [Lesson 24 — PhotonVision single-tag](../learn/stage2c/24-photonvision-singletag/index.md)
+- [Lesson 25 — Multi-tag pose estimation](../learn/stage2c/25-multitag/index.md)
 
 ## See also
 

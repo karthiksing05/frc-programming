@@ -33,9 +33,9 @@ public interface ElevatorIO {
 
 ## Lessons that cover this material today
 
-- [Lesson 16 — The IO Layer pattern](../learn/stage2a/16-io-layer/)
-- [Lesson 18 — AdvantageKit logging discipline](../learn/stage2a/18-logging-discipline/)
-- [Lesson 19 — Log replay for debugging](../learn/stage2a/19-log-replay/)
+- [Lesson 16 — The IO Layer pattern](../learn/stage2a/16-io-layer/index.md)
+- [Lesson 18 — AdvantageKit logging discipline](../learn/stage2a/18-logging-discipline/index.md)
+- [Lesson 19 — Log replay for debugging](../learn/stage2a/19-log-replay/index.md)
 
 ## See also
 

@@ -27,9 +27,9 @@ io.setVoltage(pidOutput + ffOutput);
 
 ## Lessons that cover this material today
 
-- [Lesson 05 — PID introduction (Elevator)](../learn/stage1b/05-pid-elevator/) — paired with the [elevator PID PoC](../code-examples/)
-- [Lesson 06 — Arm with gravity feedforward](../learn/stage1b/06-arm-gravity-ff/)
-- [Lesson 28 — System identification (SysId)](../learn/stage2d/28-sysid/) — measuring `kV`/`kA` instead of guessing
+- [Lesson 05 — PID introduction (Elevator)](../learn/stage1b/05-pid-elevator/index.md) — paired with the [elevator PID PoC](../code-examples/index.md)
+- [Lesson 06 — Arm with gravity feedforward](../learn/stage1b/06-arm-gravity-ff/index.md)
+- [Lesson 28 — System identification (SysId)](../learn/stage2d/28-sysid/index.md) — measuring `kV`/`kA` instead of guessing
 
 ## See also
 

@@ -2,7 +2,7 @@
 
 *The non-sequential reference wiki for FRC programming. Look things up; jump in anywhere.*
 
-The Programming Handbook is the topic-organized companion to the [Learning Course](../learn/). Where the course walks you through thirty-four lessons in a fixed order — each lesson solving a pain the previous one created — the handbook is **alphabetical by concept**, no prerequisites assumed, no narrative arc. You're meant to land here from a search bar, a Google result, or an internal link from a lesson.
+The Programming Handbook is the topic-organized companion to the [Learning Course](../learn/index.md). Where the course walks you through thirty-four lessons in a fixed order — each lesson solving a pain the previous one created — the handbook is **alphabetical by concept**, no prerequisites assumed, no narrative arc. You're meant to land here from a search bar, a Google result, or an internal link from a lesson.
 
 The model is borrowed directly from [FRCDesign.org's Design Handbook](https://frcdesign.org): a wiki of self-contained concept pages, each grounded in real production code from our two reference robots ([Kelpie](../robots/kelpie-reefscape-tour.md) and [Presto](../robots/presto-crescendo-tour.md)).
 
@@ -91,9 +91,9 @@ The model is borrowed directly from [FRCDesign.org's Design Handbook](https://fr
 
 | If you want to… | Go here |
 |---|---|
-| Learn from scratch, in order | [Learning Course](../learn/) |
+| Learn from scratch, in order | [Learning Course](../learn/index.md) |
 | Look up *one* concept while building something | This handbook |
-| Read a real robot's code with annotations | [Robots](../robots/) |
-| Run an interactive widget | [Examples](../code-examples/) |
+| Read a real robot's code with annotations | [Robots](../robots/index.md) |
+| Run an interactive widget | [Examples](../code-examples/index.md) |
 
 The course teaches *why* and *when*; the handbook teaches *what* and *how*. Both cite the same reference robots, so you can cross-link freely.
