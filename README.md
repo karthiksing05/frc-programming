@@ -12,7 +12,8 @@ docs/               the pages
 docs/examples/      the browser playgrounds, served at /examples/
 curriculum/         lesson text and robot source, included by the lesson pages
 requirements.txt    mkdocs + material + pymdown-extensions
-vercel.json         build command and output directory
+build.sh            creates a virtualenv, installs, runs mkdocs build --strict
+vercel.json         points the host at build.sh
 ```
 
 `curriculum/` is here because every lesson page **includes** the canonical lesson
@@ -39,9 +40,14 @@ Any static host works. `vercel.json` is pre-configured:
 
 | Setting | Value |
 |---|---|
-| Build command | `pip install -r requirements.txt && mkdocs build` |
+| Build command | `bash build.sh` |
 | Output directory | `_site` |
-| Install command | *(leave empty — the build command installs)* |
+| Install command | `true` (a no-op — `build.sh` installs into a virtualenv) |
+
+`build.sh` builds inside a virtualenv on purpose. Vercel's build image ships a
+Python that is "externally managed" (PEP 668), so a bare
+`pip install -r requirements.txt` fails with `externally-managed-environment`.
+A virtualenv is unmanaged, so the same script works on the host and on a laptop.
 
 Set `site_url` in `mkdocs.yml` to the deployed URL once you have it, so search
 and canonical links point at the right place.
