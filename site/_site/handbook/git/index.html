@@ -1,0 +1,2091 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An offline FRC robot programming curriculum. Real Java, real WPILib, real simulation, graded locally — no network, no accounts, no server.">
+      
+      
+      
+        <link rel="canonical" href="http://localhost:8000/handbook/git/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../java-basics/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Git - FRCProgramming</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="light-green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#git" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FRCProgramming" class="md-header__button md-logo" aria-label="FRCProgramming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M352 0c0-17.7-14.3-32-32-32s-32 14.3-32 32v64h-96c-53 0-96 43-96 96v224c0 53 43 96 96 96h256c53 0 96-43 96-96V160c0-53-43-96-96-96h-96zM160 368c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24m120 0c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24m120 0c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24M224 176a48 48 0 1 1 0 96 48 48 0 1 1 0-96m144 48a48 48 0 1 1 96 0 48 48 0 1 1-96 0m-304 0c0-17.7-14.3-32-32-32S0 206.3 0 224v96c0 17.7 14.3 32 32 32s32-14.3 32-32zm544-32c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32s32-14.3 32-32v-96c0-17.7-14.3-32-32-32"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FRCProgramming
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Git
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="light-green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="green"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../setup/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Set up
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Handbook
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../robots/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Robots
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../code-examples/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Playgrounds
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../contributing/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FRCProgramming" class="md-nav__button md-logo" aria-label="FRCProgramming" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M352 0c0-17.7-14.3-32-32-32s-32 14.3-32 32v64h-96c-53 0-96 43-96 96v224c0 53 43 96 96 96h256c53 0 96-43 96-96V160c0-53-43-96-96-96h-96zM160 368c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24m120 0c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24m120 0c0-13.3 10.7-24 24-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24M224 176a48 48 0 1 1 0 96 48 48 0 1 1 0-96m144 48a48 48 0 1 1 96 0 48 48 0 1 1-96 0m-304 0c0-17.7-14.3-32-32-32S0 206.3 0 224v96c0 17.7 14.3 32 32 32s32-14.3 32-32zm544-32c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32s32-14.3 32-32v-96c0-17.7-14.3-32-32-32"/></svg>
+
+    </a>
+    FRCProgramming
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../setup/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set up
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../learn/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handbook
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Handbook
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-git-is-actually-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Git is actually for
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Git is actually for">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-mental-model-snapshots-not-diffs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The mental model: snapshots, not diffs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The loop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The loop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-to-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writing-a-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing a message
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seeing-what-you-did" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seeing what you did
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#undoing-things" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Undoing things
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Undoing things">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#throw-away-uncommitted-changes-to-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Throw away uncommitted changes to a file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unstage-something-you-git-added-by-mistake" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unstage something you git added by mistake
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#undo-a-commit-but-keep-the-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Undo a commit but keep the work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#undo-a-commit-that-other-people-already-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Undo a commit that other people already have
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Branches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#merging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-other-people" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with other people
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with other people">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-not-to-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What not to commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-think-i-broke-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "I think I broke it"
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="&#34;I think I broke it&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-what-actually-happened" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: what actually happened
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-go-back-to-any-of-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: go back to any of it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-check-nothing-was-actually-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: check nothing was actually lost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-panics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common panics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-page-skips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this page skips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cheat sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../java-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../command-based/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command-based
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pid-and-feedforward/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PID & feedforward
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io-layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The IO layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trajectories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../robots/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Robots
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../code-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Playgrounds
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-git-is-actually-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Git is actually for
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Git is actually for">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-mental-model-snapshots-not-diffs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The mental model: snapshots, not diffs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The loop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The loop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-to-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writing-a-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing a message
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seeing-what-you-did" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seeing what you did
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#undoing-things" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Undoing things
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Undoing things">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#throw-away-uncommitted-changes-to-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Throw away uncommitted changes to a file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unstage-something-you-git-added-by-mistake" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unstage something you git added by mistake
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#undo-a-commit-but-keep-the-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Undo a commit but keep the work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#undo-a-commit-that-other-people-already-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Undo a commit that other people already have
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Branches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#merging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-other-people" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working with other people
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with other people">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-not-to-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What not to commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-think-i-broke-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "I think I broke it"
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="&#34;I think I broke it&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-what-actually-happened" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: what actually happened
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-go-back-to-any-of-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: go back to any of it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-check-nothing-was-actually-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: check nothing was actually lost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-panics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common panics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-page-skips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this page skips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cheat sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Handbook
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="git">Git</h1>
+<p>Lesson 0D gives you three commands and tells you not to worry about the rest. That
+is the right call on day one — Git anxiety stops more people from writing code than
+Git problems ever do.</p>
+<p>This page is the rest, for when you want it. Read the first two sections and stop;
+come back for the others when you hit the problem they solve.</p>
+<div class="admonition tip">
+<p class="admonition-title">You do not need a GitHub account for any of this</p>
+<p>Git runs entirely on your machine. A remote — GitHub, GitLab, a hard drive — is
+optional and only matters once more than one person is involved. Everything down
+to <a href="#working-with-other-people">Working with other people</a> works offline.</p>
+</div>
+<hr />
+<h2 id="what-git-is-actually-for">What Git is actually for</h2>
+<p>Two things, and the second is the one that matters at 11pm.</p>
+<p><strong>Getting back.</strong> You had it working. You changed six files trying to make the arm
+faster. Now nothing works and you cannot remember what you touched. With commits,
+that is a thirty-second problem. Without them, it is your evening.</p>
+<p><strong>Working in parallel.</strong> Three people editing one robot project without overwriting
+each other's work.</p>
+<p>Almost everything confusing about Git comes from the second job. If you are working
+alone, you can ignore most of it for a long time.</p>
+<h3 id="the-mental-model-snapshots-not-diffs">The mental model: snapshots, not diffs</h3>
+<p>A commit is a <strong>complete photograph of every tracked file</strong>, plus a message and a
+pointer to the commit before it. Git shows you differences because differences are
+what you want to read, but it stores snapshots.</p>
+<p>That single fact explains most of Git's behaviour. "Go back to yesterday" is cheap
+because yesterday is still there, whole. Nothing is reconstructed; it is just
+another photograph you can walk to.</p>
+<hr />
+<h2 id="the-loop">The loop</h2>
+<p>Ninety percent of your Git usage, for years.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>status<span class="w">                       </span><span class="c1"># what have I changed?</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w">                       </span><span class="c1"># include all of it in the next snapshot</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Lesson 05 passing&quot;</span><span class="w"> </span><span class="c1"># take the snapshot</span>
+</code></pre></div>
+<p><code>git status</code> before every commit. It takes two seconds and it is how you notice you
+are about to commit a 40 MB log file or forget the one file you actually meant to
+save.</p>
+<h3 id="when-to-commit">When to commit</h3>
+<p><strong>Whenever a rubric goes green.</strong> That is the natural checkpoint this curriculum
+gives you: a moment when the project provably works.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>./tools/frcprog<span class="w"> </span>check<span class="w"> </span><span class="m">05</span>-pid-elevator<span class="w">   </span><span class="c1"># green</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Lesson 05: elevator PID tuned&quot;</span>
+</code></pre></div>
+<p>Also commit before you start something risky. A commit you did not need costs
+nothing; a commit you needed and did not make costs an evening.</p>
+<h3 id="writing-a-message">Writing a message</h3>
+<p>Say what changed and, if it is not obvious, why.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Lesson 06: arm gravity feedforward, kG = 0.12
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Measured rather than calculated — the gearbox friction makes the
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>computed value about 30% low.
+</code></pre></div>
+<p>Six months later you will not remember why <code>kG</code> is 0.12. That second paragraph is
+the whole point of commit messages, and almost nobody writes it.</p>
+<p><code>git commit</code> with no <code>-m</code> opens an editor for exactly this. If it drops you into
+Vim and you are stuck: <code>Esc</code>, then <code>:wq</code>, then Enter.</p>
+<hr />
+<h2 id="seeing-what-you-did">Seeing what you did</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w">               </span><span class="c1"># your commits, newest first</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--stat<span class="w">        </span><span class="c1"># ...with which files each touched</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>git<span class="w"> </span>diff<span class="w">                        </span><span class="c1"># changes you have NOT staged yet</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>git<span class="w"> </span>diff<span class="w"> </span>--staged<span class="w">               </span><span class="c1"># changes that WILL go in the next commit</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>git<span class="w"> </span>show<span class="w"> </span>HEAD<span class="w">                   </span><span class="c1"># everything in the most recent commit</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>git<span class="w"> </span>show<span class="w"> </span>HEAD:src/main/java/frc/robot/Constants.java<span class="w">   </span><span class="c1"># a file AS OF that commit</span>
+</code></pre></div>
+<p>That last one is quietly excellent. "What did <code>Constants.java</code> look like when lesson
+05 was passing?" is one command, and it does not disturb your working files at all.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--<span class="w"> </span>src/main/java/frc/robot/Constants.java
+</code></pre></div>
+<p>shows only the commits that touched one file — the fastest way to find when a
+constant changed.</p>
+<hr />
+<h2 id="undoing-things">Undoing things</h2>
+<p>The section worth actually learning. These are four different operations that
+beginners reach for interchangeably, and picking the wrong one is how people lose
+work.</p>
+<h3 id="throw-away-uncommitted-changes-to-a-file">Throw away uncommitted changes to a file</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>restore<span class="w"> </span>src/main/java/frc/robot/Constants.java
+</code></pre></div>
+<p>Back to the last commit. <strong>The changes are gone permanently</strong> — they were never
+committed, so Git has no copy.</p>
+<div class="admonition warning">
+<p class="admonition-title">This is the one command here that can actually lose work</p>
+<p>Everything else in this section is recoverable. <code>git restore</code> on uncommitted
+changes is not, because there is nothing to recover from. If you are unsure,
+commit first — you can always delete the commit later.</p>
+<p>This curriculum also gives you <code>./tools/frcprog reset &lt;lesson&gt;</code>, which restores
+just that lesson's files from the pristine starters and asks before it does.</p>
+</div>
+<h3 id="unstage-something-you-git-added-by-mistake">Unstage something you <code>git add</code>ed by mistake</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>bigfile.log
+</code></pre></div>
+<p>The file keeps your changes; it just will not be in the next commit.</p>
+<h3 id="undo-a-commit-but-keep-the-work">Undo a commit but keep the work</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1
+</code></pre></div>
+<p>The commit disappears; every change it contained is sitting in your working tree,
+staged. Use this when you committed too early or wrote a bad message.</p>
+<h3 id="undo-a-commit-that-other-people-already-have">Undo a commit that other people already have</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>revert<span class="w"> </span>&lt;commit&gt;
+</code></pre></div>
+<p>Makes a <strong>new</strong> commit that reverses the old one. Slightly awkward-looking history,
+and the only safe option once a commit has been shared — because it adds rather than
+rewrites.</p>
+<p>The rule: <strong>rewrite history that only you have; revert history other people have.</strong></p>
+<hr />
+<h2 id="branches">Branches</h2>
+<p>A branch is a sticky note on a commit. That is genuinely all it is, which is why
+creating one is instant.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>vision-experiment<span class="w">   </span><span class="c1"># new branch, and switch to it</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>git<span class="w"> </span>switch<span class="w"> </span>main<span class="w">                   </span><span class="c1"># back</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>git<span class="w"> </span>branch<span class="w">                        </span><span class="c1"># which do I have? * marks the current one</span>
+</code></pre></div>
+<p>Use one when you want to try something that might not work, without disturbing the
+version that does.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>try-higher-kp
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># ...experiment, commit freely...</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>git<span class="w"> </span>switch<span class="w"> </span>main<span class="w">                   </span><span class="c1"># your working version, untouched</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>git<span class="w"> </span>branch<span class="w"> </span>-D<span class="w"> </span>try-higher-kp<span class="w">       </span><span class="c1"># it did not work out; bin it</span>
+</code></pre></div>
+<h3 id="merging">Merging</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>git<span class="w"> </span>switch<span class="w"> </span>main
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>git<span class="w"> </span>merge<span class="w"> </span>vision-experiment
+</code></pre></div>
+<p>If the two branches changed different things, this just works. If they changed the
+same lines, you get a conflict:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    public static final double kP = 40.0;
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>=======
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    public static final double kP = 55.0;
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>&gt;&gt;&gt;&gt;&gt;&gt;&gt; vision-experiment
+</code></pre></div>
+<p>Git is not broken and it is not asking you to do anything clever. It is saying <em>two
+people changed this line and I will not guess.</em> Edit the file so it says what you
+want, delete all three marker lines, then:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit
+</code></pre></div>
+<p>Nothing bad happens if you take your time. <code>git merge --abort</code> puts everything back
+exactly as it was.</p>
+<hr />
+<h2 id="working-with-other-people">Working with other people</h2>
+<p>This is the only part that needs a network.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourteam/robot-2026.git<span class="w">   </span><span class="c1"># once</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>git<span class="w"> </span>pull<span class="w">                                                </span><span class="c1"># get their work</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>git<span class="w"> </span>push<span class="w">                                                </span><span class="c1"># share yours</span>
+</code></pre></div>
+<p>The realistic team loop:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>git<span class="w"> </span>pull<span class="w">                    </span><span class="c1"># start from what everyone else has</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># ...work, commit...</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>git<span class="w"> </span>pull<span class="w">                    </span><span class="c1"># catch anything landed while you worked</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>git<span class="w"> </span>push
+</code></pre></div>
+<p><strong>Pull before you push.</strong> Most "Git is fighting me" moments are a push rejected
+because someone else pushed first, and a pull fixes it.</p>
+<h3 id="what-not-to-commit">What not to commit</h3>
+<p>Generated files. They are large, they change constantly, and two people will always
+conflict on them.</p>
+<p>This project's <code>.gitignore</code> already handles it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>.gradle/          # Gradle&#39;s internal state
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>build/            # compiled output — regenerated every build
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>.frcprog/         # your personal lesson progress
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>*.wpilog          # simulation logs, often huge
+</code></pre></div>
+<p>Rule of thumb: <strong>if a build can regenerate it, do not commit it.</strong> Commit source,
+commit configuration, commit the <code>gradlew</code> wrapper. Never commit <code>build/</code>.</p>
+<hr />
+<h2 id="i-think-i-broke-it">"I think I broke it"</h2>
+<p>You almost certainly did not. Git's default posture is to keep things.</p>
+<h3 id="step-1-what-actually-happened">Step 1: what actually happened</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>git<span class="w"> </span>reflog
+</code></pre></div>
+<p><strong>The most valuable command on this page.</strong> Every commit, checkout, merge, reset and
+rename you have made, in order, even ones no branch points at any more:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>93110e3 HEAD@{0}: Branch: renamed refs/heads/repo-tutorial to refs/heads/main
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>93110e3 HEAD@{2}: commit: Add a single-file artifact build of the whole site
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>3be8602 HEAD@{4}: checkout: moving from main to repo-tutorial
+</code></pre></div>
+<p>That is a real reflog from this repository, and it answers "what did I just do to
+myself" precisely.</p>
+<h3 id="step-2-go-back-to-any-of-it">Step 2: go back to any of it</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>rescue<span class="w"> </span>93110e3
+</code></pre></div>
+<p>A branch at that exact state. Your work was never gone; nothing was pointing at it.</p>
+<h3 id="step-3-check-nothing-was-actually-lost">Step 3: check nothing was actually lost</h3>
+<p>If you merged or renamed and want to be sure an old branch's work survived:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>git<span class="w"> </span>merge-base<span class="w"> </span>--is-ancestor<span class="w"> </span>&lt;old-commit&gt;<span class="w"> </span>HEAD<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;safe&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;NOT in this history&quot;</span>
+</code></pre></div>
+<p>"safe" means that commit is somewhere in your current history and nothing it
+contained was dropped.</p>
+<h3 id="common-panics">Common panics</h3>
+<p><strong>"I committed to the wrong branch."</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>switch<span class="w"> </span>correct-branch
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;commit&gt;<span class="w">      </span><span class="c1"># copy it here</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>git<span class="w"> </span>switch<span class="w"> </span>wrong-branch
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD~1<span class="w">       </span><span class="c1"># and remove it there</span>
+</code></pre></div></p>
+<p><strong>"I deleted a branch I needed."</strong> It is in the reflog. <code>git switch -c name &lt;sha&gt;</code>.</p>
+<p><strong>"<code>git status</code> shows hundreds of files I did not touch."</strong> Something generated
+output that is not ignored — usually <code>build/</code>. Check <code>.gitignore</code>.</p>
+<p><strong>"It says <code>detached HEAD</code>."</strong> You are looking at a commit rather than standing on a
+branch. Harmless. <code>git switch main</code> returns; <code>git switch -c name</code> keeps whatever you
+did there.</p>
+<hr />
+<h2 id="what-this-page-skips">What this page skips</h2>
+<p>Deliberately, because you do not need them yet and they cost attention you need for
+the robot: rebasing, stashing, submodules, tags, <code>bisect</code>, hooks, and the
+staging-area-as-a-concept.</p>
+<p>They are all real and all useful eventually. When you hit the problem one of them
+solves, you will know, and that is the right moment to learn it.</p>
+<p>If you want the full picture: the <a href="https://git-scm.com/book/en/v2">Pro Git book</a> is
+free, well written, and the first three chapters cover everything above properly.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># the loop</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>git<span class="w"> </span>status<span class="w">                      </span><span class="c1"># what changed?</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w">                      </span><span class="c1"># stage everything</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span><span class="w">         </span><span class="c1"># snapshot it</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># looking</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w">               </span><span class="c1"># history</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>git<span class="w"> </span>diff<span class="w">                        </span><span class="c1"># unstaged changes</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>git<span class="w"> </span>show<span class="w"> </span>HEAD:path/to/File.java<span class="w"> </span><span class="c1"># a file as of a commit</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="c1"># undoing</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>git<span class="w"> </span>restore<span class="w"> </span>&lt;file&gt;<span class="w">              </span><span class="c1"># discard uncommitted changes (NOT recoverable)</span>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>&lt;file&gt;<span class="w">     </span><span class="c1"># unstage, keep the changes</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1<span class="w">         </span><span class="c1"># undo last commit, keep the work</span>
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>git<span class="w"> </span>revert<span class="w"> </span>&lt;commit&gt;<span class="w">             </span><span class="c1"># safely undo something already shared</span>
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="c1"># branches</span>
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>&lt;name&gt;<span class="w">            </span><span class="c1"># create and switch</span>
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a>git<span class="w"> </span>switch<span class="w"> </span>main<span class="w">                 </span><span class="c1"># switch back</span>
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>git<span class="w"> </span>merge<span class="w"> </span>&lt;name&gt;<span class="w">                </span><span class="c1"># bring it in</span>
+<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>git<span class="w"> </span>merge<span class="w"> </span>--abort<span class="w">               </span><span class="c1"># changed my mind</span>
+<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a>
+<a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a><span class="c1"># other people</span>
+<a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a>git<span class="w"> </span>pull<span class="w">                        </span><span class="c1"># get theirs</span>
+<a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a>git<span class="w"> </span>push<span class="w">                        </span><span class="c1"># share yours</span>
+<a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a>
+<a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a><span class="c1"># help</span>
+<a id="__codelineno-22-28" name="__codelineno-22-28" href="#__codelineno-22-28"></a>git<span class="w"> </span>reflog<span class="w">                      </span><span class="c1"># everything you have done — start here when lost</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Programming Handbook">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Programming Handbook
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../java-basics/" class="md-footer__link md-footer__link--next" aria-label="Next: Java basics">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Java basics
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "navigation.footer", "navigation.prune", "navigation.top", "navigation.path", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.copy", "content.code.annotate", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
