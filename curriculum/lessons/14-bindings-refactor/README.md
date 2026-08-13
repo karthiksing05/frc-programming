@@ -6,7 +6,8 @@ Nothing in `configureBindings()` is wrong. It is just all in one pile.
 
 ## Do this
 
-Move one thing at a time and run the matching check after each.
+Move one thing at a time and run the matching check after each. A refactor done in
+one move, discovered broken at the end, is a bad afternoon.
 
 **1. `bindings/DriverBindings.java`:**
 
@@ -19,9 +20,9 @@ controller.leftBumper().whileTrue(drive.stopCommand());
 Then `./tools/frcprog check 07-tank-drive`.
 
 **2. `bindings/OperatorBindings.java`** — move the operator's buttons and lesson
-11's composed trigger. Needs `import frc.robot.Constants;`.
+11's composed trigger. Add `import frc.robot.Constants;`.
 
-Then `./tools/frcprog check 08-triggers-bindings`.
+Then `./tools/frcprog check 08-triggers-bindings` and `check 11-default-commands`.
 
 **3. `RobotContainer.java`** — delete the originals, construct the new classes:
 
@@ -42,52 +43,95 @@ Then the real test:
 ./tools/frcprog check --all
 ```
 
-Every rubric from lesson 01, unchanged, against restructured code. A green board is
-the proof that this was a refactor and not a rewrite. That is what a test suite is
-for: not catching the bug you were thinking about, but making you unafraid to move
-code.
+## How it works
 
-## The objects are never stored
+### What a refactor is
 
-That looks wrong and is not. Each constructor's whole job is a side effect:
-registering bindings with the scheduler. Once that has happened there is nothing
-left to talk to.
+A change that alters structure and preserves behaviour. Both halves matter, and the
+second is the one that needs proving.
 
-If it bothers you, keep the instinct. Silently discarded objects are usually a
-smell. This is the exception.
+That is why this lesson's real check is `check --all`: every rubric from lesson 01,
+unchanged, run against restructured code. If they all still pass, you moved code. If
+any fails, you rewrote something.
 
-## Split by human, not by subsystem
+This is what a test suite is actually for. Not catching the bug you were already
+thinking about, but making you unafraid to move code. Without it, "it works, do not
+touch it" wins every argument and the codebase calcifies.
 
-`DriverBindings` and `OperatorBindings`, not `ElevatorBindings` and
-`ShooterBindings`.
+### Split by human, not by mechanism
 
-When a driver says "the intake button isn't working" you want one file to open, and
-the file you want is named after them.
+Two obvious ways to divide bindings: by subsystem (`ElevatorBindings`,
+`ShooterBindings`) or by person (`DriverBindings`, `OperatorBindings`).
 
-## Constructor injection
+Split by person.
+
+When somebody says "the intake button isn't working", you want exactly one file to
+open, and the file you want is the one named after them. Control-scheme questions
+are asked by humans about their own controller, not about a mechanism.
+
+A subsystem split also scatters one person's controls across four files, so nobody
+can see their whole control scheme at once, which is the thing you most often want
+to review before a competition.
+
+### Constructor injection
 
 `OperatorBindings` takes four subsystems, a controller and a command. It does not
-take `RobotContainer` and cannot reach the drivetrain.
+take `RobotContainer`.
 
-A class that cannot reach something cannot couple to it by accident. Same idea as
-lesson 16's IO layer.
+That is the point. It **cannot** reach the drivetrain, so it cannot accidentally
+couple to it. Handing a class what it depends on makes the dependency visible in the
+signature, swappable in a test, and impossible to acquire by accident.
+
+Pass `RobotContainer` instead and the class can reach everything, and in six months
+it will.
+
+Same idea as lesson 16's IO layer, applied to a different problem.
+
+??? question "Predict: why is the object never stored in a field?"
+
+    ```java
+    new DriverBindings(drive, driver);     // result discarded
+    ```
+
+    The constructor's entire job is a side effect: registering bindings with the
+    scheduler and setting a default command. Once that has happened there is nothing
+    left to talk to. A field holding it would be a field nobody reads.
+
+    If this bothers you, keep the instinct. A silently discarded object is usually a
+    smell worth investigating. This is the exception: a class whose construction
+    *is* the work.
+
+    The alternative is a static `configure(...)` method, which some teams prefer and
+    which reads more honestly. Both are fine.
+
+??? info "When to actually do this on a real team"
+
+    Not on day one, and not never.
+
+    Keep everything in `RobotContainer` until it stops fitting on a screen and a
+    half, call it 150 lines of real code. Then split.
+
+    The honest signal is not line count. It is the first time you scroll past a
+    binding you were not looking for while hunting for one you were.
 
 ## See it
+
+Setup: **[Running the simulator](../../../setup/simulator.md)**.
 
 ```bash
 ./tools/frcprog sim
 ```
 
-Drive it, press every button. Nothing should differ.
+Drive it. Press every button. Nothing should be different from before you started.
+
+That is the whole success condition for a refactor, and it is worth doing by hand
+rather than trusting the tests, because the tests only check what you thought to
+check.
 
 ## Done
 
-Rubric is green and `check --all` is green.
+`check 14-bindings-refactor` is green **and** `check --all` is green.
 
 ```bash
 ./tools/frcprog next
 ```
-
-**When to do this for real:** keep everything in `RobotContainer` until it stops
-fitting on a screen and a half. The real signal is the first time you scroll past a
-binding you were not looking for.

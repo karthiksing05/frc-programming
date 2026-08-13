@@ -2,8 +2,8 @@
 
 **Stage 1C · 30 min · Needs: 09**
 
-"Why isn't the shooter reaching speed?" Stare at the code for an hour, or plot
-three numbers and know in five seconds.
+"Why isn't the shooter reaching speed?" Stare at the code for an hour, or plot three
+numbers and know in five seconds.
 
 ## Do this
 
@@ -31,46 +31,125 @@ Also close both in `close()`.
 ./tools/frcprog check 10-telemetry
 ```
 
+## How it works
+
+### What NetworkTables is
+
+A key-value store shared over the network. The robot writes; anything else
+subscribes: the Driver Station, a dashboard, AdvantageScope, your laptop.
+
+Table name plus topic name makes the path. `getTable("Flywheels")` plus
+`getDoubleTopic("TargetRPM")` gives `/Flywheels/TargetRPM`.
+
+It updates at about 10 Hz by default over the wire, not 50. Fine for watching;
+worth knowing if you are chasing something that happens in one loop.
+
+### Why a publisher and not SmartDashboard
+
+`SmartDashboard.putNumber("Flywheels/TargetRPM", x)` works. It also looks that
+string up in a hash map on **every call**, 50 times a second, for every value you
+publish.
+
+A `DoublePublisher` resolves the topic once, at construction, and holds the handle.
+Setting it writes straight through.
+
+On a robot publishing a couple of hundred signals, which is normal, the difference
+is measurable in loop time. You have 20 ms; spending it on string lookups is a poor
+trade.
+
+??? info "Why publishers are fields, not locals"
+
+    Creating a publisher allocates a NetworkTables handle. Creating one inside
+    `periodic()` would allocate a new handle 50 times a second and leak all of them.
+
+    This is also why you must restart the simulator after adding a publisher: they
+    are created once, during construction.
+
+### Naming
+
+`SubsystemName/FieldName`, PascalCase.
+
+AdvantageScope builds its sidebar tree from the slashes, so a consistent scheme
+gives you a browsable list grouped by mechanism. An inconsistent one gives you a
+flat alphabetical soup at exactly the moment you are debugging in a pit with four
+minutes on the clock.
+
+### Reading a step response
+
+This is the actual skill the lesson is teaching.
+
+| Term | What it is | Why you care |
+|---|---|---|
+| Rise time | until it first gets near | how quick |
+| Settling time | until it stops moving | when you can trust it |
+| Overshoot | how far past it goes | too aggressive |
+| Steady-state error | the gap that remains | never quite arrives |
+
+`ErrorRPM` is the vertical distance between the other two traces, drawn for you. It
+crosses zero exactly when actual crosses target.
+
+??? question "Predict: what does the flywheel trace do when the roller fires?"
+
+    It **dips**, then recovers.
+
+    The game piece takes energy out of the wheels. The controller sees error appear
+    and pushes harder to recover.
+
+    How fast it recovers determines how quickly you can take a second shot, which is
+    one of the most useful things a plot will ever tell you about a shooter. Teams
+    tune `kP` on a flywheel largely for this recovery, not for the initial spin-up.
+
+    Watch for it in the See it section below.
+
 ## See it
 
-This is the lesson where the tooling pays you back. Do it properly.
+This is the payoff lesson for the tooling. Do it properly.
+
+Full walkthrough: **[Running the simulator](../../../setup/simulator.md)**.
+
+**Terminal 1:**
 
 ```bash
-./tools/frcprog sim          # one terminal
-./tools/frcprog scope        # another
+./tools/frcprog sim
 ```
 
-In AdvantageScope: **File → Connect to Simulator**. Find `NT/Flywheels` in the
-sidebar. Drag all three onto one line chart. Hold A.
+**Terminal 2:**
 
-You are looking at a step response:
+```bash
+./tools/frcprog scope
+```
 
-| Term | What it is |
-|---|---|
-| Rise time | how long until actual gets near target |
-| Settling time | how long until it stays there |
-| Overshoot | how far past it goes |
-| Steady-state error | the gap left once settled |
+Then:
 
-`ErrorRPM` is the vertical distance between the other two traces, drawn for you.
+1. **File → Connect to Simulator**
+2. Sidebar: expand `NT` → `Flywheels`
+3. Drag `TargetRPM`, `ActualRPM` and `ErrorRPM` onto **one** Line Graph
+4. In the sim, bind Keyboard 1 to Joysticks 1 and click **Teleoperated**
+5. Hold your A key
 
-**Watch what happens when the roller fires.** Actual dips, because the game piece
-takes energy out of the wheels, then recovers. On a real robot that recovery time
-sets how fast you can take a second shot.
+Now look at the shape, not the numbers:
 
-## Why
+- Target is a flat line at 3000, a step
+- Actual is a curve climbing toward it
+- Error starts at 3000 and decays to zero
 
-NetworkTables is a shared key-value store. The robot publishes, anything watching
-subscribes. Table name plus topic name gives the path: `/Flywheels/TargetRPM`.
+Hold the right bumper to score and watch actual dip when the roller feeds.
 
-**Why a publisher and not `SmartDashboard.putNumber`.** That looks the string up in
-a hash map every call, fifty times a second, for every value. A `DoublePublisher`
-resolves the topic once. On a robot publishing 200 signals the difference shows in
-your loop time.
+**Save the layout.** File → Save Layout. You will want these three signals again in
+lessons 27 and 28.
 
-**Naming:** `SubsystemName/FieldName`, PascalCase. AdvantageScope builds its tree
-from the slashes. Inconsistent names give you alphabetical soup at exactly the
-moment you are debugging in a pit with four minutes left.
+??? example "Experiment: make the plot tell you something"
+
+    1. In `Constants.Flywheels`, set `kP` to `0.0`. Rebuild, rerun.
+    2. Plot again. The wheels still spin up, driven by feedforward alone, but they
+       settle slightly below 3000 and stay there.
+    3. That gap is steady-state error, and it is what feedback is for.
+    4. Put `kP` back to `0.0015`. The gap closes.
+    5. Now try `kP = 0.02`. Watch it overshoot and oscillate.
+
+    Same four shapes as the elevator in lesson 05, on a completely different
+    mechanism. That is the point: you are learning to read a picture, not memorising
+    one robot.
 
 ## Done
 
@@ -80,6 +159,7 @@ Rubric is green. Stage 1C complete.
 ./tools/frcprog next
 ```
 
-**The rule: if you did not plot it, it did not happen.** Add telemetry in the same
-commit as the control loop, not later when it breaks. `System.out.println` scrolls
-away, has no time axis, cannot compare two signals, and slows the loop.
+**The rule: if you did not plot it, it did not happen.** Add the telemetry in the
+same commit as the control loop, not later when it breaks. `System.out.println`
+scrolls away, has no time axis, cannot show two signals together, and slows the
+loop down.
