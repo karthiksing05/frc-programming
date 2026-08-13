@@ -6,7 +6,7 @@ each one solves a problem the previous one made you feel.
 Start at Stage 0 even if you have programmed before. It is short, and it catches the
 things that bite later.
 
-[Set up first :material-arrow-right:](../setup/){ .md-button }
+[Set up first :material-arrow-right:](../setup/index.md){ .md-button }
 [Start Lesson 0A :material-rocket-launch:](stage0/0a-first-run-install/index.md){ .md-button .md-button--primary }
 
 ---

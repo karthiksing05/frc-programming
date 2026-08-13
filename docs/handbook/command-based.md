@@ -33,10 +33,10 @@ Subclasses remain appropriate only for genuinely stateful commands (multi-phase 
 
 ## Lessons that cover this material today
 
-- [Lesson 04 — Subsystems as state machines](../learn/stage1b/04-subsystems-state-machines/)
-- [Lesson 07 — Tank drive wiring](../learn/stage1c/07-tank-drive/) — factories introduced
-- [Lesson 08 — Joystick bindings & triggers](../learn/stage1c/08-triggers-bindings/)
-- [Lesson 09 — Command composition](../learn/stage1c/09-command-composition/)
+- [Lesson 04 — Subsystems as state machines](../learn/stage1b/04-subsystems-state-machines/index.md)
+- [Lesson 07 — Tank drive wiring](../learn/stage1c/07-tank-drive/index.md) — factories introduced
+- [Lesson 08 — Joystick bindings & triggers](../learn/stage1c/08-triggers-bindings/index.md)
+- [Lesson 09 — Command composition](../learn/stage1c/09-command-composition/index.md)
 
 ## See also
 

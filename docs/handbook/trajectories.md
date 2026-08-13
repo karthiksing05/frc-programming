@@ -29,10 +29,10 @@ Command auto = Commands.sequence(
 
 ## Lessons that cover this material today
 
-- [Lesson 13 — Path-following intro](../learn/stage1d/13-trajectory-auto/) — first S-curve
-- [Lesson 22 — Odometry & pose estimation](../learn/stage2b/22-odometry/)
-- [Lesson 23 — Trajectory following](../learn/stage2b/23-trajectories/)
-- [Lesson 27 — Motion profiling](../learn/stage2d/27-motion-profiling/)
+- [Lesson 13 — Path-following intro](../learn/stage1d/13-trajectory-auto/index.md) — first S-curve
+- [Lesson 22 — Odometry & pose estimation](../learn/stage2b/22-odometry/index.md)
+- [Lesson 23 — Trajectory following](../learn/stage2b/23-trajectories/index.md)
+- [Lesson 27 — Motion profiling](../learn/stage2d/27-motion-profiling/index.md)
 
 ## See also
 

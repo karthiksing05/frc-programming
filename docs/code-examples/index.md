@@ -19,7 +19,7 @@ They run entirely in your browser, off this same local server. No network.
 A noisy joystick trace and a threshold you can drag. Watch the output snap flat
 inside the band and track exactly outside it.
 
-Pairs with [Lesson 01 · Methods](../learn/stage1a/01-methods/).
+Pairs with [Lesson 01 · Methods](../learn/stage1a/01-methods/index.md).
 
 [Open the deadband playground](/examples/functions-poc/index.html){ .md-button target=_blank }
 
@@ -34,7 +34,7 @@ Java.
 Try `kP = 10, kI = 0, kD = 0` first and feel the oscillation. Then add `kD` until it
 stops. Then notice it settles slightly short, and add a sliver of `kI`.
 
-Pairs with [Lesson 05 · PID introduction](../learn/stage1b/05-pid-elevator/).
+Pairs with [Lesson 05 · PID introduction](../learn/stage1b/05-pid-elevator/index.md).
 
 [Open the PID playground](/examples/elevator-pid-poc/index.html){ .md-button target=_blank }
 
@@ -46,7 +46,7 @@ Two axes in, two wheel speeds out. Useful for seeing why `left = fwd + rot` and
 `right = fwd - rot` produce a robot that turns the way you expect, and what happens
 when the sum saturates.
 
-Pairs with [Lesson 07 · Tank drive wiring](../learn/stage1c/07-tank-drive/).
+Pairs with [Lesson 07 · Tank drive wiring](../learn/stage1c/07-tank-drive/index.md).
 
 [Open the drive playground](/examples/tank-drive-poc/index.html){ .md-button target=_blank }
 
