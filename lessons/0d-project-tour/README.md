@@ -1,115 +1,80 @@
-# Lesson 0D — Project tour, and saving your work
+# Lesson 0D — Project tour
 
-> **Stage 0 · ~30 minutes · Prerequisites: 0A, 0B, 0C**
+**Stage 0 · 30 min · Needs: 0A, 0B, 0C**
 
-Two things before you write code: knowing what is in this folder, and being able to
-get back to a version that worked.
+Learn where things live and how to not lose your work.
 
-## What you'll learn
+## Do this
 
-1. What every top-level folder in this project is for.
-2. The five `frcprog` commands you will use constantly.
-3. Enough Git to never lose work — and nothing more than that.
+1. **Look at the folder layout** below.
+2. **Try the five commands** below.
+3. **Set up a way to save your work** (Git, or copies).
 
-## What you'll do
-
-### 1. The tour
+## The layout
 
 ```
 curriculum/
-├── src/main/java/frc/robot/      ← everything you write lives here
-│   ├── Main.java                     starts the program; never edit it
-│   ├── Robot.java                    the lifecycle: disabled, auto, teleop
-│   ├── RobotContainer.java           where subsystems meet controllers
-│   ├── Constants.java                every number, with a name attached
+├── src/main/java/frc/robot/      everything you write
+│   ├── Robot.java                    disabled / auto / teleop
+│   ├── RobotContainer.java           subsystems meet controllers
+│   ├── Constants.java                every number, named
 │   ├── subsystems/                   one folder per mechanism
 │   ├── autos/                        autonomous routines
-│   └── util/                         small shared helpers
-│
-├── src/test/java/frc/robot/      ← the rubrics that grade each lesson
-├── lessons/                      ← the lesson text you are reading now
-├── tools/                        ← the frcprog command line
-├── .meta/                        ← reference answers and pristine starters
-└── build.gradle                  ← how it all gets compiled
+│   └── util/                         small helpers
+├── src/test/java/frc/robot/      the rubrics that grade you
+├── lessons/                      the lesson text
+├── tools/                        the frcprog command
+└── .meta/                        answers and pristine starters
 ```
 
-Two things to notice.
+Two things matter here.
 
-**There is one `src` tree, and it grows.** You are not going to start a new project
-every lesson. The deadband method you write in lesson 01 is still there in lesson
-15, being used by a drivetrain you have not built yet. By the end this folder holds
-a robot you could deploy.
+**One `src` tree, and it grows.** The method you write in lesson 01 is still there
+in lesson 15, used by a drivetrain you have not built yet.
 
-**The tests are not hidden from you.** `src/test/java` contains the exact code that
-grades each lesson. Reading a rubric before you start is not cheating — it is
-reading the specification, which is what professionals do.
+**The tests are not hidden.** `src/test/java` is the exact code that grades you.
+Reading it before you start is reading the spec, not cheating.
 
-### 2. The commands
+## The five commands
 
 ```bash
-./tools/frcprog next            # what should I do now?
-./tools/frcprog read 01-methods # the lesson text, in the terminal
-./tools/frcprog check 01-methods# grade me
-./tools/frcprog hints 01-methods# I'm stuck
-./tools/frcprog list            # where am I overall?
+./tools/frcprog next             # what do I do now?
+./tools/frcprog read 01-methods  # the lesson
+./tools/frcprog check 01-methods # grade me
+./tools/frcprog hints 01-methods # I am stuck
+./tools/frcprog list             # where am I?
 ```
 
-Try each one now. `next` should point you at lesson 01.
+Run each one now.
 
-### 3. Saving your work
+## Saving your work
 
-If your team uses Git, this is where you learn three commands. If not, skip to the
-alternative below — it is genuinely fine.
-
-Git's job here is narrow: let you get back to a version that worked. That is all we
-are using it for today.
+If your team uses Git, three commands:
 
 ```bash
 git init                    # once, ever
-git add -A                  # "include everything I've changed"
-git commit -m "Lesson 01"   # "save that as a checkpoint, with a note"
+git add -A                  # include everything
+git commit -m "Lesson 01"   # save a checkpoint
 ```
 
-Do that now — commit the project as it stands, before you have changed anything.
-Then, after each lesson passes:
+Do it now, before you change anything. Then after each lesson passes:
 
 ```bash
 git add -A && git commit -m "Lesson 02 passing"
 ```
 
-That is the entire ritual. `git log --oneline` shows your checkpoints.
+That is the whole ritual for now. Branching and merging solve problems you do not
+have yet. The handbook's **Git** page has the rest when you want it, including how
+to get back when something breaks.
 
-Branching, merging, rebasing, pull requests: real, useful, and not today. They
-solve problems you do not have yet, and learning them now costs you the attention
-you need for the actual lesson.
+**Not using Git?** Copy the whole folder somewhere safe after each lesson, with the
+number in the name. Clumsy, works, much better than nothing.
 
-When you do want them — or when something goes wrong and you need to get back —
-the handbook's **Git** page covers the whole thing: reading history, undoing at
-four different levels, branches, working with a teammate, and what to do when you
-are convinced you have destroyed everything. (You almost certainly have not;
-`git reflog` remembers.) Open it from the site, or read
-`site/docs/handbook/git.md`.
+## Done
 
-**If you are not using Git:** copy the whole folder somewhere safe after each
-lesson passes, with the lesson number in the name. It is clumsy and it works, and
-it is much better than the common alternative of having no way back at all.
-
-## Done?
-
-You can find `src/main/java/frc/robot/`, you have run `frcprog next`, and you have
-some way to get back to a working version.
+You can find `src/main/java/frc/robot/`, you ran `frcprog next`, and you have some
+way back to a working version.
 
 ```bash
 ./tools/frcprog next
 ```
-
-## Why this lesson exists
-
-Two reasons, both learned the hard way by every team.
-
-Students who do not know where files live spend their first three lessons lost in
-a folder tree instead of thinking about code.
-
-And students without a way to save their work eventually break something at 11pm,
-cannot get back, and lose an evening — or quit. Thirty minutes now buys that back
-several times over.

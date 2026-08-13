@@ -1,72 +1,68 @@
-# Lesson 26 — maple-sim & game-piece physics
+# Lesson 26 — Physics simulation
 
-> **Stage 2C · ~55 minutes · Prerequisite: 25-multitag**
-> **Extension lesson — needs one online build. See `lessons/EXTENSIONS.md`.**
+**Stage 2C · 55 min · Needs: 25**
 
-!!! note "This is a guided lesson"
+!!! warning "Needs one online build"
 
-    Lessons 01–16 hand you a rubric and grade you. From here on, the work is
-    open-ended: there is a clear goal, working code to model yourself on, and no
-    automated grader. That is not a downgrade — it is what programming looks like
-    once somebody stops writing exercises for you.
+    This lesson uses a vendor library. See `lessons/EXTENSIONS.md` for the
+    four-step install. Everything else in the curriculum runs offline.
 
-    Your check is the simulator and AdvantageScope. If the mechanism does what the
-    lesson describes, and you can point at the plot that proves it, you are done.
+!!! note "Guided lesson"
 
-Everything you have simulated so far is kinematic. The robot passes through walls. Game
-pieces do not exist. Two robots cannot collide, because there is only one.
+    No rubric from here on. Clear goal, working code to copy from, and the
+    simulator as your check. If it does what this page describes and you can point
+    at the plot that proves it, you are done.
 
-That is fine for control loops and hides a specific class of bug: autos that work
-perfectly in simulation and fail on the field because they assumed frictionless wall
-contact or a game piece that appears when you drive at it.
+Everything so far has been kinematic. The robot passes through walls and game
+pieces do not exist.
 
-[maple-sim](https://shenzhen-robotics-alliance.github.io/maple-sim/) adds real
-physics.
+## Do this
 
-## What you'll learn
-
-1. Install maple-sim and swap `ModuleIOSim` for `ModuleIOMapleSim`.
-2. Put game pieces on the simulated field.
-3. Detect intake by collision rather than by pretending.
-4. Recognise which of your simulation results were never real.
-
-## Before you start
-
-Needs the maple-sim vendordep. See `lessons/EXTENSIONS.md`.
-
-## What you'll do
-
-Register a drivetrain with the simulated arena, swap the module IO implementation,
-and add game pieces:
+1. Install the maple-sim vendordep
+2. **Register the drivetrain with the arena and drive it.** Wall collisions are the
+   simplest thing to verify.
+3. Swap `ModuleIOSim` for `ModuleIOMapleSim`
+4. Add **one** game piece and drive into it:
 
 ```java
 SimulatedArena.getInstance().addGamePiece(new CrescendoNoteOnField(new Translation2d(2, 2)));
 ```
 
-Then drive into one and watch the intake's beam-break trigger because a physical
-object physically got there.
+5. Confirm the intake's beam-break triggers because a physical object physically
+   got there
 
-### What this catches
+## What it catches
 
-- Autos that assume you can push through a wall.
-- Intakes that work in sim because the code says they do.
-- Paths tuned on a frictionless model that are wrong on carpet.
-- Robot-on-robot contact, which is most of a real match.
+- autos that assume you can push through a wall
+- intakes that "work" in sim because the code says they do
+- paths tuned on a frictionless model that are wrong on carpet
+- robot-on-robot contact, which is most of a real match
 
-### What it costs
+## What it costs
 
-Physics simulation is more expensive than kinematics. Loop times go up. And it is
-another vendordep to maintain across seasons.
+Physics is more expensive than kinematics, so loop times go up. And it is another
+vendordep to maintain across seasons.
 
-Kelpie ships both `ModuleIOSim` and `ModuleIOMapleSim` for exactly this reason: use
-the cheap one for control-loop work, the expensive one when you are validating an
-auto. That the choice is a one-line swap is the IO layer paying off again — this is
-the fourth implementation of the same interface, and nothing above the line changed.
+Kelpie ships both `ModuleIOSim` and `ModuleIOMapleSim` for exactly this reason: the
+cheap one for control-loop work, the expensive one for validating an auto. That the
+choice is a one-line swap is the IO layer paying off again. This is the fourth
+implementation of the same interface, and nothing above the line changed.
 
-## Done?
+## Watch out for
 
-The robot collides with walls, driving into a game piece triggers the intake, and
-you can be pushed off a target pose.
+**Registering the drivetrain twice**, or leaving the old `ModuleIOSim` running, so
+two models fight over the same state.
+
+**Mass or moment of inertia far from reality**, giving collisions that look wrong in
+a way that is hard to name.
+
+**Expecting your existing autos to still work.** They will need re-tuning. That is
+the lesson.
+
+## Done
+
+The robot collides with walls, driving into a piece triggers the intake, and you
+can be pushed off a target pose.
 
 ```bash
 ./tools/frcprog next

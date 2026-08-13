@@ -215,8 +215,10 @@ tasks.register('checkLessons') {
         // Graded lessons additionally have to say what the student edits, which
         // JUnit classes grade it, and which tag those classes carry.
         def requiredGradedFields = ['tag', 'edits', 'tests']
-        def requiredReadmeHeadings = ['What you\'ll learn', 'What you\'ll do', 'Done?']
-        def requiredGradedHeadings = ['Run it', 'See it']
+        // Lessons are written as a to-do, not an essay: a hook, the steps, a
+        // short why, and how you know you are finished.
+        def requiredReadmeHeadings = ['## Do this', '## Done']
+        def requiredGradedHeadings = ['## Check it', '## See it']
 
         if (!manifestFile.exists()) {
             throw new GradleException('lessons/manifest.json is missing')
