@@ -155,6 +155,7 @@ nav:
       - robots/index.md
       - "Kelpie — Reefscape 2025": robots/kelpie-reefscape-tour.md
       - "Presto — Crescendo 2024": robots/presto-crescendo-tour.md
+      - Imagery & credits: robots/imagery.md
   - Playgrounds: code-examples/index.md
   - About: about.md
   - Contributing: contributing.md

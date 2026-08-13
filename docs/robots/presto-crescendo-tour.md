@@ -2,6 +2,48 @@
 
 *Team 6328 Mechanical Advantage's 2024 Crescendo robot — the canonical AdvantageKit reference, and the shooter that anchors every flywheel-and-feedforward lesson in the curriculum.*
 
+<figure markdown="span">
+<svg viewBox="0 0 780 280" role="img" aria-label="A game piece enters Presto through the intake, is indexed by the rollers, and is launched by two flywheels; the arm sets the launch angle and the swerve drive aims the whole robot." style="max-width:100%;height:auto;color:inherit">
+  <defs>
+    <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- the game-piece path -->
+  <rect x="30"  y="110" width="140" height="58" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="100" y="134" text-anchor="middle" font-size="13" fill="currentColor" font-weight="600">Intake</text>
+  <text x="100" y="152" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">rollers, floor</text>
+
+  <rect x="245" y="110" width="140" height="58" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="315" y="134" text-anchor="middle" font-size="13" fill="currentColor" font-weight="600">Indexer</text>
+  <text x="315" y="152" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">holds until ready</text>
+
+  <rect x="460" y="110" width="140" height="58" rx="3" fill="#C8791A" fill-opacity="0.12" stroke="#C8791A" stroke-width="2"/>
+  <text x="530" y="134" text-anchor="middle" font-size="13" fill="currentColor" font-weight="600">Flywheels</text>
+  <text x="530" y="152" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">two, ~3000 RPM</text>
+
+  <line x1="170" y1="139" x2="238" y2="139" stroke="currentColor" stroke-width="1.5" marker-end="url(#pa)"/>
+  <line x1="385" y1="139" x2="453" y2="139" stroke="currentColor" stroke-width="1.5" marker-end="url(#pa)"/>
+  <line x1="600" y1="139" x2="700" y2="139" stroke="#C8791A" stroke-width="2" marker-end="url(#pa)"/>
+
+  <text x="204" y="130" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">picked up</text>
+  <text x="419" y="130" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">fed in</text>
+  <text x="650" y="130" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">launched</text>
+  <text x="740" y="143" text-anchor="middle" font-size="12" fill="currentColor" font-weight="600">Goal</text>
+
+  <!-- what aims it -->
+  <rect x="460" y="24" width="140" height="46" rx="3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="530" y="52" text-anchor="middle" font-size="12.5" fill="currentColor">Arm (pivot)</text>
+  <line x1="530" y1="70" x2="530" y2="103" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#pa)"/>
+  <text x="612" y="92" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">sets angle</text>
+
+  <rect x="30"  y="212" width="570" height="46" rx="3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="315" y="240" text-anchor="middle" font-size="12.5" fill="currentColor">Swerve drive — aims the whole robot at the goal</text>
+</svg>
+<figcaption>Presto is a <strong>shooter</strong>. One game piece follows one path, and the only thing that has to be exactly right is flywheel speed — the arm and the drivetrain just point it. That is why the flywheel is the mechanism lesson 10 uses to teach telemetry: it has a single number worth plotting.</figcaption>
+</figure>
+
 ---
 
 ## The game: Crescendo 2024

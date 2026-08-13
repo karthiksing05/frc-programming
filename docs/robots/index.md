@@ -39,3 +39,16 @@ But it's not just about mechanism coverage. **Two robots from two different team
 That variety, layered on top of consistency, is the point. You graduate from the curriculum knowing not just "the FRC way" but **two real teams' actual ways** — enough to recognize that your own future style is just one more variation, not a deviation from gospel.
 
 The full rationale, alternates considered, and license caveats are in [`process/Reference-Robots.md`](https://github.com/karthiksing05/FRC-Programming/blob/main/process/Reference-Robots.md).
+
+---
+
+## About the imagery
+
+The mechanism diagrams on both tour pages are original drawings. This repository
+deliberately ships **no third-party photographs**: Kelpie's repository carries no
+licence grant at all, and neither repo contains photos in any case — real ones
+belong to whoever took them.
+
+[How to add real photos properly](imagery.md), including the
+permission email this project has had as an open action item since the design
+docs were written, and the MIT-licensed 3D model of Presto you *can* use today.

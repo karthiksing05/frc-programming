@@ -2,6 +2,70 @@
 
 *Team 8033 Highlander Robotics's 2025 Reefscape robot — the pick-and-place reference that anchors every Stage 1B mechanism lesson.*
 
+<figure markdown="span">
+<svg viewBox="0 0 780 320" role="img" aria-label="Kelpie picks up coral through a funnel into a roller, then positions it with a chain of three joints — elevator, shoulder and wrist — all of which must be in position at once before the roller can place the piece on the reef." style="max-width:100%;height:auto;color:inherit">
+  <defs>
+    <marker id="ka" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- the positioning chain -->
+  <text x="30" y="34" font-size="10.5" fill="currentColor" opacity="0.7" letter-spacing="1.2">POSITIONING CHAIN</text>
+
+  <rect x="30"  y="48" width="130" height="54" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="95"  y="72" text-anchor="middle" font-size="13" fill="currentColor" font-weight="600">Elevator</text>
+  <text x="95"  y="90" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">height</text>
+
+  <rect x="215" y="48" width="130" height="54" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="280" y="72" text-anchor="middle" font-size="13" fill="currentColor" font-weight="600">Shoulder</text>
+  <text x="280" y="90" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">reach</text>
+
+  <rect x="400" y="48" width="130" height="54" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="465" y="72" text-anchor="middle" font-size="13" fill="currentColor" font-weight="600">Wrist</text>
+  <text x="465" y="90" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">orientation</text>
+
+  <rect x="585" y="48" width="130" height="54" rx="3" fill="#C8791A" fill-opacity="0.12" stroke="#C8791A" stroke-width="2"/>
+  <text x="650" y="72" text-anchor="middle" font-size="13" fill="currentColor" font-weight="600">Roller</text>
+  <text x="650" y="90" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">grip / release</text>
+
+  <line x1="160" y1="75" x2="208" y2="75" stroke="currentColor" stroke-width="1.5" marker-end="url(#ka)"/>
+  <line x1="345" y1="75" x2="393" y2="75" stroke="currentColor" stroke-width="1.5" marker-end="url(#ka)"/>
+  <line x1="530" y1="75" x2="578" y2="75" stroke="currentColor" stroke-width="1.5" marker-end="url(#ka)"/>
+  <text x="184" y="66" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">carries</text>
+  <text x="369" y="66" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">carries</text>
+  <text x="554" y="66" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">carries</text>
+
+  <!-- the simultaneity constraint, which is the whole point -->
+  <path d="M 30 120 L 30 132 L 530 132 L 530 120" fill="none" stroke="#C8791A" stroke-width="1.5"/>
+  <line x1="280" y1="132" x2="280" y2="150" stroke="#C8791A" stroke-width="1.5" marker-end="url(#ka)"/>
+  <text x="280" y="167" text-anchor="middle" font-size="12" fill="currentColor" font-weight="600">all three must be in position at the same time</text>
+  <text x="280" y="185" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">a composite Trigger — lesson 20</text>
+
+  <!-- the game-piece path -->
+  <text x="30" y="228" font-size="10.5" fill="currentColor" opacity="0.7" letter-spacing="1.2">GAME PIECE PATH</text>
+
+  <rect x="30"  y="242" width="130" height="50" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="95"  y="272" text-anchor="middle" font-size="12.5" fill="currentColor">Funnel</text>
+
+  <rect x="215" y="242" width="130" height="50" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="280" y="272" text-anchor="middle" font-size="12.5" fill="currentColor">Roller</text>
+
+  <rect x="400" y="242" width="130" height="50" rx="3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="465" y="272" text-anchor="middle" font-size="12.5" fill="currentColor">Reef, 4 levels</text>
+
+  <line x1="160" y1="267" x2="208" y2="267" stroke="currentColor" stroke-width="1.5" marker-end="url(#ka)"/>
+  <line x1="345" y1="267" x2="393" y2="267" stroke="currentColor" stroke-width="1.5" marker-end="url(#ka)"/>
+  <text x="184" y="258" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">coral in</text>
+  <text x="369" y="258" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">placed</text>
+
+  <line x1="650" y1="102" x2="650" y2="242" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="650" y1="242" x2="352" y2="267" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ka)"/>
+  <text x="700" y="180" text-anchor="middle" font-size="10.5" fill="currentColor" opacity="0.75">same roller</text>
+</svg>
+<figcaption>Kelpie is a <strong>pick-and-place</strong> robot, and the difference from Presto is structural rather than cosmetic. A shooter needs one number right. This needs three joints to agree before the gripper opens — which is exactly why Stage 1B gives the elevator and the arm a lesson each, and why lesson 20 exists at all.</figcaption>
+</figure>
+
 ---
 
 ## The game: Reefscape 2025
