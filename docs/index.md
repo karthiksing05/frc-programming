@@ -14,8 +14,8 @@ robot code in a real robot project, and a real test suite tells you whether it w
 
 No accounts. No server. No cloud service that can be down on the day of your meeting.
 
-[Get started :material-rocket-launch:](setup/){ .md-button .md-button--primary }
-[See the lessons](learn/){ .md-button }
+[Get started :material-rocket-launch:](setup/index.md){ .md-button .md-button--primary }
+[See the lessons](learn/index.md){ .md-button }
 
 ---
 
@@ -38,7 +38,7 @@ routines, live telemetry, and a test suite that proves all of it.
     the rest are guided, because at some point somebody has to stop writing
     exercises for you.
 
-    [:octicons-arrow-right-24: Start learning](learn/)
+    [:octicons-arrow-right-24: Start learning](learn/index.md)
 
 -   :material-console:{ .lg .middle } __The tooling__
 
@@ -47,7 +47,7 @@ routines, live telemetry, and a test suite that proves all of it.
     `frcprog next`, `frcprog check`, `frcprog sim`. One command line that runs on
     the JDK WPILib already installed for you.
 
-    [:octicons-arrow-right-24: Set up](setup/)
+    [:octicons-arrow-right-24: Set up](setup/index.md)
 
 -   :material-book-open-page-variant:{ .lg .middle } __The handbook__
 
@@ -56,7 +56,7 @@ routines, live telemetry, and a test suite that proves all of it.
     Reference material — WPILib classes, control theory, the patterns. Read it when
     you need it, not before.
 
-    [:octicons-arrow-right-24: Open the handbook](handbook/)
+    [:octicons-arrow-right-24: Open the handbook](handbook/index.md)
 
 -   :material-robot:{ .lg .middle } __The reference robots__
 
@@ -65,7 +65,7 @@ routines, live telemetry, and a test suite that proves all of it.
     Two real competition robots, public and readable, that every lesson comes back
     to.
 
-    [:octicons-arrow-right-24: Meet them](robots/)
+    [:octicons-arrow-right-24: Meet them](robots/index.md)
 
 </div>
 
