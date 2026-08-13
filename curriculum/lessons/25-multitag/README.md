@@ -1,44 +1,33 @@
-# Lesson 25 — Multi-tag pose estimation
+# Lesson 25 — Multi-tag
 
-> **Stage 2C · ~60 minutes · Prerequisite: 24-photonvision-singletag**
-> **Extension lesson — needs one online build. See `lessons/EXTENSIONS.md`.**
+**Stage 2C · 60 min · Needs: 24**
 
-!!! note "This is a guided lesson"
+!!! warning "Needs one online build"
 
-    Lessons 01–16 hand you a rubric and grade you. From here on, the work is
-    open-ended: there is a clear goal, working code to model yourself on, and no
-    automated grader. That is not a downgrade — it is what programming looks like
-    once somebody stops writing exercises for you.
+    This lesson uses a vendor library. See `lessons/EXTENSIONS.md` for the
+    four-step install. Everything else in the curriculum runs offline.
 
-    Your check is the simulator and AdvantageScope. If the mechanism does what the
-    lesson describes, and you can point at the plot that proves it, you are done.
+!!! note "Guided lesson"
 
-A single tag gives an ambiguous answer. Geometrically, two different camera poses can
-produce the same image of one square — and at distance, or at a shallow angle, the
-solver genuinely cannot tell which is right. You see it as a pose that occasionally
-flips.
+    No rubric from here on. Clear goal, working code to copy from, and the
+    simulator as your check. If it does what this page describes and you can point
+    at the plot that proves it, you are done.
 
-Two tags in one frame removes the ambiguity entirely.
+One tag gives an ambiguous answer. Two in one frame removes the ambiguity entirely.
 
-## What you'll learn
+## Do this
 
-1. Configure multiple simulated cameras.
-2. Use `PhotonPoseEstimator` with a multi-tag strategy.
-3. Scale trust with distance and tag count.
-4. Filter measurements properly.
+**1. Add a second camera first.** Two cameras with the simple strategy is a working
+system. One camera with a complicated strategy is not.
 
-## Before you start
-
-Needs PhotonVision. See `lessons/EXTENSIONS.md`.
-
-## What you'll do
+**2. Then switch strategy:**
 
 ```java
 photonEstimator.setPrimaryStrategy(PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR);
 photonEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 ```
 
-Then scale the standard deviations you pass to `addVisionMeasurement`:
+**3. Scale trust with distance and tag count:**
 
 ```java
 Matrix<N3, N1> stdDevs = singleTagStdDevs;
@@ -46,28 +35,41 @@ if (tagCount > 1) stdDevs = multiTagStdDevs;
 stdDevs = stdDevs.times(1 + avgDistance * avgDistance / 30.0);
 ```
 
-Read that last line as a statement about physics: error grows roughly with the square
-of distance, because a tag twice as far away covers a quarter as many pixels.
+Read that last line as physics: error grows roughly with the square of distance,
+because a tag twice as far covers a quarter as many pixels.
 
-### Two cameras
+**4. Compare.** Log both estimates against the ground-truth pose the simulator
+gives you. The improvement should be obvious on a plot. If it is not, something is
+wrong.
 
-More coverage, more chances to see two tags, and a sanity check — two cameras
-disagreeing is information. The cost is two transforms to get right and two things
-to keep clean.
+## Why the ambiguity exists
 
-### Filters worth having
+Geometrically, two different camera poses can produce the same image of one square.
+At distance or a shallow angle the solver genuinely cannot tell which is right. You
+see it as a pose that occasionally flips.
 
-- Pose outside the field → reject.
-- Pose implying the robot is airborne or tilted → reject.
-- Pose more than a metre from the current estimate, with only one tag → suspicious.
-- Average tag distance beyond about four metres → accept, but trust it much less.
+## Filters worth having
 
-Each filter costs a line and prevents a category of embarrassing behaviour.
+Each costs a line and prevents a category of embarrassment.
 
-## Done?
+- pose outside the field → reject
+- pose implying the robot is airborne or tilted → reject
+- pose more than a metre from the current estimate with only one tag → suspicious
+- average tag distance beyond about four metres → accept, trust much less
 
-Two cameras publish, multi-tag estimates are visibly tighter than single-tag ones,
-and out-of-field poses never make it into the estimator.
+## Watch out for
+
+**Adding the same measurement twice**, once per camera, when both saw the same
+tags. The estimator becomes overconfident.
+
+**Camera transforms measured from the wrong reference point.** Measure to the
+robot's centre of rotation, consistently, and write down which corner of the camera
+you measured to.
+
+## Done
+
+Two cameras publish, multi-tag estimates are visibly tighter, and out-of-field
+poses never reach the estimator.
 
 ```bash
 ./tools/frcprog next

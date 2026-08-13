@@ -1,81 +1,81 @@
-# Lesson 21 — Swerve drivetrain (intro)
+# Lesson 21 — Swerve
 
-> **Stage 2B · ~75 minutes · Prerequisite: 20-superstructure**
+**Stage 2B · 75 min · Needs: 20**
 
-!!! note "This is a guided lesson"
+!!! note "Guided lesson"
 
-    Lessons 01–16 hand you a rubric and grade you. From here on, the work is
-    open-ended: there is a clear goal, working code to model yourself on, and no
-    automated grader. That is not a downgrade — it is what programming looks like
-    once somebody stops writing exercises for you.
+    No rubric from here on. Clear goal, working code to copy from, and the
+    simulator as your check. If it does what this page describes and you can point
+    at the plot that proves it, you are done.
 
-    Your check is the simulator and AdvantageScope. If the mechanism does what the
-    lesson describes, and you can point at the plot that proves it, you are done.
+Tank drive cannot strafe. Picking up something two metres left means rotate, drive,
+rotate back.
 
-Tank drive cannot strafe. To pick up a game piece two metres to your left, you
-must rotate, drive, rotate back — three moves where a holonomic drivetrain makes one.
-Every competitive FRC team runs swerve, and this is why.
+## Do this
 
-## What you'll learn
-
-1. The four-module model: each corner has a drive motor and a steering motor.
-2. `SwerveDriveKinematics` — chassis speeds in, four module states out.
-3. Field-relative control: "forward" means forward *on the field*, not on the robot.
-4. Building a `ModuleIO` layer, four times over.
-
-## What you'll do
-
-Build `subsystems/swerve/` alongside your existing tank drive — do not delete
-`Drive.java`, because every earlier rubric still depends on it.
+Build `subsystems/swerve/` alongside the existing tank drive. Do not delete
+`Drive.java`; every earlier rubric still uses it.
 
 ```
 swerve/
 ├── ModuleIO.java          one module's sensors and commands
-├── ModuleIOSim.java       two DCMotorSims: one drive, one steer
+├── ModuleIOSim.java       two DCMotorSims: drive and steer
 ├── Module.java            closed-loop control of one module
 ├── GyroIO.java / GyroIOSim.java
-└── SwerveSubsystem.java   kinematics, odometry, the drive command
+└── SwerveSubsystem.java   kinematics, odometry, drive command
 ```
 
-The core of it:
+**Do one module first.** Get `Module.java` closing the loop on angle and speed with
+a `DCMotorSim` behind it. Verify it alone before building four.
+
+The core, once modules work:
 
 ```java
 ChassisSpeeds speeds =
-    ChassisSpeeds.fromFieldRelativeSpeeds(xMetersPerSec, yMetersPerSec, omegaRadPerSec, gyroAngle);
+    ChassisSpeeds.fromFieldRelativeSpeeds(xMps, yMps, omegaRadPerSec, gyroAngle);
 SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
 SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_SPEED);
 for (int i = 0; i < 4; i++) modules[i].setState(states[i]);
 ```
 
-Four lines, and each is worth understanding.
+## What each line does
 
 **`fromFieldRelativeSpeeds`** rotates the driver's intent into the robot's frame
-using the gyro. Push the stick away from you and the robot moves away from you,
-regardless of which way it happens to be facing. That is the whole reason drivers
-love swerve, and it is one function call.
+using the gyro. Push the stick away from you and the robot goes away from you,
+whichever way it is facing. That is why drivers love swerve, and it is one call.
 
-**`toSwerveModuleStates`** turns "move this way while rotating this fast" into four
-(speed, angle) pairs. Pure geometry, given the module positions.
+**`toSwerveModuleStates`** turns "move this way while rotating" into four
+(speed, angle) pairs. Pure geometry.
 
-**`desaturateWheelSpeeds`** handles the case where the maths asks for more than the
-motors can deliver — it scales all four down together, preserving the *direction* of
-travel. Skip it and a saturated robot drives somewhere other than where it was told.
+**`desaturateWheelSpeeds`** handles asking for more than the motors can give. It
+scales all four together, preserving direction. Skip it and a saturated robot
+drives somewhere other than commanded.
 
-**Module optimisation** is the other classic: a module asked to point at 179° when it
-is currently at −179° should turn 2°, not 358°. `SwerveModuleState.optimize` handles
-it by allowing the drive motor to run backwards instead.
+**`SwerveModuleState.optimize`** stops a module asked to point at 179° from turning
+358° when it is at −179°. It turns 2° and runs the drive motor backwards instead.
+
+## Watch out for
+
+**Wrong module order.** Kinematics returns states in the order you gave positions.
+Mixing them up gives a robot that drives diagonally when told to go straight, which
+looks like physics and is bookkeeping.
+
+**Skipping optimize**, so modules take the long way and the robot lurches on every
+direction change.
 
 ## See it
 
-AdvantageScope has a **Swerve** tab that draws four arrows, one per module. Publish
-your `SwerveModuleState[]` and drop it on. Wrong-direction modules are instantly
-obvious as arrows pointing somewhere they should not.
+AdvantageScope has a **Swerve** tab that draws four arrows. Publish your
+`SwerveModuleState[]` and drop it on. Wrong-direction modules are instantly obvious.
 
-## Done?
+## Done
 
-The robot translates in field-relative directions regardless of heading, rotates in
-place, and the module arrows point sensibly.
+The robot translates field-relative regardless of heading, rotates in place, and
+the arrows point sensibly.
 
 ```bash
 ./tools/frcprog next
 ```
+
+Kelpie's [`swerve/`](https://github.com/HighlanderRobotics/Reefscape/tree/main/src/main/java/frc/robot/subsystems/swerve)
+is a complete readable implementation to compare against.

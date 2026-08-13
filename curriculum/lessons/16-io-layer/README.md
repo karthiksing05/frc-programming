@@ -1,129 +1,83 @@
-# Lesson 16 — The IO Layer pattern
+# Lesson 16 — The IO layer
 
-> **Stage 2A · ~60 minutes · Prerequisite: 15**
+**Stage 2A · 60 min · Needs: 15**
 
-Your `Drive` subsystem currently does two unrelated jobs. It decides things —
-arcade mixing, deadbands, odometry — and it talks to hardware, including a
-`simulationPeriodic()` that runs a physics model.
+Your `Drive` does two unrelated jobs. Separate them.
 
-Those are different jobs and they change for different reasons. Today you separate
-them, and three useful things fall out.
+## Do this
 
-This is the pattern that 6328, 8033, 254 and most other serious teams use. It is the
-single most consequential structural decision in modern FRC code.
-
-## What you'll learn
-
-1. Define a hardware boundary as an interface plus an inputs struct.
-2. Implement the same interface twice: physics, and real hardware.
-3. Test a mechanism with no HAL, no ports, and no scheduler.
-4. Understand why this is the precondition for log replay.
-
-## What you'll do
-
-Three files are already stubbed. `DriveIO.java` (the interface) and
-`DriveIOReal.java` (real hardware) are complete — read them. Your job is
-`DriveIOSim.updateInputs`:
+Open `subsystems/drive/DriveIOSim.java` and fill in `updateInputs`:
 
 ```java
 physics.setInputs(leftVolts, rightVolts);
 physics.update(Constants.LOOP_PERIOD_SECONDS);
 
-inputs.leftPositionMeters = physics.getLeftPositionMeters();
-inputs.rightPositionMeters = physics.getRightPositionMeters();
-inputs.leftVelocityMetersPerSec = physics.getLeftVelocityMetersPerSecond();
+inputs.leftPositionMeters        = physics.getLeftPositionMeters();
+inputs.rightPositionMeters       = physics.getRightPositionMeters();
+inputs.leftVelocityMetersPerSec  = physics.getLeftVelocityMetersPerSecond();
 inputs.rightVelocityMetersPerSec = physics.getRightVelocityMetersPerSecond();
-inputs.leftAppliedVolts = leftVolts;
-inputs.rightAppliedVolts = rightVolts;
-inputs.gyroYawRadians = physics.getHeading().getRadians();
+inputs.leftAppliedVolts          = leftVolts;
+inputs.rightAppliedVolts         = rightVolts;
+inputs.gyroYawRadians            = physics.getHeading().getRadians();
 ```
 
-### The shape
+Order matters. Step the model, then read it. Reading first reports last loop's
+state and puts your control loop a cycle behind.
 
-```
-Drive.java          logic: mixing, odometry, commands.  Knows nothing about hardware.
-  │
-  │  DriveIO  ◄──── the boundary: a struct in, two voltages out
-  │
-  ├── DriveIOSim    a physics model
-  └── DriveIOReal   motor controllers, encoders, a gyro
-```
+`DriveIO.java` and `DriveIOReal.java` are already written. Read them.
 
-Above the line: what the robot does. Below: what it is made of. The interface is the
-contract, and it is deliberately tiny — read everything into a struct, write two
-voltages.
-
-### Read the two implementations side by side
-
-Open `DriveIOSim.java` and `DriveIOReal.java` next to each other.
-
-Almost nothing in common. Different fields, different libraries, different failure
-modes. One owns a differential-drive model; the other owns PWM channels and DIO
-channels and can only exist once because the HAL allocates those channels
-exclusively.
-
-And yet: the same two methods, the same struct, the same units. That shared surface
-is the entire value of the pattern.
-
-### Three things this buys you
-
-**Simulation stops being a special case.** `DriveIOSim` is not a mode the subsystem
-switches into — it is a different object implementing the same interface. `Drive`
-cannot tell, and therefore cannot have a sim-only bug. Compare that with the
-`simulationPeriodic()` still sitting in `Drive.java`: a method that only runs
-sometimes, whose absence changes behaviour.
-
-**Swapping vendors is a one-file change.** Kraken this season, SparkFlex next:
-write a new implementation, change the line that constructs it. Presto ships
-`FlywheelsIOKrakenFOC` and `FlywheelsIOSparkFlex` side by side for exactly this
-reason.
-
-**Log replay becomes possible.** If *every* sensor reading the subsystem sees arrives
-through `updateInputs`, then recording those readings is a complete recording of the
-subsystem's world. Feed them back later and your control logic re-runs exactly,
-including a bug that happened once, in a match, three days ago. That is lesson 19,
-and it is the payoff.
-
-That last one is why the discipline is absolute: **any sensor read that sneaks
-around the interface silently breaks replay.** A stray `gyro.getAngle()` inside
-`Drive` compiles, works, and quietly makes your logs unreplayable.
-
-### Why the struct is mutable
-
-```java
-void updateInputs(DriveIOInputs inputs);
-```
-
-It fills a struct you pass in, rather than returning a new one. That looks
-old-fashioned. It is: allocating a fresh object fifty times a second, for every
-subsystem, all match, gives the garbage collector work to do at unpredictable
-moments — and an unpredictable pause during autonomous is not a theoretical concern.
-
-AdvantageKit generates a class exactly like `DriveIOInputs` from an `@AutoLog`
-annotation. Writing one by hand, once, is how the generated version stops being
-magic.
-
-## Run it
+## Check it
 
 ```bash
 ./tools/frcprog check 16-io-layer
 ```
 
-Six checks:
+Six checks. **Notice what the test does not need:** no `Drive`, no
+`RobotContainer`, no scheduler, no ports. It constructs an object, calls two
+methods, reads a struct. That is the practical difference the pattern makes.
 
-1. Voltage in, motion out.
-2. Velocity is reported, not just position.
-3. Applied voltage is reported back.
-4. Opposite voltages spin the robot and the gyro says so.
-5. Zero volts coasts to a stop.
-6. Both implementations satisfy the same interface — driven through the interface
-   type, so the test genuinely cannot tell them apart.
+## The shape
 
-**Look at what this test does not need.** No `Drive`. No `RobotContainer`. No
-scheduler, no ports, no `HAL` juggling. It constructs an object, calls two methods,
-and reads a struct. That is the practical difference the pattern makes, and it is
-why IO-layer code is so much easier to test than code that reaches for a motor
-controller directly.
+```
+Drive.java          logic: mixing, odometry, commands. Knows no hardware.
+  │
+  │  DriveIO   ◄──  the boundary: a struct in, two voltages out
+  │
+  ├── DriveIOSim    a physics model
+  └── DriveIOReal   motor controllers, encoders, a gyro
+```
+
+Open the two implementations side by side. Almost nothing in common: different
+fields, different libraries, different failure modes. And the same two methods, the
+same struct, the same units. That shared surface is the whole value.
+
+## What it buys you
+
+**Simulation stops being a special case.** `DriveIOSim` is not a mode the subsystem
+switches into. It is a different object behind the same interface. `Drive` cannot
+tell, so it cannot have a sim-only bug.
+
+**Swapping vendors is one file.** Presto ships `FlywheelsIOKrakenFOC` and
+`FlywheelsIOSparkFlex` side by side for exactly this reason.
+
+**Log replay becomes possible.** If every reading arrives through `updateInputs`,
+recording them records the subsystem's whole world. Feed them back and your logic
+re-runs exactly, including a bug that happened once, three days ago. That is
+lesson 19.
+
+Which is why the discipline is absolute: **a sensor read that bypasses the
+interface silently breaks replay.** A stray `gyro.getAngle()` inside `Drive`
+compiles and works and quietly makes your logs unreplayable.
+
+## Why the struct is mutable
+
+It fills a struct you pass in rather than returning a new one. Allocating a fresh
+object fifty times a second for every subsystem gives the garbage collector work at
+unpredictable moments, and an unpredictable pause during autonomous is not
+theoretical.
+
+AdvantageKit generates this class from an `@AutoLog` annotation. Writing one by
+hand once is how the generated version stops being magic.
 
 ## See it
 
@@ -131,29 +85,18 @@ controller directly.
 ./tools/frcprog sim
 ```
 
-Nothing visibly changes — you have not altered `Drive`. What changed is that the
-hardware boundary now has a name, and the next three lessons build on it.
+Nothing changes. You have not altered `Drive`. What changed is that the hardware
+boundary now has a name.
 
-## Done?
+## Done
+
+Rubric is green.
 
 ```bash
 ./tools/frcprog next
 ```
 
-## Where this goes, and what it costs
-
-**Lesson 17** puts a `Mechanism2d` on the AdvantageScope field so you can watch the
-articulation rather than read numbers.
-**Lesson 18** makes logging systematic instead of ad hoc.
-**Lesson 19** is replay, and it needs a vendor library — see
-`lessons/EXTENSIONS.md`.
-
-An honest note: the IO layer is not free. It is one more interface, one more file
-per implementation, and one more indirection between "the code says setVoltage" and
-"a motor moves". For a two-motor kitbot in a rookie team's first season, that
-overhead may genuinely not pay for itself.
-
-It pays when you have five subsystems, two people who each know one of them, a
-competition in three weeks, and a bug that happened once. That is most of why
-serious teams adopt it, and why this curriculum puts it in Stage 2 rather than
-Stage 1: you have to have felt the problem.
+**Honest note:** the IO layer is not free. One more interface, one file per
+implementation, one more indirection. For a two-motor kitbot in a rookie season it
+may not pay for itself. It pays when you have five subsystems, two people who each
+know one, a competition in three weeks, and a bug that happened once.

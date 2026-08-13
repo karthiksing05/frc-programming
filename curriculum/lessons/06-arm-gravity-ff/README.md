@@ -1,100 +1,57 @@
-# Lesson 06 — Arm with gravity feedforward
+# Lesson 06 — Gravity feedforward
 
-> **Stage 1B · ~45 minutes · Prerequisite: 05**
+**Stage 1B · 45 min · Needs: 05**
 
-The elevator fought a force that never changed. An arm does not have that luxury.
+An arm fights hardest when it is horizontal and not at all when it points straight up.
 
-Hold an arm straight out horizontally and gravity acts on the longest possible
-lever — it fights you as hard as it ever will. Rotate it straight up or straight
-down and the lever is zero; gravity does nothing at all. Everywhere in between is
-somewhere in between.
+## Do this
 
-The torque follows `cos(angle)`, measuring from horizontal. So the voltage needed to
-cancel it is `kG × cos(angle)` — a number that changes every loop, computed from a
-sensor you already have.
-
-## What you'll learn
-
-1. Compute a feedforward term that varies with the mechanism's state.
-2. Add feedforward to PID output before commanding the motor.
-3. Tell "constant gravity" (elevator) apart from "angle-dependent gravity" (arm).
-4. Recognise what a missing feedforward looks like on a plot.
-
-## What you'll do
-
-Open `src/main/java/frc/robot/subsystems/shoulder/ShoulderSubsystem.java`. The PID
-half is already written — this lesson is only about the term next to it.
-
-Replace:
-
-```java
-double gravityVolts = 0.0;
-```
-
-with:
+**1. `subsystems/shoulder/ShoulderSubsystem.java`** — find `TODO (LESSON 06)` and
+replace `double gravityVolts = 0.0;` with:
 
 ```java
 double gravityVolts = Constants.Shoulder.kG * Math.cos(getAngleRadians());
 ```
 
-Then set `Constants.Shoulder.kG` to `0.12` volts.
+**2. `Constants.java`** — set `Shoulder.kG` to `0.12`.
 
-### Read that line again
-
-It is `cos(getAngleRadians())`, not `cos(setpointRadians)`.
-
-You are cancelling the torque acting on the arm **right now**, not the torque that
-will act on it once it arrives. Using the setpoint is a real bug that looks
-completely correct: it behaves fine once the arm is settled, and misbehaves during
-every long travel, exactly when you are least likely to be watching closely.
-
-### Where 0.12 comes from
-
-It is the number of volts that holds this arm exactly level. On a real robot you
-find it by measurement, not arithmetic: command the arm to sit horizontal with no
-feedback at all, raise the voltage until it stops falling, write that number down.
-
-You could compute it — arm mass, length, gearing, motor torque constant — and the
-answer would be wrong, because the real mechanism has a gearbox with friction, a
-cable carrier that pulls, and a bearing that is slightly tight. Measure it.
-
-### Why not just raise kP
-
-You can. It even sort of works, and plenty of shipped robots do it. What you get:
-
-- The arm sags a few degrees below every setpoint, permanently, because the PID only
-  produces holding voltage when there is error to multiply.
-- Someone adds `kI` to remove the sag, which works, and now the integral winds up
-  during long travels and the arm lurches on arrival.
-- Every gain has to be re-tuned when the mechanism is anywhere unusual.
-
-Feedforward supplies the known force directly. The feedback loop is then left
-handling only what is genuinely unpredictable, which is the job it is good at.
-
-## Run it
+## Check it
 
 ```bash
 ./tools/frcprog check 06-arm-gravity-ff
 ```
 
-Five checks:
+Five checks. The last one is the interesting one: it verifies the holding voltage
+comes from feedforward, not from PID fighting an error. A big enough `kP` passes a
+position check while missing the point, so the rubric looks at where the voltage
+comes from.
 
-1. Holds horizontal within 2° — and *keeps* holding it for another two seconds.
-2. Reaches the down setpoint.
-3. Reaches the up setpoint.
-4. `kG` has a real value.
-5. **The holding voltage comes from feedforward, not from PID fighting an error.**
+## Read that line again
 
-Check 5 is the interesting one, and it exists because check 1 alone is cheatable: a
-big enough `kP` shrinks the sag below 2° while completely missing the point. So the
-rubric looks at *where the voltage is coming from*. With correct feedforward, a
-settled arm sits at its setpoint with almost no error, so the PID contributes almost
-nothing and the applied voltage is essentially all `kG × cos(angle)`. Without it,
-the arm must sit off-target to generate the voltage it needs, and the two numbers
-diverge.
+It is `cos(getAngleRadians())`, not `cos(setpointRadians)`.
 
-That trick — grading the decomposition rather than the result — is worth
-remembering.
+You are cancelling the torque acting on the arm **now**, not the torque that will
+act on it when it arrives. Using the setpoint is a real bug that looks correct: it
+behaves fine once settled and misbehaves during every long move.
+
+## Why
+
+Gravity torque on an arm follows `cos(angle)` measured from horizontal. Horizontal
+means the full weight on the longest lever. Straight up or down means zero lever.
+
+So the volts needed to cancel it are `kG * cos(angle)`, recomputed every loop from
+a sensor you already have.
+
+**Where 0.12 comes from:** measurement, not arithmetic. Command the arm level with
+no feedback, raise voltage until it stops falling, write the number down. Calculate
+it instead and you will be wrong, because the real mechanism has gearbox friction
+and a cable that pulls.
+
+**Why not just raise kP:**
+
+- the arm sags a few degrees below every setpoint, permanently
+- someone adds `kI` to hide the sag, which then winds up during long moves
+- every gain needs re-tuning whenever the arm is somewhere unusual
 
 ## See it
 
@@ -102,35 +59,19 @@ remembering.
 ./tools/frcprog sim
 ```
 
-Connect AdvantageScope and plot the arm angle and its applied voltage together.
+Plot arm angle and applied voltage together. Command horizontal: voltage settles
+near 0.12. Command 60° up: holding voltage falls to about 0.06, because `cos(60°)`
+is 0.5.
 
-Command the arm to horizontal and watch the voltage settle at about 0.12. Then
-command it to 60° up and watch the *holding* voltage fall to about 0.06 — because
-`cos(60°)` is 0.5, and gravity now has half the lever it had.
+## Done
 
-That curve, voltage tracking the cosine of angle, is the lesson in one picture.
-
-## Done?
+Rubric is green. Stage 1B complete.
 
 ```bash
 ./tools/frcprog next
 ```
 
-Stage 1B is complete. You have a state machine, a position loop, and a mechanism
-that compensates for physics. Next: commands, and your first drivable robot.
-
-## Where this goes
-
-`kG` is one term of a family. Full feedforward for a mechanism is usually written:
-
-```
-volts = kS·sign(velocity) + kG·cos(angle) + kV·velocity + kA·acceleration
-```
-
-- `kS` — static friction: the voltage needed just to break the mechanism loose
-- `kG` — gravity, which you just did
-- `kV` — volts per unit of velocity, for holding a *speed* (lesson 10 uses this)
-- `kA` — volts per unit of acceleration, for changing speed
-
-WPILib has `ArmFeedforward` and `ElevatorFeedforward` classes that bundle these.
-Writing the `kG` term by hand once, first, is how the class stops being magic.
+**Where this goes.** Full feedforward is
+`kS·sign(v) + kG·cos(θ) + kV·v + kA·a`. You just did `kG`. WPILib has
+`ArmFeedforward` and `ElevatorFeedforward` that bundle all four. Writing one term
+by hand first is how the class stops being magic.

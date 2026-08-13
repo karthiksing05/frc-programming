@@ -16,10 +16,10 @@ a clear goal, working code to model, and the simulator as the check.
 
 This is a deliberately offline curriculum, and that shaped almost every other choice.
 
-The reason is not ideology. It is that a first team meeting is thirty students on one
-school access point, a build-season Saturday is a district captive portal blocking
-Maven Central, and a competition pit has no useful internet at all. A toolchain that
-reaches out on every build is a toolchain that fails in exactly those moments.
+Not ideology. A first team meeting is thirty students on one school access point. A
+build-season Saturday is a captive portal blocking Maven Central. A competition pit
+has no useful internet. A toolchain that reaches out on every build fails in exactly
+those moments.
 
 So: every dependency comes from the Maven repository inside the WPILib install,
 Gradle is forced offline for every invocation, grading runs locally, progress lives in
@@ -37,9 +37,9 @@ Three ideas, borrowed and credited.
 
 **Pain before abstraction.** From
 [Katie Niwiden's work on teaching FRC programming](https://docs.google.com/presentation/d/15O2Xo5cHsYG3hVvQbMSB2SuvU9ED0Y3feaKdCbgaQyM/preview).
-Lesson 03 makes students write a messy `teleopPeriodic` on purpose, so that lesson
-04's subsystem arrives as relief rather than as ceremony. An abstraction handed over
-before the problem is felt is just a rule to memorise.
+Lesson 03 makes students write a messy `teleopPeriodic` on purpose, so lesson 04's
+subsystem arrives as relief rather than ceremony. An abstraction handed over before
+the problem is felt is just a rule to memorise.
 
 **Factories, triggers, bindings.** From
 [Oblarg's command-based best practices](https://www.chiefdelphi.com/t/command-based-best-practices-for-2025-community-feedback/465602),
