@@ -82,3 +82,96 @@ iframe.lesson-widget {
 .lesson-footer-nav.grid.cards > ul > li strong {
   color: var(--frcp-primary);
 }
+
+/* ─── Interactive 3D mechanism viewer (robot3d.js) ─────────────────────── */
+.robot3d {
+  --r3d-grid: rgba(128, 138, 155, 0.35);
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(220px, 1fr);
+  gap: 1rem;
+  align-items: start;
+  margin: 1.4rem 0;
+  padding: 0.9rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 8px;
+  background: var(--md-code-bg-color);
+}
+@media screen and (max-width: 60em) {
+  .robot3d { grid-template-columns: minmax(0, 1fr); }
+}
+
+.r3d-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+  cursor: grab;
+  touch-action: pan-y;
+  background: linear-gradient(180deg,
+      rgba(127, 140, 160, 0.10), rgba(127, 140, 160, 0.02));
+}
+.r3d-canvas:active { cursor: grabbing; }
+
+.r3d-panel { font-size: 0.76rem; }
+
+.r3d-control { margin-bottom: 0.85rem; }
+
+.r3d-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color);
+  margin-bottom: 0.3rem;
+}
+.r3d-value {
+  font-family: var(--md-code-font-family, monospace);
+  font-weight: 400;
+  color: var(--md-primary-fg-color);
+}
+
+.r3d-slider {
+  width: 100%;
+  accent-color: var(--md-primary-fg-color);
+  margin: 0 0 0.35rem;
+}
+
+.r3d-presets { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.r3d-preset {
+  font: inherit;
+  font-size: 0.72rem;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
+}
+.r3d-preset:hover {
+  border-color: var(--md-primary-fg-color);
+  color: var(--md-primary-fg-color);
+}
+
+.r3d-readout {
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+.r3d-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.15rem 0;
+  color: var(--md-default-fg-color--light);
+}
+.r3d-row b {
+  font-family: var(--md-code-font-family, monospace);
+  color: var(--md-default-fg-color);
+}
+
+.r3d-hint {
+  margin: 0.8rem 0 0;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}

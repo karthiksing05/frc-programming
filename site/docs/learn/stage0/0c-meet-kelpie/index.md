@@ -11,6 +11,23 @@ title: "0C — Meet Kelpie"
 
 ---
 
+## Play with the mechanism
+
+Kelpie has to put a Coral on a branch at one of four heights, and that takes three
+joints agreeing at once. Drag them and watch how they trade off against each other.
+
+<div class="robot3d" data-robot="kelpie"></div>
+
+The limits and presets are the same numbers as `Constants.Elevator` and
+`Constants.Shoulder` in your project — you build this elevator in lesson 05 and this
+shoulder in lesson 06.
+
+Try to reach a high branch two different ways. You will find more than one combination
+of height and angle puts the gripper in the same place, which is exactly the problem
+lesson 20 exists to solve.
+
+---
+
 ## Hints
 
 Four hints, escalating. The answer is only in the last one — open them in order
