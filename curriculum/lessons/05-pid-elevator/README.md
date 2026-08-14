@@ -2,7 +2,16 @@
 
 **Stage 1B · 50 min · Needs: 04**
 
-Make a motor stop at a number instead of near it.
+Tell a motor to run at 40% power until the elevator reaches 90 centimetres and it will
+sail straight past, because a moving carriage does not stop the instant you stop pushing
+it. Drop the power to 10% instead and it never gets there at all, because that is not
+enough to lift its own weight.
+
+There is no single power level that works, and that is the whole problem. What you need
+is a rule that *changes* the power based on how far away you still are — a lot when the
+gap is big, gently as it closes, nothing when you arrive. That rule is a PID controller,
+and it is the single most reused idea in robot programming: every arm, elevator, turret,
+shooter and drivetrain in FRC has one somewhere.
 
 ## Do this
 

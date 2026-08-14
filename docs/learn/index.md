@@ -1,10 +1,34 @@
 # The lessons
 
-34 lessons, in order. Each one solves a problem the previous one made you feel, so
-the order matters.
+34 lessons, in order. Start at Stage 0 even if you have programmed before — it is
+short, and it covers the things that bite later.
 
-Start at Stage 0 even if you have programmed before. It is short and it catches the
-things that bite later.
+## How this course is built
+
+Every lesson starts with a problem rather than a feature. Before you are asked to write
+a PID controller you are shown an elevator that overshoots at high power and never
+arrives at low power, so that "there is no single power that works" is something you
+have felt rather than been told. The technique then arrives as the answer to that.
+
+This is why the order matters more than it usually does. Lesson 03 has you write code in
+a place you will be made to move it out of in lesson 04, because being shown a tidy
+subsystem before you have felt a messy `teleopPeriodic()` teaches you the shape without
+the reason — and the reason is the part that transfers to next year's robot.
+
+Three things follow from that, and they are worth knowing up front:
+
+- **You will write things that are wrong on purpose.** That is not wasted work; the
+  refactor is the lesson.
+- **Every lesson says why before it says how.** If you ever find yourself typing without
+  knowing what problem you are solving, stop and re-read the opening paragraph, because
+  something has gone wrong in the writing and you should tell us.
+- **You should be able to see it, not just pass it.** Every graded lesson has a *See it*
+  section that puts the thing you built on screen — a motor output, a graph, a robot
+  moving — because a green check is evidence, not understanding.
+
+If you have never touched robot code, read [Start here](../orientation/index.md) first.
+It explains the competition, the hardware and every tool in the stack before asking you
+to install anything.
 
 [Set up first](../setup/index.md){ .md-button }
 [Start Lesson 0A](stage0/0a-first-run-install/index.md){ .md-button .md-button--primary }

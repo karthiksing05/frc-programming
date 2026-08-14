@@ -2,7 +2,10 @@
 
 **Stage 0 · 30 min · Needs: 0A, 0B, 0C**
 
-Learn where things live and how to not lose your work.
+A robot project has a lot of folders, and almost none of them are ones you will edit.
+Fifteen minutes spent working out which is which now will save you from the two most
+common beginner problems: putting a file somewhere the build cannot see it, and losing
+an afternoon's work because nothing was ever saved anywhere but the editor.
 
 ## Do this
 
