@@ -2,7 +2,18 @@
 
 **Stage 1D · 50 min · Needs: 12**
 
-Driving straight gets you out of the zone. It will not get you around anything.
+The routine you wrote in lesson 12 drives in straight lines and turns on the spot. That
+is enough to leave the starting zone, and it stops being enough the moment anything is
+in the way — another robot, a field element, or a scoring position that is off to one
+side.
+
+Stringing together more straight lines and turns does not fix it either. Each one starts
+and stops, so the robot lurches, takes far longer than the path is worth, and the errors
+in each segment accumulate into a final position that is nowhere near where you meant.
+
+What you want instead is a smooth curve the robot follows at speed, described once by
+the points it should pass through. That is a trajectory, and generating and following one
+is the difference between a two-piece autonomous and a four-piece one.
 
 ## Do this
 

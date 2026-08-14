@@ -2,8 +2,18 @@
 
 **Stage 1C · 40 min · Needs: 08**
 
-"Spin up, wait for speed, then feed." One sentence, three commands, one ordering
-constraint that matters.
+Ask a driver what scoring looks like and they will say "spin the shooter up, wait until
+it is fast enough, then feed the piece in". That sentence has three actions and one
+constraint — the feed must not start early, or the piece leaves at the wrong speed and
+misses.
+
+You could write that as one large command with a step counter inside it. Teams do, and it
+works, and then somebody wants the same three steps in autonomous with a different
+target speed and there is nothing to reuse.
+
+The alternative is to keep each action as its own small command and *compose* them — to
+describe the sequence as a relationship between pieces you already have. That is what
+this lesson is about, and it is the reason command-based exists at all.
 
 ## Do this
 

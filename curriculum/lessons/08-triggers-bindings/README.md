@@ -2,7 +2,17 @@
 
 **Stage 1C · 35 min · Needs: 07**
 
-Sticks are continuous. Buttons are events. They want different machinery.
+So far everything you have written runs fifty times a second and asks the same question
+every time: *is the button down right now?* That works for a joystick, because a stick
+genuinely does have a fresh value every loop.
+
+It works badly for a button. "Start the shooter when B is pressed" is about a *moment* —
+the instant it went from up to down — and to detect a moment in a polling loop you have
+to remember what the button was doing last time and compare. Do that for eight buttons
+and you have eight extra variables whose only job is to remember the past.
+
+WPILib already solved this. A `Trigger` watches a condition and fires commands on the
+edges, so you describe the binding once at startup instead of re-testing it forever.
 
 ## Do this
 

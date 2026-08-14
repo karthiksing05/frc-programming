@@ -2,7 +2,14 @@
 
 **Stage 1D · 40 min · Needs: 11**
 
-Fifteen seconds where nobody may touch a controller.
+Every match opens with fifteen seconds in which nobody is allowed to touch a controller.
+Whatever the robot does in that window it does because of code, and a robot that sits
+still is giving away points that the other alliance is collecting.
+
+The good news is that you already have everything you need. An autonomous routine is not
+a special kind of program — it is the same commands your buttons trigger, scheduled by
+the code instead of by a human. If you can score in teleop, you can score in auto, and
+the only new idea is deciding *which* routine to run before the match starts.
 
 ## Do this
 

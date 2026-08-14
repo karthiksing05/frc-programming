@@ -2,7 +2,20 @@
 
 **Stage 2A · 60 min · Needs: 15**
 
-Your `Drive` does two unrelated jobs. Separate them.
+Your `Drive` class currently does two unrelated jobs at once. It decides *what the robot
+should do* — apply the deadband, work out left and right speeds, run the control loop —
+and it also knows *exactly which hardware it is talking to*, because the motor and
+encoder objects are its own fields.
+
+That is fine until either job changes. Swap from PWM motors to CAN ones and you are
+editing the same file that holds your driving logic, with the tests that prove that logic
+works now compiled against hardware you no longer have. Teams lose days to this every
+January.
+
+The fix is to put an interface between them: one file that says what the hardware can
+sense and be told, and separate implementations for simulated and real hardware. The
+logic then talks to the interface and never learns which one it got. This is the pattern
+AdvantageKit is built around, and writing it by hand once is how it stops being magic.
 
 ## Do this
 
