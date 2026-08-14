@@ -175,7 +175,7 @@ of each other; turning is a clean split.
 
 ## Done
 
-Rubric is green. You have a drivable robot.
+The rubric passes and you have a robot you can actually drive around.
 
 ```bash
 ./tools/frcprog next

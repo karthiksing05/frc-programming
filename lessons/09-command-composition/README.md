@@ -163,7 +163,8 @@ That staircase is your composition drawn in time. If the roller trace moves at s
 
 ## Done
 
-Rubric is green.
+The rubric passes, and you can build a multi-step action out of single-step ones
+without writing a new class for each combination.
 
 ```bash
 ./tools/frcprog next

@@ -2,14 +2,29 @@
 
 **Stage 1A · 25 min · Needs: 0D**
 
-Your robot creeps across the field while nobody is touching the joystick.
+The robot is sitting still on the field, nobody is touching the controller, and it
+starts creeping toward the wall. This happens to every team, and the cause is not the
+robot — it is that a joystick at rest does not report exactly zero.
 
 ## Do this
 
-1. Open `src/main/java/frc/robot/util/MathUtils.java`
-2. Find `TODO (LESSON 01)`
-3. Make `applyDeadband` return `0.0` when `Math.abs(value) < threshold`,
-   and return `value` unchanged otherwise.
+Open `src/main/java/frc/robot/util/MathUtils.java` and find `TODO (LESSON 01)`. Write
+`applyDeadband` so that it returns `0.0` when the reading is smaller than the
+threshold, and returns the reading unchanged otherwise.
+
+These are the calls the rubric will make, and what each one has to give back:
+
+```java
+applyDeadband(0.05,  0.1);   // 0.0    small enough to be noise, so throw it away
+applyDeadband(-0.05, 0.1);   // 0.0    sticks drift both ways, so handle both signs
+applyDeadband(0.8,   0.1);   // 0.8    a real request — pass it through untouched
+applyDeadband(-0.8,  0.1);   // -0.8   and keep the sign, or the robot reverses wrongly
+applyDeadband(0.15,  0.2);   // 0.0    use the threshold you were given, not a fixed 0.1
+applyDeadband(0.1,   0.1);   // 0.1    exactly on the edge still counts — use <, not <=
+```
+
+The last two are the ones people get wrong. If you hard-code `0.1` inside the method
+the fifth line fails, and if you write `<=` the sixth does.
 
 ## Check it
 
@@ -17,13 +32,38 @@ Your robot creeps across the field while nobody is touching the joystick.
 ./tools/frcprog check 01-methods
 ```
 
-| # | Input | Expected | Why |
-|---|---|---|---|
-| 1 | `0.05`, band `0.1` | `0.0` | inside the band |
-| 2 | `-0.05`, band `0.1` | `0.0` | sticks drift both ways |
-| 3 | `±0.8`, band `0.1` | unchanged | real input, keep the sign |
-| 4 | `0.15`, band `0.20` | `0.0` | use the parameter, not a hard-coded 0.1 |
-| 5 | `0.1`, band `0.1` | `0.1` | use `<`, not `<=` |
+## Spot the bug
+
+Here is a version somebody wrote quickly. It compiles, and it passes four of the six
+calls above.
+
+```java
+public static double applyDeadband(double value, double threshold) {
+  if (Math.abs(value) < 0.1) {
+    return 0.0;
+  }
+  return value;
+}
+```
+
+Which two does it fail, and why is this the more dangerous kind of mistake?
+
+??? success "Answer"
+
+    It fails `applyDeadband(0.15, 0.2)`, which should be `0.0` but comes back as
+    `0.15`, and it changes behaviour for any threshold that is not `0.1`.
+
+    The method takes a `threshold` parameter and then ignores it, using a hard-coded
+    `0.1` instead. Every call that happens to pass `0.1` works perfectly.
+
+    That is what makes it dangerous. This bug is invisible for as long as the whole
+    robot uses one deadband value. The day somebody adds a turret that needs a tighter
+    band of `0.03`, the turret silently gets `0.1` instead — and the person debugging
+    the turret will be reading turret code, not this method, because this method has
+    a passing test suite and has worked all season.
+
+    A parameter that is accepted and then not used is worth treating as a red flag
+    whenever you see one.
 
 ## How it works
 
@@ -97,38 +137,71 @@ happening. `if (Math.abs(y) < 0.1) y = 0;` makes the reader work it out.
 
 ## See it
 
+There is no drivetrain until lesson 07, but you can wire your method to a motor right
+now and watch it do its job. It takes about two minutes and it is worth doing, because
+the difference is obvious on screen.
+
+Open `Robot.java`, find the last line of `teleopPeriodic()`, and replace it with the
+raw stick reading:
+
+```java
+rollerMotor.set(operator.getLeftY());          // no deadband yet — on purpose
+```
+
+Then start the simulator:
+
 ```bash
 ./tools/frcprog sim
 ```
 
-There is no drivetrain until lesson 07, so there is nothing to drive yet. What this
-proves is that your code compiles and loads into a running robot program, which is
-worth confirming once.
+Set the mode to **Teleoperated**. In the **Joysticks** panel, drag the *LeftY* axis
+slider a tiny amount away from centre — somewhere around `0.05`. Now watch the **PWM**
+panel: port 5 is following it exactly. On a real robot that is a motor turning while
+nobody is asking for anything.
 
-Full walkthrough of the simulator and AdvantageScope:
+Now put your method in the way:
+
+```java
+rollerMotor.set(MathUtils.applyDeadband(operator.getLeftY(), 0.1));
+```
+
+VS Code will underline `MathUtils` in red, because `Robot.java` lives in the package
+`frc.robot` and your method lives in `frc.robot.util` — a different folder, so Java
+does not know the name yet. Add this line up with the other imports at the top of the
+file:
+
+```java
+import frc.robot.util.MathUtils;
+```
+
+That is all an import is: telling this file where to find a name that lives somewhere
+else. Every one of the six imports already at the top of `Robot.java` is doing the
+same job for a WPILib class.
+
+Restart the sim and drag the same slider to `0.05` again. The PWM output stays at
+`0.00`. Push the slider past `0.1` and it starts following again, immediately and at
+full value.
+
+That flat region around zero is the thing you built. Set the line back to
+`rollerMotor.set(0.0)` when you are done looking.
+
+If you have a real Xbox controller plugged in, there is a second thing worth seeing:
+leave the sticks completely alone and watch the raw axis value in the Joysticks panel.
+The last digits wander on their own. That drift is not a fault, it is what every
+controller does, and it is the entire reason this lesson exists.
+
+The full tour of the simulator is in
 **[Running the simulator](../../../setup/simulator.md)**.
-
-??? example "Experiment: feel the numbers"
-
-    Skip if you are short on time. Two minutes if you are not.
-
-    1. Start the sim and bind a controller (see the simulator guide)
-    2. Open **Hardware → PWM Outputs** and watch the numbers
-    3. Do not touch the sticks. Watch them drift.
-
-    With a real Xbox controller you will see the last digits move constantly. With a
-    keyboard you will not, because keyboard axes are exactly −1, 0 or 1.
-
-    That drift is the entire problem you just solved.
 
 ## Done
 
-Rubric is green.
+The rubric passes and you have a method the rest of the robot can use.
 
 ```bash
 ./tools/frcprog next
 ```
 
-WPILib ships `MathUtil.applyDeadband`, which is your method plus a scaling option so
-the output ramps from zero at the band edge instead of jumping. Kelpie and Presto
-both call it several times a second all season. You did not write a toy.
+WPILib ships its own `MathUtil.applyDeadband`, which is the method you just wrote plus
+an option to ramp the output smoothly from zero at the band edge instead of jumping.
+Kelpie and Presto both call it several times a second for an entire season, so this
+was not a toy exercise — it is one of the most-executed lines of code on a real robot.

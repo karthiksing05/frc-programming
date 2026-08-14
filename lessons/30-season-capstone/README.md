@@ -8,7 +8,8 @@
     simulator as your check. If it does what this page describes and you can point
     at the plot that proves it, you are done.
 
-No instructions. That is the point.
+There are deliberately no instructions for this one, because being handed a game and
+having to decide what to build is the actual job.
 
 Pick a game, decide a strategy, build a robot to it. Everything in this curriculum
 is available. Nothing is prescribed.

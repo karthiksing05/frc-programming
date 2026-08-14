@@ -22,7 +22,9 @@ return Commands.sequence(
 autoChooser.addOption("Drive and Score", SimpleAuto.driveAndScore(drive, flywheels, roller));
 ```
 
-A routine nothing selects never runs.
+Registering the routine with the chooser is what makes it selectable from the
+dashboard, and a routine that nothing can select will never run no matter how
+correct it is.
 
 ## Check it
 
@@ -149,7 +151,8 @@ If RPM rises while distance is still climbing, you used `parallel`.
 
 ## Done
 
-Rubric is green.
+The rubric passes, and the robot does something useful in the fifteen seconds
+before the drivers are allowed to touch it.
 
 ```bash
 ./tools/frcprog next
