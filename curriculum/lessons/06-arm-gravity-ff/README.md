@@ -102,7 +102,9 @@ picked up. You will see this shape in every mechanism from here on.
 
 ### Where 0.12 comes from
 
-Measurement, not arithmetic.
+This number came from measuring the arm, not from a formula. You could compute it
+from mass and length and gearing, but every one of those is approximate and the
+errors multiply, so measuring is both faster and more accurate.
 
 Command the arm to sit level with no feedback at all. Raise the voltage until it
 stops falling. Write that number down. Done.
@@ -143,7 +145,8 @@ That curve, voltage tracking the cosine of angle, is the whole lesson in one pic
 
 ## Done
 
-Rubric is green. Stage 1B complete.
+The rubric passes, the arm holds level instead of drooping, and that is Stage 1B
+finished — you can now make a mechanism go to a position and stay there.
 
 ```bash
 ./tools/frcprog next

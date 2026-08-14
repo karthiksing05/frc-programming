@@ -25,3 +25,5 @@ curriculum/.frcprog/
 site/_site/
 site/tools/artifact_data.json
 site/frcprogramming-artifact.html
+
+feedback/

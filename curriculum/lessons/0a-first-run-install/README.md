@@ -2,7 +2,13 @@
 
 **Stage 0 · 60 min · Needs: nothing**
 
-Install once. Most of the hour is waiting on a download.
+You install this once and then never think about it again. Most of the hour is spent
+waiting for a download, so start it and go and do something else.
+
+If the words WPILib, Gradle or AdvantageScope mean nothing to you yet, read
+[The software, explained](../../../orientation/software.md) first. This lesson tells
+you what to install; that page tells you what each piece actually is, which makes the
+next ten lessons make a great deal more sense.
 
 ## Do this
 
@@ -38,33 +44,47 @@ Install once. Most of the hour is waiting on a download.
 
 ## What you just installed
 
-| Piece | Why you need it |
-|---|---|
-| Java 17 JDK | Everyone on your team compiles the same way |
-| WPILib's own VS Code | Already configured, extension installed |
-| Offline Maven repository | Every library, already on disk. This is what makes the rest work with no internet. |
-| AdvantageScope | Plots. You live in this from Stage 1C. |
-| Simulator | Runs your robot without a robot |
+That one installer put five separate things on your machine.
+
+The **Java 17 JDK** is the compiler and runtime, shipped by WPILib so that every laptop
+on your team builds with an identical version instead of whatever Java happened to be
+there. **WPILib's own copy of VS Code** is the editor, already configured, with the
+extension installed and pointed at that JDK.
+
+The **offline Maven repository** is a folder holding every library the project needs,
+already downloaded. This is the piece that makes the rest of the curriculum work with
+no internet connection at all — Gradle looks in there rather than reaching out to a
+server.
+
+**AdvantageScope** draws graphs of what your robot is doing, and you will be using it
+from Stage 1B onward. The **simulator** runs your robot code without a robot, which is
+the only reason any of this is possible on a laptop.
 
 ## Watch out for
 
 **"Unsupported class file major version"**
-You typed `gradle` instead of `./gradlew`. The `./` and the `w` both matter.
+This means Gradle is running on the wrong Java. You almost certainly typed `gradle`
+instead of `./gradlew` — the `./` and the `w` both matter, because `gradlew` is a
+script inside the project that finds the correct Java for you.
 
 **Cloud-synced folders**
-Gradle holds files open while OneDrive syncs them. Builds fail at random and look
-corrupted. Nobody ever guesses the cause.
+Gradle holds files open while OneDrive or Dropbox tries to sync them underneath it.
+Builds then fail at random with errors that look like file corruption, and almost
+nobody guesses that cloud sync is the cause.
 
 **Windows Firewall popup on first run**
-Click **Allow**. It is the simulator opening a local port. Clicking Cancel breaks
-your plots two lessons later.
+Click **Allow**. It is the simulator opening a port on your own machine so that
+AdvantageScope can connect to it. If you click Cancel out of reflex, your graphs will
+silently fail to connect two lessons later and it will look like an unrelated problem.
 
 **Very slow builds on Windows**
-Antivirus scanning Gradle's cache. Ask IT to exclude the project folder and
-`%USERPROFILE%\.gradle`. Twenty minutes becomes two.
+This is usually antivirus software scanning Gradle's cache every time it is touched.
+Ask whoever administers the machine to exclude the project folder and
+`%USERPROFILE%\.gradle`, which normally takes builds from several minutes back down to
+a few seconds.
 
 **macOS "unidentified developer"**
-Right-click the app, choose Open.
+Right-click the app and choose Open, rather than double-clicking it.
 
 ## Done
 

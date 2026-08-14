@@ -106,7 +106,7 @@ Same idea as lesson 16's IO layer, applied to a different problem.
 
 ??? info "When to actually do this on a real team"
 
-    Not on day one, and not never.
+    The honest answer is neither on day one nor never.
 
     Keep everything in `RobotContainer` until it stops fitting on a screen and a
     half, call it 150 lines of real code. Then split.

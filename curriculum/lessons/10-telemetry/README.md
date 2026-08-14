@@ -153,7 +153,8 @@ lessons 27 and 28.
 
 ## Done
 
-Rubric is green. Stage 1C complete.
+The rubric passes, the robot is publishing everything you need to debug it, and
+that completes Stage 1C.
 
 ```bash
 ./tools/frcprog next

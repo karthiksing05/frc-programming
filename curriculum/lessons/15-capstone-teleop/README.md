@@ -2,7 +2,9 @@
 
 **Stage 1D · 90 min · Needs: all of Stage 1**
 
-No new code. Find out what you already know.
+There is no new code in this lesson. It exists so you can find out what you already
+know, by operating the robot you have spent fifteen lessons building and watching all
+of it work at once.
 
 ## Do this
 
@@ -101,7 +103,42 @@ them on a field costs a match.
 
 ## See it
 
-Everything at once, live. That is the deliverable.
+This is the payoff for the whole of Stage 1, and it is worth setting up properly rather
+than glancing at. Run the simulator and AdvantageScope side by side, with the pit
+dashboard you just built open.
+
+```bash
+./tools/frcprog sim      # terminal 1
+./tools/frcprog scope    # terminal 2
+```
+
+Then drive the robot around for a couple of minutes with all four graphs visible, and
+watch what happens on them as you play. Specific things to look for:
+
+**On the drive volts graph** — the two traces separate when you turn and converge when
+you drive straight. Release the sticks and both should drop to zero immediately rather
+than trailing off, because the default command is still running and still commanding
+zero.
+
+**On the elevator graph** — send it to a setpoint and watch the measured height chase
+the setpoint line. The gap between the two lines is the error your PID loop is working
+against. It should close quickly and then sit on top of the setpoint without hunting.
+
+**On the flywheel graph** — spin up and watch the actual speed climb toward the target,
+then dip when a game piece is fed through and recover. That dip is real physics: the
+piece takes energy out of the wheels. Seeing it is how you know your simulation is
+modelling something rather than drawing a straight line.
+
+**On the 2D field** — run both autonomous routines and watch the robot trace them.
+
+What you should end up with is four graphs that together tell you what every mechanism
+on the robot is doing at any instant, from one screen. That is not a teaching exercise;
+it is exactly what a team watches in the pit between matches, and being the person who
+can read it is most of what makes a programmer useful at a competition.
+
+If you want a number that is not on there, publish it and add it. That instinct — *I
+cannot see what I need, so I will make it visible* — is the single most useful habit in
+this whole curriculum.
 
 ## Done
 

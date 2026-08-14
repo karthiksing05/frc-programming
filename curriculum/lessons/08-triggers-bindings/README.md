@@ -142,7 +142,8 @@ up there, the robot never saw the press and no amount of binding will help.
 
 ## Done
 
-Rubric is green.
+The rubric passes, and `teleopPeriodic()` is empty — every button is now wired up
+once at startup rather than being re-checked fifty times a second.
 
 ```bash
 ./tools/frcprog next

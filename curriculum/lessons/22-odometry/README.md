@@ -49,7 +49,8 @@ You do not need Kalman theory to tune these.
 ## Watch out for
 
 **Module positions in a different order** than the kinematics was constructed with.
-Silent, and gets worse as you turn.
+This one produces no error and no warning; the pose simply drifts, and the drift
+gets worse the more the robot turns.
 
 **Resetting the gyro instead of the pose.** `resetPose` says where you are. Zeroing
 the gyro changes what "forward" means, which is almost never what you wanted.

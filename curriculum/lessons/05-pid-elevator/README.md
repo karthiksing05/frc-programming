@@ -93,7 +93,8 @@ gives. It is the cure for parking two centimetres short forever.
 Its weakness is wind-up. During a long travel the sum grows large, and when you
 finally arrive that stored value is still pushing. The mechanism lurches past.
 
-Use it last, and sparingly.
+That makes it the term to reach for last and to use sparingly — usually only when a
+mechanism settles just short of its target and refuses to close the final gap.
 
 ??? question "Predict: with kP = 40, kD = 0, what will the plot look like?"
 
@@ -209,7 +210,8 @@ actually arriving.
 
 ## Done
 
-Rubric is green.
+The rubric passes, and the carriage now holds a height instead of falling to the
+floor whenever you stop asking it to move.
 
 ```bash
 ./tools/frcprog next
