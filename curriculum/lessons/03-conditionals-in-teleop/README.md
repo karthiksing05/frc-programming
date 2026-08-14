@@ -2,22 +2,46 @@
 
 **Stage 1A · 35 min · Needs: 02**
 
-Read this first: you are about to write working code in the wrong place, on purpose.
+You are about to write working code in the wrong place, on purpose, so that lesson 04
+can show you why nobody leaves it there.
+
+The mechanism is an intake roller: a spinning wheel that pulls a game piece into the
+robot and can spit it back out. Across the throat of the intake is a beam-break sensor
+— an infrared beam that the game piece interrupts when it is loaded — so the robot can
+tell whether it is already holding something.
 
 ## Do this
 
-1. Open `src/main/java/frc/robot/Robot.java`
-2. Find `TODO (LESSON 03)` inside `teleopPeriodic()`
-3. Write the behaviour below with plain `if` / `else if` / `else`
+Open `src/main/java/frc/robot/Robot.java` and find `TODO (LESSON 03)` inside
+`teleopPeriodic()`. Write the behaviour your drive team asked for using plain `if` /
+`else if` / `else`.
 
-| Operator does | Roller should |
-|---|---|
-| Holds X | eject at `Constants.Roller.EJECT_SPEED` |
-| Holds B, nothing loaded | intake at `Constants.Roller.INTAKE_SPEED` |
-| Holds B, piece already loaded | stop |
-| Nothing | stop |
+These are the four calls you have to work with:
 
-X beats B. Ejecting a piece you are holding is the whole reason for the button.
+```java
+operator.getBButton()     // true for as long as B is held down
+operator.getXButton()     // true for as long as X is held down
+beamBreak.get()           // true when the beam is UNBROKEN, so !get() means "loaded"
+rollerMotor.set(speed)    // -1.0 to 1.0; negative runs the roller the other way
+```
+
+And this is what the operator expects to happen:
+
+```java
+// Holding X ejects, always. Check this first — it has to beat B, because
+// spitting out a piece you are already holding is the whole point of the button.
+rollerMotor.set(Constants.Roller.EJECT_SPEED);     // -0.6, runs outward
+
+// Holding B pulls a piece in, but only if there is not one in there already.
+// Running the intake against a piece that is already seated just grinds it.
+rollerMotor.set(Constants.Roller.INTAKE_SPEED);    // 0.6, runs inward
+
+// Holding B with a piece already loaded, or holding nothing at all: stop.
+rollerMotor.set(0.0);
+```
+
+Every path through your code must end in exactly one `rollerMotor.set(...)` call. A
+path that sets nothing leaves the motor doing whatever it was doing last.
 
 ## Check it
 
@@ -25,14 +49,43 @@ X beats B. Ejecting a piece you are holding is the whole reason for the button.
 ./tools/frcprog check 03-conditionals-in-teleop
 ```
 
-## Calls you need
+## Spot the bug
+
+This is the most common way this lesson gets written wrong. It compiles, and if you
+test it by holding B on an empty robot it looks perfect.
 
 ```java
-operator.getBButton()     // true while held
-operator.getXButton()     // true while held
-beamBreak.get()           // true when the beam is UNBROKEN
-rollerMotor.set(speed)    // -1 to 1
+if (operator.getBButton() && beamBreak.get()) {
+  rollerMotor.set(Constants.Roller.INTAKE_SPEED);
+} else if (operator.getXButton()) {
+  rollerMotor.set(Constants.Roller.EJECT_SPEED);
+} else {
+  rollerMotor.set(0.0);
+}
 ```
+
+What does the robot do when the driver holds X and B at the same time while empty —
+and why is that going to happen during a match?
+
+??? success "Answer"
+
+    It intakes, when the driver asked it to eject.
+
+    The `if` chain checks B first, so as soon as B and an empty intake are both true,
+    the eject branch is never reached. Java stops at the first matching branch and
+    never looks at the rest.
+
+    The reason this matters is that operators do not press one button at a time. In a
+    match they are holding B almost permanently — it is the "collect anything you drive
+    over" button — and they hit X to score. With this ordering, X does nothing until
+    they consciously release B, which is not something anybody remembers to do while
+    being defended.
+
+    Order the branches by priority, not by the order you happened to think of them.
+    Check X first, and B becomes the fallback it should have been all along.
+
+    This is worth generalising: in an `if`/`else if` chain, the order *is* the
+    priority. That is a design decision, and it should be a deliberate one.
 
 ## How it works
 
@@ -131,26 +184,24 @@ piece, is the reason simulation is better than hardware for learning.
 
 ## Done
 
-Rubric is green. Now count the lines you wrote.
+The rubric passes, so count the lines you just wrote — probably ten to fifteen for one
+motor and one sensor.
 
-Probably ten to fifteen. Now imagine the elevator here too. And the arm, the
-shooter, the climber, each with its own sensor and buttons, all sharing one `else`
-chain. That is roughly a hundred lines with no structure, in a method whose actual
-job is "be the teleop mode".
+Now picture the rest of a competition robot in the same method: an elevator, an arm, a
+shooter, and a climber, each with its own sensors and buttons, all sharing one `if`
+chain. That is somewhere around a hundred lines with no structure at all, inside a
+method whose actual job is only "be the teleop mode".
 
-Three specific things go wrong at that size:
+Three specific things go wrong once it reaches that size. Everything can reach
+everything, so nothing stops climber code from writing to the roller motor by mistake.
+None of it can be tested, because there is no way to ask "what does the roller do when
+it is loaded?" without constructing an entire robot first. And the sensor polarity, the
+speed constants and the button layout are all tangled together, so changing any one of
+them means reading all of it.
 
-- **Everything can reach everything.** Nothing stops the climber code writing to the
-  roller motor.
-- **You cannot test any of it.** There is no way to ask "what does the roller do
-  when loaded" without constructing an entire robot.
-- **The sensor polarity, the speed constants, and the button layout are all mixed
-  together.** Change any one and you read all of it.
-
-Teams ship robots like this. They work. They stop working the Saturday somebody has
-to change one behaviour under time pressure.
-
-Lesson 04 takes it away from you.
+Plenty of teams do ship robots written this way, and they work fine right up until the
+Saturday somebody has to change one behaviour under time pressure. Lesson 04 takes this
+code away from you and shows you where it belongs instead.
 
 ```bash
 ./tools/frcprog next

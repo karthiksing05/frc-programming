@@ -8,6 +8,11 @@ The model is borrowed directly from [FRCDesign.org's Design Handbook](https://fr
 
 !!! success "Written and complete"
 
+    **[Java basics for FRC](java-basics.md)** — the subset of Java robot code actually
+    uses, in robot terms. Types, methods, classes, `private final`, enums, lambdas, and
+    the `Supplier` bug that silently stops a robot from moving. Start here if you have
+    not programmed before.
+
     **[Git](git.md)** — the full version of what lesson 0D deliberately defers.
     The loop, reading history, undoing things, branches, working with a team, and a
     recovery section for when you are convinced you have broken everything. No

@@ -1,6 +1,13 @@
 # Set up
 
-Three things, in order. Budget about an hour, most of it waiting on a download.
+Three things, in order. Most of the hour is spent waiting for a download, so start it
+and go do something else.
+
+!!! tip "Not sure what WPILib, Gradle or AdvantageScope are?"
+
+    They are all explained in [The software, explained](../orientation/software.md),
+    which is worth ten minutes before you install anything. This page assumes you have
+    either read it or already know.
 
 ---
 
@@ -14,15 +21,30 @@ It is a 2–3 GB download. **Do this at home**, on a network you control. Thirty
 students installing simultaneously on school Wi-Fi at the first meeting of the year
 is a tradition, and it is a bad one.
 
-What you get, and why each piece matters:
+That installer is not just one program. It puts five separate things on your machine,
+and it is worth knowing what they are, because you will use all of them:
 
-| Piece | Why |
-|---|---|
-| A Java 17 JDK | Everyone on your team compiles with the same compiler |
-| Its own copy of VS Code | Pre-configured, extension already installed |
-| An offline Maven repository | **Every library this curriculum needs, already on disk** |
-| AdvantageScope | The plotting tool you live in from Stage 1C onward |
-| Simulation tools | The robot simulator and driver station |
+**A Java 17 JDK**
+:   The Java compiler and runtime. WPILib ships its own copy so that everyone on your
+    team compiles with exactly the same version, rather than whatever Java each laptop
+    happened to have.
+
+**Its own copy of VS Code**
+:   The code editor, already configured, with the WPILib extension installed. It knows
+    where that JDK is, which a normal VS Code does not.
+
+**An offline Maven repository**
+:   A folder containing every library the project needs, already downloaded. This is
+    the piece that makes the whole curriculum work without a network — Gradle looks
+    here instead of reaching out to the internet.
+
+**AdvantageScope**
+:   The graphing tool. You will use it from Stage 1B onward to see what your control
+    loops are actually doing.
+
+**Simulation tools**
+:   The simulator that pretends to be a robot, and a Driver Station you can use to
+    enable it.
 
 !!! warning "Use WPILib's VS Code, not the one you already had"
 
@@ -115,9 +137,10 @@ Ranked by how often it actually happens.
     problem entirely.
 
 **Builds are extremely slow on Windows**
-:   Antivirus scanning Gradle's cache. Ask whoever administers the machine to
-    exclude the project folder and `%USERPROFILE%\.gradle`. This routinely turns a
-    twenty-minute build into a two-minute one.
+:   This is almost always antivirus software scanning Gradle's cache folder every time
+    it is touched. Ask whoever administers the machine to exclude the project folder
+    and `%USERPROFILE%\.gradle` from scanning, which usually takes builds from several
+    minutes back down to a few seconds.
 
 **macOS: "app is from an unidentified developer"**
 :   Right-click the app and choose **Open** rather than double-clicking.

@@ -147,7 +147,8 @@ That is the debounce doing its job, and it is the clearest way to see what it is
 
 ## Done
 
-Rubric is green.
+The rubric passes, and every subsystem now does something sensible when nobody is
+asking it for anything in particular.
 
 ```bash
 ./tools/frcprog next

@@ -92,6 +92,10 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Start here:
+      - What FRC is: orientation/index.md
+      - The robot, part by part: orientation/robot.md
+      - The software, explained: orientation/software.md
   - Set up:
       - setup/index.md
       - Working offline: setup/offline.md

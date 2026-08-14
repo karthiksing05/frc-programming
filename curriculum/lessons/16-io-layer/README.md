@@ -158,7 +158,8 @@ works standalone, with no robot around it.
 
 ## Done
 
-Rubric is green.
+The rubric passes, and the same subsystem logic now runs against simulated or real
+hardware without knowing which one it has.
 
 ```bash
 ./tools/frcprog next

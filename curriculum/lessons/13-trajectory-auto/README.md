@@ -146,7 +146,8 @@ is wrong.
 
 ## Done
 
-Rubric is green.
+The rubric passes, and the robot drives a smooth curve to a pose rather than a
+sequence of straight lines and turns.
 
 ```bash
 ./tools/frcprog next

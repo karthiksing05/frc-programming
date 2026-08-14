@@ -8,13 +8,17 @@ hide:
 
 *An FRC robot programming curriculum that runs on your laptop, with no network.*
 
-Thirty-four lessons that teach robot programming using the tools a real team uses —
-Java, WPILib, Gradle, JUnit, the WPILib simulator, and AdvantageScope. You write real
-robot code in a real robot project, and a real test suite tells you whether it works.
+Thirty-four lessons that teach you to program a competition robot, using the same
+tools a real FRC team uses. You write real robot code in a real robot project, and it
+runs in a simulator on your own laptop — no robot required, and nothing to download
+once you are set up.
 
-No accounts. No server. No cloud service that can be down on the day of your meeting.
+If you have never touched robot code before, start with **Start here**. It explains
+what the competition is, what a robot is made of, and what every tool in the stack
+actually does, before asking you to install anything.
 
-[Get started :material-rocket-launch:](setup/index.md){ .md-button .md-button--primary }
+[Start here :material-rocket-launch:](orientation/index.md){ .md-button .md-button--primary }
+[I know all that, set me up](setup/index.md){ .md-button }
 [See the lessons](learn/index.md){ .md-button }
 
 ---
