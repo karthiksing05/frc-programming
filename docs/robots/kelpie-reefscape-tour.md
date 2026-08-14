@@ -74,8 +74,31 @@ Reefscape was FRC's 2025 season — a pick-and-place game built around two field
 
 That mechanism stack — drive somewhere, grab a game piece, lift it to height, orient it, release — is the canonical "pick-and-place" robot. It's also exactly the mechanism stack the curriculum spends most of Stage 1B and Stage 2A teaching you to build, one subsystem at a time.
 
-![Kelpie on the Reefscape field](https://placeholder.frcprogramming.org/kelpie-hero.jpg)
-*Team 8033's Kelpie at the 2025 season. Photo placeholder — to be swapped with a real championship-event photo.*
+## Play with the mechanism
+
+Kelpie's job is to put a Coral on a branch at one of four heights, and that takes three
+joints agreeing at the same moment. Drag them and see how they interact — the limits and
+presets below are the same numbers as `Constants.Elevator` and `Constants.Shoulder` in
+your project.
+
+<div class="robot3d" data-robot="kelpie"></div>
+
+Try reaching a high branch. You will find there is more than one combination of elevator
+height and shoulder angle that puts the gripper in the same place, which is exactly the
+problem a real superstructure has to solve — and why lesson 20 exists.
+
+!!! note "Why this is a diagram rather than 8033's CAD"
+
+    Team 8033 have not published a licence for their repository, and their CAD lives on
+    GrabCAD behind a login, so we cannot redistribute their model here. The geometry
+    above is our own, built to the dimensions in `Constants.java` — so it moves the way
+    the mechanism you program moves, even though it is not their exact robot.
+
+    To see the real machine, their
+    [Behind the Bumpers walkthrough](https://www.youtube.com/watch?v=fM0odJBHaz4) is
+    fifteen minutes and worth it, and their
+    [GrabCAD profile](https://grabcad.com/highlander.robotics.8033-1/models) has the
+    full assembly.
 
 ---
 

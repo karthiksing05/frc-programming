@@ -11,6 +11,23 @@ title: "0B — Meet Presto"
 
 ---
 
+## Play with the shooter
+
+Before you read the code, get a feel for the machine it drives. The two things that
+decide where a Note lands are the pivot angle and the flywheel speed — drag them.
+
+<div class="robot3d" data-robot="presto"></div>
+
+The limits and presets are the same numbers as `Constants.Flywheels` in your project,
+so this is the mechanism you will be commanding in lesson 14. Notice that what throws
+the ring is the *surface speed* of the wheel, not the RPM — which is why the code
+holds a speed rather than a motor output.
+
+There is a photo of the real robot on the
+[Presto tour page](../../../robots/presto-crescendo-tour.md).
+
+---
+
 ## Hints
 
 Four hints, escalating. The answer is only in the last one — open them in order

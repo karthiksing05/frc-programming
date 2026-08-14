@@ -52,8 +52,22 @@ Crescendo was FRC's 2024 season — a shooter game built around foam donut "note
 
 Presto's whole identity is in that core loop: *spin two wheels really fast; aim with the pivot; push notes in with the rollers.* If you can read Presto's flywheels package, you can read every shooter in FRC.
 
-![Presto on the Crescendo field](https://placeholder.frcprogramming.org/presto-hero.jpg)
-*Team 6328's Presto, mid-shot at the 2024 season. Photo placeholder — to be swapped with a real championship-event photo.*
+<figure markdown="span">
+![Presto on the Crescendo field, with orange Notes, the Stage chain behind it and the Speaker to the right](../assets/robots/presto-6328.png)
+<figcaption>Presto on the Crescendo field. The orange rings are Notes, the scaffold on the left is the Stage with its Chain, and the blue structure on the right is the Speaker it shoots into. Render by <a href="https://github.com/Mechanical-Advantage/RobotCode2024Public">FRC 6328</a>, MIT licensed.</figcaption>
+</figure>
+
+## Play with the shooter
+
+The two things that decide where a Note lands are the pivot angle and the flywheel
+speed. Drag them and watch what happens — the slider limits and the presets are the
+same numbers as `Constants.Flywheels` in your project.
+
+<div class="robot3d" data-robot="presto"></div>
+
+Notice that the wheel surface speed, not the RPM, is what actually throws the ring — a
+bigger wheel at the same RPM throws harder. That is why lesson 14 asks you to hold a
+*speed* rather than a *motor output*.
 
 ---
 
