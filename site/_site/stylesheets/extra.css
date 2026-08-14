@@ -1,0 +1,198 @@
+/* ═══════════════════════════════════════════════════════════
+   FRCProgramming.org — Material theme overrides
+   Palette adapted from examples/elevator-pid-poc/style.css
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* FRCDesign-inspired green palette */
+  --frcp-primary:       #4caf50;
+  --frcp-primary-dark:  #388e3c;
+  --frcp-accent:        #69f0ae;
+  --frcp-shadow:        rgba(0, 0, 0, 0.4);
+  --frcp-shadow-light:  rgba(0, 0, 0, 0.08);
+}
+
+/* Make Material's link color match our green primary */
+[data-md-color-scheme="slate"] {
+  --md-typeset-a-color: var(--frcp-accent);
+}
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: var(--frcp-primary-dark);
+}
+
+/* ─── Stage badge (lesson header pill) ──────────────────── */
+/* Drop into the top of a lesson page: */
+/*   <span class="stage-badge">Stage 1B · Lesson 05</span>  */
+.stage-badge {
+  display: inline-block;
+  background: var(--frcp-primary);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ─── Embedded interactive widget (iframe) ──────────────── */
+/* Authors should add the .lesson-widget class to their iframe. */
+.lesson-widget,
+iframe.lesson-widget {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px var(--frcp-shadow);
+  background: #1e1e1e;
+  margin: 1.5rem 0;
+}
+[data-md-color-scheme="default"] .lesson-widget {
+  box-shadow: 0 4px 16px var(--frcp-shadow-light);
+}
+
+/* ─── Home page grid cards ──────────────────────────────── */
+.home-grid.grid.cards > ul > li,
+.home-grid > ul > li {
+  border-radius: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.home-grid.grid.cards > ul > li:hover,
+.home-grid > ul > li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--frcp-shadow);
+  border-color: var(--frcp-primary);
+}
+.home-grid .md-typeset__icon,
+.home-grid .twemoji {
+  color: var(--frcp-primary);
+}
+
+/* Slightly tighter typography on the home tagline */
+.md-typeset h1 + p > em:first-child {
+  color: var(--md-default-fg-color--light);
+  font-size: 1.05rem;
+}
+
+/* ─── Per-lesson "next/previous" grid card polish ───────── */
+.lesson-footer-nav.grid.cards > ul > li {
+  border-radius: 8px;
+}
+.lesson-footer-nav.grid.cards > ul > li strong {
+  color: var(--frcp-primary);
+}
+
+/* ─── Interactive 3D mechanism viewer (robot3d.js) ─────────────────────── */
+.robot3d {
+  --r3d-grid: rgba(128, 138, 155, 0.35);
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(220px, 1fr);
+  gap: 1rem;
+  align-items: start;
+  margin: 1.4rem 0;
+  padding: 0.9rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 8px;
+  background: var(--md-code-bg-color);
+}
+@media screen and (max-width: 60em) {
+  .robot3d { grid-template-columns: minmax(0, 1fr); }
+}
+
+.r3d-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+  cursor: grab;
+  touch-action: pan-y;
+  background: linear-gradient(180deg,
+      rgba(127, 140, 160, 0.10), rgba(127, 140, 160, 0.02));
+}
+.r3d-canvas:active { cursor: grabbing; }
+
+.r3d-panel { font-size: 0.76rem; }
+
+.r3d-control { margin-bottom: 0.85rem; }
+
+.r3d-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color);
+  margin-bottom: 0.3rem;
+}
+.r3d-value {
+  font-family: var(--md-code-font-family, monospace);
+  font-weight: 400;
+  color: var(--md-primary-fg-color);
+}
+
+.r3d-slider {
+  width: 100%;
+  accent-color: var(--md-primary-fg-color);
+  margin: 0 0 0.35rem;
+}
+
+.r3d-presets { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.r3d-preset {
+  font: inherit;
+  font-size: 0.72rem;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
+}
+.r3d-preset:hover {
+  border-color: var(--md-primary-fg-color);
+  color: var(--md-primary-fg-color);
+}
+
+.r3d-readout {
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+.r3d-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.15rem 0;
+  color: var(--md-default-fg-color--light);
+}
+.r3d-row b {
+  font-family: var(--md-code-font-family, monospace);
+  color: var(--md-default-fg-color);
+}
+
+.r3d-hint {
+  margin: 0.8rem 0 0;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+
+/* ─── Diagram figures (raw SVG, not markdown-processed) ────────────────── */
+.r3d-fig {
+  margin: 1.6rem 0;
+  text-align: center;
+}
+.r3d-fig svg {
+  width: 100%;
+  max-width: 760px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.r3d-fig figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--md-default-fg-color--light);
+  max-width: 46rem;
+  margin-inline: auto;
+}
