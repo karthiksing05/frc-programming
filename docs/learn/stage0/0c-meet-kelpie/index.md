@@ -28,6 +28,20 @@ lesson 20 exists to solve.
 
 ---
 
+## Watch it actually play
+
+Kelpie's problem is precision, which is far easier to see in motion. Three real
+matches from 8033's 2025 season:
+
+- **[San Francisco Regional final](https://www.youtube.com/watch?v=AIWx2SbTCIY)** — watch the elevator start rising while the robot is still driving.
+- **[East Bay Regional final](https://www.youtube.com/watch?v=LbKHvJjXNVw)** — watch one Coral placement, and count how many joints have to agree at that instant.
+- **[Johnson Division playoff — 2025 World Championship](https://www.youtube.com/watch?v=GwpPLoV6MBA)** — watch how little the robot ever pauses.
+
+More on the [Kelpie tour page](../../../robots/kelpie-reefscape-tour.md), and every
+match on [The Blue Alliance](https://www.thebluealliance.com/team/8033/2025).
+
+---
+
 ## Hints
 
 Four hints, escalating. The answer is only in the last one — open them in order
