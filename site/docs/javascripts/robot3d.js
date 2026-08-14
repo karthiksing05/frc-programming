@@ -113,7 +113,7 @@
 
   const ROBOTS = {
     kelpie: {
-      camera: { yaw: -0.85, pitch: 0.17, dist: 1.95, target: [0.04, 0.95, 0] },
+      camera: { yaw: -0.85, pitch: 0.17, dist: 2.15, target: [0.06, 1.00, 0] },
       caption: "Kelpie — elevator, shoulder and wrist",
       note: "Three joints that all have to agree before a Coral goes where you meant.",
       controls: [
@@ -128,58 +128,60 @@
       ],
       build(s) {
         const parts = [], add = (m, b) => parts.push({ m, b });
+        const GZ = -0.30;                 // the elevator plane, behind the arm
 
         // ---- square swerve chassis, 29.5 inch frame ----
-        add(T(0, 0.165, 0), box(0.60, 0.045, 0.60, "center", ALU));     // top deck
+        add(T(0, 0.165, 0), box(0.60, 0.045, 0.60, "center", ALU));     // deck
         for (const sz of [-0.36, 0.36])
-          add(T(0, 0.165, sz), box(0.76, 0.075, 0.045, "center", ALU)); // side rails
+          add(T(0, 0.165, sz), box(0.76, 0.075, 0.045, "center", ALU)); // rails
         for (const sx of [-0.36, 0.36])
           add(T(sx, 0.165, 0), box(0.045, 0.075, 0.76, "center", ALU));
-        add(T(0, 0.215, 0.10), box(0.28, 0.09, 0.20, "center", BLACK)); // battery
+        add(T(0, 0.215, 0.14), box(0.28, 0.09, 0.20, "center", BLACK)); // battery
         swerveCorners(add, 0.30, 0.185);
 
-        // ---- elevator: a closed rectangular gantry, not two loose posts ----
-        const GY = 0.16, GH = 0.92;                    // fixed stage
-        for (const dx of [-0.17, 0.17])
-          add(T(dx, GY, -0.24), box(0.045, GH, 0.075, "base", ALU));
-        add(T(0, GY + GH, -0.24), box(0.42, 0.075, 0.09, "center", ALU));   // top rail
-        add(T(0, GY + 0.02, -0.24), box(0.42, 0.06, 0.09, "center", ALU));  // bottom rail
-        // black triangular corner gussets, the thing you notice on the real one
-        for (const dx of [-0.17, 0.17])
-          for (const dy of [GY + 0.05, GY + GH - 0.09])
-            add(T(dx, dy, -0.20), box(0.055, 0.09, 0.02, "center", BLACK));
+        // ---- elevator: a closed rectangle, so it reads as one frame ----
+        const GY = 0.19, GH = 0.94;
+        for (const dx of [-0.18, 0.18])                                  // uprights
+          add(T(dx, GY, GZ), box(0.05, GH, 0.08, "base", ALU));
+        add(T(0, GY + GH - 0.03, GZ), box(0.41, 0.06, 0.08, "center", ALU));  // top rail
+        add(T(0, GY + 0.03, GZ), box(0.41, 0.06, 0.08, "center", ALU));       // bottom rail
+        add(T(0, GY + GH + 0.02, GZ), box(0.13, 0.035, 0.07, "center", PURPLE));
+        // black triangular gussets in all four corners of that rectangle
+        for (const dx of [-0.18, 0.18])
+          for (const dy of [GY + 0.09, GY + GH - 0.09])
+            add(T(dx, dy, GZ + 0.05), box(0.07, 0.10, 0.016, "center", BLACK));
 
-        // Second stage cascades up at half the carriage rate.
+        // ---- second stage cascades up inside the fixed one ----
         const lift = s.height;
         for (const dx of [-0.115, 0.115])
-          add(T(dx, GY + lift * 0.5, -0.24), box(0.035, GH, 0.05, "base", STEEL));
-        // cable chain running up one side
-        for (let i = 0; i < 9; i++)
-          add(T(0.215, GY + 0.08 + i * 0.105 + lift * 0.25, -0.24),
-              box(0.03, 0.07, 0.045, "center", BLACK));
-        add(T(0, GY + GH + 0.04, -0.24), box(0.10, 0.03, 0.06, "center", PURPLE));
+          add(T(dx, GY + 0.05 + lift * 0.5, GZ), box(0.036, GH - 0.02, 0.055, "base", STEEL));
+        add(T(0, GY + GH + lift * 0.5, GZ), box(0.27, 0.045, 0.055, "center", STEEL));
+        // cable chain, bolted to the upright and looping to the carriage
+        for (let i = 0; i < 8; i++)
+          add(T(0.225, GY + 0.10 + i * 0.10 + lift * 0.22, GZ + 0.02),
+              box(0.028, 0.065, 0.05, "center", BLACK));
 
-        // ---- carriage ----
-        const carriage = T(0, 0.22 + lift, -0.24);
-        add(carriage, box(0.30, 0.14, 0.10, "center", STEEL));
-        add(mul(carriage, T(0, 0, 0.07)), box(0.13, 0.10, 0.05, "center", STEEL)); // gearbox
+        // ---- carriage, riding in FRONT of the frame so the arm clears it ----
+        const carriage = T(0, 0.26 + lift, GZ + 0.09);
+        add(carriage, box(0.30, 0.15, 0.07, "center", STEEL));
+        add(mul(carriage, T(-0.19, 0, 0)), box(0.09, 0.11, 0.06, "center", BLACK)); // motor
+        add(mul(carriage, T(0.19, 0, 0)), box(0.09, 0.11, 0.06, "center", BLACK));
 
-        // ---- shoulder: arm pitches in the XY plane about a Z axle ----
-        const sh = mul(mul(carriage, T(0, 0, 0.09)), Rz(s.shoulder * Math.PI/180));
-        add(sh, cyl(0.05, 0.13, "z", BLACK, 12));
-        add(mul(sh, T(0, 0, 0)), box(0.56, 0.07, 0.11, "end", ALU));
-        add(mul(sh, T(0.16, 0, 0)), box(0.10, 0.085, 0.115, "center", BLACK)); // motor
+        // ---- shoulder: the arm pitches in the XY plane about a Z axle ----
+        const sh = mul(mul(carriage, T(0, 0, 0.08)), Rz(s.shoulder * Math.PI/180));
+        add(sh, cyl(0.052, 0.15, "z", BLACK, 14));
+        add(mul(sh, T(0, 0, 0)), box(0.54, 0.075, 0.10, "end", ALU));
+        add(mul(sh, T(0.13, 0.045, 0)), box(0.11, 0.075, 0.12, "center", STEEL)); // gearbox
 
         // ---- wrist rolls the end effector about the arm's own axis ----
-        const wr = mul(mul(sh, T(0.56, 0, 0)), Rx(s.wrist * Math.PI/180));
-        add(wr, cyl(0.042, 0.11, "z", BLACK, 12));
-        add(mul(wr, T(0.055, 0, 0)), box(0.11, 0.09, 0.15, "center", ALU));
-        for (const dz of [-0.075, 0.075])                      // gripper jaws
-          add(mul(wr, T(0.11, 0, dz)), box(0.13, 0.05, 0.03, "end", BLACK));
-        for (const dz of [-0.045, 0.045])                      // intake rollers
-          add(mul(wr, T(0.15, 0, dz)), cyl(0.028, 0.05, "x", CREAM, 10));
-        // a Coral, held across the jaws
-        add(mul(wr, T(0.19, 0, 0)), cyl(0.028, 0.32, "z", WHITE, 12));   // a Coral, held across the jaws
+        const wr = mul(mul(sh, T(0.54, 0, 0)), Rx(s.wrist * Math.PI/180));
+        add(wr, cyl(0.044, 0.13, "z", BLACK, 12));
+        add(mul(wr, T(0.06, 0, 0)), box(0.12, 0.10, 0.16, "center", ALU));
+        for (const dz of [-0.08, 0.08])                          // gripper jaws
+          add(mul(wr, T(0.12, 0, dz)), box(0.14, 0.055, 0.03, "end", STEEL));
+        for (const dz of [-0.05, 0.05])                          // intake rollers
+          add(mul(wr, T(0.16, 0, dz)), cyl(0.03, 0.055, "x", CREAM, 10));
+        add(mul(wr, T(0.20, 0, 0)), cyl(0.028, 0.33, "z", WHITE, 12)); // a Coral
         return parts;
       },
       readout(s) {
@@ -192,7 +194,7 @@
     },
 
     presto: {
-      camera: { yaw: -0.9, pitch: 0.15, dist: 1.95, target: [0.06, 0.50, 0] },
+      camera: { yaw: -0.9, pitch: 0.15, dist: 2.25, target: [0.08, 0.60, 0] },
       caption: "Presto — pivoting shooter and flywheels",
       note: "One angle and one speed decide where a Note lands.",
       controls: [
@@ -320,10 +322,39 @@
     hint.textContent = "Drag the picture to orbit. " + def.note;
     panel.appendChild(hint);
 
-    /* ---- camera ---- */
+    /* ---- camera ----
+     * Fitted to the WHOLE range of motion once, rather than hard-coded. A
+     * hand-picked distance that frames the default pose nicely will always
+     * lose the mechanism at one end of its travel — Kelpie's gripper moves
+     * through nearly two metres. Fitting to the union of the extremes means
+     * every pose stays in frame and the view never jumps while you drag.
+     */
     const cam = def.camera;
     let yaw = cam.yaw, pitch = cam.pitch;
-    const dist = cam.dist;
+
+    const dist = (function fit() {
+      let lo = { x: 1e9, y: 1e9, z: 1e9 }, hi = { x: -1e9, y: -1e9, z: -1e9 };
+      // Sample each control at min / middle / max, in every combination.
+      const axes = def.controls.map(c => [+c.min, (+c.min + +c.max) / 2, +c.max]);
+      const probe = { _t: 0 };
+      (function walk(i) {
+        if (i === axes.length) {
+          for (const { m, b } of def.build(probe))
+            for (const v of b.verts) {
+              const w = xf(m, v);
+              lo.x = Math.min(lo.x, w.x); hi.x = Math.max(hi.x, w.x);
+              lo.y = Math.min(lo.y, w.y); hi.y = Math.max(hi.y, w.y);
+              lo.z = Math.min(lo.z, w.z); hi.z = Math.max(hi.z, w.z);
+            }
+          return;
+        }
+        for (const v of axes[i]) { probe[def.controls[i].id] = v; walk(i + 1); }
+      })(0);
+
+      cam.target = [(lo.x + hi.x) / 2, (lo.y + hi.y) / 2, (lo.z + hi.z) / 2];
+      const r = Math.hypot(hi.x - lo.x, hi.y - lo.y, hi.z - lo.z) / 2;
+      return r * 2.15;
+    })();
     let dragging = false, lastX = 0, lastY = 0;
 
     const onDown = e => {

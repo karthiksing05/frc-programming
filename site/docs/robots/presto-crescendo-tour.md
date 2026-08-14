@@ -69,6 +69,40 @@ Notice that the wheel surface speed, not the RPM, is what actually throws the ri
 bigger wheel at the same RPM throws harder. That is why lesson 14 asks you to hold a
 *speed* rather than a *motor output*.
 
+
+## Watch it play
+
+Reading the code is one thing; watching what the code produces is another. These are
+real matches from 6328's 2024 season, and each one is worth watching with a specific
+thing in mind.
+
+**[Hopper Division final, match 2 — 2024 World Championship](https://www.youtube.com/watch?v=xvO35NYpKGk)**
+:   The official field feed of the match their alliance won the division with. Watch the
+    **shooter spin up before the robot arrives** at its shooting spot: the flywheels are
+    already at speed by the time the Note is fed, because spinning up takes roughly a
+    second and a half and nobody has that to spare. That sequencing is exactly what you
+    build in [lesson 09](../learn/stage1c/09-command-composition/index.md).
+
+    Watch the **pivot angle change between shots** taken from different distances too.
+    One mechanism, one number, re-aimed continuously — that is
+    [lesson 06](../learn/stage1b/06-arm-gravity-ff/index.md) at competition speed.
+
+**[The same final, from a driver station](https://www.youtube.com/watch?v=d6r9zXimfj0)**
+:   Finals 1, filmed from team 8013's driver station on the opposing alliance. Worth
+    watching straight after the broadcast angle, because it shows you what the drivers
+    can actually see — which is much less than you would expect, and is the reason
+    telemetry and a good dashboard matter so much.
+
+**[Einstein Field playoff — 2024 World Championship](https://www.youtube.com/watch?v=QubuOGQ3xGo)**
+:   The last field of the season. Watch the **first fifteen seconds**: no driver is
+    allowed to touch anything, and the robot scores anyway. 6328 won an Autonomous
+    Award in 2024, and what you are watching is
+    [lesson 12](../learn/stage1d/12-auto-basic/index.md) and
+    [lesson 13](../learn/stage1d/13-trajectory-auto/index.md) taken seriously.
+
+Every match they played is on
+[The Blue Alliance](https://www.thebluealliance.com/team/6328/2024).
+
 ---
 
 ## Mechanism inventory

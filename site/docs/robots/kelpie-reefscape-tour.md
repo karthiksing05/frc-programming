@@ -100,6 +100,33 @@ problem a real superstructure has to solve — and why lesson 20 exists.
     [GrabCAD profile](https://grabcad.com/highlander.robotics.8033-1/models) has the
     full assembly.
 
+
+## Watch it play
+
+Kelpie's whole problem is precision, and that is much easier to appreciate in motion
+than in a diagram. These are real matches from 8033's 2025 season.
+
+**[San Francisco Regional final, match 2](https://www.youtube.com/watch?v=AIWx2SbTCIY)**
+:   Watch the **elevator start rising while the robot is still driving**. It does not
+    drive there and then lift; it does both at once, because a match is two and a half
+    minutes long and sequencing those steps would cost seconds every cycle. Getting
+    that right without the arm swinging into something is
+    [lesson 20](../learn/stage2a/20-superstructure/index.md).
+
+**[East Bay Regional final, match 2](https://www.youtube.com/watch?v=LbKHvJjXNVw)**
+:   Watch a single **Coral placement** in slow motion if you can. The elevator height,
+    the shoulder angle and the wrist angle all have to be right at the same instant —
+    the thing you were just dragging sliders to feel.
+
+**[Johnson Division playoff — 2025 World Championship](https://www.youtube.com/watch?v=GwpPLoV6MBA)**
+:   Their alliance reached the regional finals twice that season and played the
+    Johnson Division at the championship. Watch how **little the robot pauses**. Almost
+    every mechanism is already moving toward its next position before the current
+    action has finished.
+
+Every match they played is on
+[The Blue Alliance](https://www.thebluealliance.com/team/8033/2025).
+
 ---
 
 ## Mechanism inventory

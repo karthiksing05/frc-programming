@@ -28,6 +28,21 @@ There is a photo of the real robot on the
 
 ---
 
+## Watch it actually play
+
+Before the code, see what it produces. Three real matches from 6328's 2024 season:
+
+- **[Hopper Division final — 2024 World Championship](https://www.youtube.com/watch?v=xvO35NYpKGk)** — their alliance won this division. Watch the shooter spin up *before* the robot arrives,
+  and the pivot angle change between shots from different distances.
+- **[The same final from a driver station](https://www.youtube.com/watch?v=d6r9zXimfj0)** — filmed from an opposing team's driver station. Notice how little the drivers can see.
+- **[Einstein Field playoff](https://www.youtube.com/watch?v=QubuOGQ3xGo)** — watch the first fifteen seconds, where nobody may touch the controls. They won an
+  Autonomous Award that season.
+
+More on the [Presto tour page](../../../robots/presto-crescendo-tour.md), and every
+match on [The Blue Alliance](https://www.thebluealliance.com/team/6328/2024).
+
+---
+
 ## Hints
 
 Four hints, escalating. The answer is only in the last one — open them in order
