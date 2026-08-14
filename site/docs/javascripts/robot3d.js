@@ -79,27 +79,41 @@
     return { verts, faces, color };
   }
 
-  /* ---- the two robots --------------------------------------------------- */
-  // Every limit, preset and readout below comes from Constants.java.
-  const GREY = "#6b7480", DARK = "#39404b", BLUE = "#3f7fbf",
-        GOLD = "#d0a03f", RED = "#c9524a", TYRE = "#33383f", WHITE = "#e8ebee";
+  /* ---- the two robots ---------------------------------------------------
+   * Built from the teams' own published CAD renders, so the silhouettes read
+   * as the real machines rather than as generic boxes:
+   *   Presto  6328's robot-image.png — indigo bumpers on a plywood frame, a
+   *           row of cream rollers across the front, blue pocketed plate
+   *           structure, black motors and timing-belt pulleys.
+   *   Kelpie  8033's published elevator render — a tall rectangular aluminium
+   *           gantry with black triangular corner gussets and a cable chain up
+   *           one side, on a square swerve chassis.
+   * Joint limits and presets still come from Constants.java.
+   * --------------------------------------------------------------------- */
+  const ALU   = "#aeb5bd",  // bare aluminium tube
+        STEEL = "#7e858e",
+        BLACK = "#2b2f36",  // gussets, motors, pulleys
+        TYRE  = "#33383f",
+        INDIGO= "#33357e",  // 6328's bumper blue
+        BLUEAL= "#3a5fa8",  // their anodised blue plate
+        CREAM = "#e4dcc9",  // the rollers, which are the thing you notice
+        PURPLE= "#7d4f9e",  // 8033's accent
+        WHITE = "#eceff2";
 
-  // A drivetrain both robots sit on: a plate, a bumper, and four wheels mounted
-  // OUTBOARD of the frame so they are actually visible rather than buried
-  // inside the chassis footprint.
-  function chassis(parts, add) {
-    add(T(0, 0.155, 0), box(0.64, 0.07, 0.58, "center", GREY));   // frame
-    add(T(0, 0.145, 0), box(0.70, 0.10, 0.64, "center", DARK));   // bumper
-    for (const sx of [-0.35, 0.35])
-      for (const sz of [-0.20, 0.20]) {
-        add(T(sx, 0.085, sz), cyl(0.085, 0.055, "x", TYRE, 14));  // tyre
-        add(T(sx, 0.085, sz), cyl(0.034, 0.062, "x", GREY, 10));  // hub
+  // Four swerve modules at the corners of a square frame. The module body is
+  // the tall black box; the wheel hangs below it.
+  function swerveCorners(add, half, yTop) {
+    for (const sx of [-half, half])
+      for (const sz of [-half, half]) {
+        add(T(sx, yTop - 0.02, sz), box(0.11, 0.13, 0.10, "center", BLACK));  // module
+        add(T(sx, 0.06, sz), cyl(0.06, 0.05, "x", TYRE, 14));                 // wheel
+        add(T(sx, 0.06, sz), cyl(0.022, 0.056, "x", STEEL, 8));               // hub
       }
   }
 
   const ROBOTS = {
     kelpie: {
-      camera: { yaw: -0.85, pitch: 0.17, dist: 2.25, target: [0.10, 0.90, 0] },
+      camera: { yaw: -0.85, pitch: 0.17, dist: 1.95, target: [0.04, 0.95, 0] },
       caption: "Kelpie — elevator, shoulder and wrist",
       note: "Three joints that all have to agree before a Coral goes where you meant.",
       controls: [
@@ -114,43 +128,71 @@
       ],
       build(s) {
         const parts = [], add = (m, b) => parts.push({ m, b });
-        chassis(parts, add);
 
-        // Two elevator rails rather than one post, which is what the real
-        // thing looks like and makes the carriage read as riding something.
-        for (const dx of [-0.13, 0.13])
-          add(T(dx, 0.19, -0.20), box(0.05, 1.68, 0.06, "base", DARK));
-        add(T(0, 1.85, -0.20), box(0.34, 0.05, 0.06, "center", GREY));
+        // ---- square swerve chassis, 29.5 inch frame ----
+        add(T(0, 0.165, 0), box(0.60, 0.045, 0.60, "center", ALU));     // top deck
+        for (const sz of [-0.36, 0.36])
+          add(T(0, 0.165, sz), box(0.76, 0.075, 0.045, "center", ALU)); // side rails
+        for (const sx of [-0.36, 0.36])
+          add(T(sx, 0.165, 0), box(0.045, 0.075, 0.76, "center", ALU));
+        add(T(0, 0.215, 0.10), box(0.28, 0.09, 0.20, "center", BLACK)); // battery
+        swerveCorners(add, 0.30, 0.185);
 
-        // Carriage rides the rails.
-        const carriage = T(0, 0.20 + s.height, -0.20);
-        add(carriage, box(0.32, 0.15, 0.09, "center", GOLD));
+        // ---- elevator: a closed rectangular gantry, not two loose posts ----
+        const GY = 0.16, GH = 0.92;                    // fixed stage
+        for (const dx of [-0.17, 0.17])
+          add(T(dx, GY, -0.24), box(0.045, GH, 0.075, "base", ALU));
+        add(T(0, GY + GH, -0.24), box(0.42, 0.075, 0.09, "center", ALU));   // top rail
+        add(T(0, GY + 0.02, -0.24), box(0.42, 0.06, 0.09, "center", ALU));  // bottom rail
+        // black triangular corner gussets, the thing you notice on the real one
+        for (const dx of [-0.17, 0.17])
+          for (const dy of [GY + 0.05, GY + GH - 0.09])
+            add(T(dx, dy, -0.20), box(0.055, 0.09, 0.02, "center", BLACK));
 
-        // Shoulder pivots on the carriage; arm grows along +x.
-        const sh = mul(mul(carriage, T(0, 0, 0.06)), Rz(s.shoulder * Math.PI/180));
-        add(sh, cyl(0.055, 0.14, "z", GREY, 12));
-        add(mul(sh, T(0, 0, 0)), box(0.58, 0.075, 0.075, "end", BLUE));
+        // Second stage cascades up at half the carriage rate.
+        const lift = s.height;
+        for (const dx of [-0.115, 0.115])
+          add(T(dx, GY + lift * 0.5, -0.24), box(0.035, GH, 0.05, "base", STEEL));
+        // cable chain running up one side
+        for (let i = 0; i < 9; i++)
+          add(T(0.215, GY + 0.08 + i * 0.105 + lift * 0.25, -0.24),
+              box(0.03, 0.07, 0.045, "center", BLACK));
+        add(T(0, GY + GH + 0.04, -0.24), box(0.10, 0.03, 0.06, "center", PURPLE));
 
-        // Wrist and a two-prong gripper holding a Coral.
-        const wr = mul(mul(sh, T(0.58, 0, 0)), Rx(s.wrist * Math.PI/180));
-        add(wr, cyl(0.045, 0.10, "z", GREY, 12));
-        add(mul(wr, T(0.05, 0, 0)), box(0.10, 0.06, 0.18, "center", RED));
-        for (const dz of [-0.075, 0.075])
-          add(mul(wr, T(0.14, 0, dz)), box(0.13, 0.04, 0.035, "end", RED));
-        add(mul(mul(wr, T(0.20, 0, 0)), Rz(Math.PI/2)), cyl(0.03, 0.30, "y", WHITE, 12));
+        // ---- carriage ----
+        const carriage = T(0, 0.22 + lift, -0.24);
+        add(carriage, box(0.30, 0.14, 0.10, "center", STEEL));
+        add(mul(carriage, T(0, 0, 0.07)), box(0.13, 0.10, 0.05, "center", STEEL)); // gearbox
+
+        // ---- shoulder: arm pitches in the XY plane about a Z axle ----
+        const sh = mul(mul(carriage, T(0, 0, 0.09)), Rz(s.shoulder * Math.PI/180));
+        add(sh, cyl(0.05, 0.13, "z", BLACK, 12));
+        add(mul(sh, T(0, 0, 0)), box(0.56, 0.07, 0.11, "end", ALU));
+        add(mul(sh, T(0.16, 0, 0)), box(0.10, 0.085, 0.115, "center", BLACK)); // motor
+
+        // ---- wrist rolls the end effector about the arm's own axis ----
+        const wr = mul(mul(sh, T(0.56, 0, 0)), Rx(s.wrist * Math.PI/180));
+        add(wr, cyl(0.042, 0.11, "z", BLACK, 12));
+        add(mul(wr, T(0.055, 0, 0)), box(0.11, 0.09, 0.15, "center", ALU));
+        for (const dz of [-0.075, 0.075])                      // gripper jaws
+          add(mul(wr, T(0.11, 0, dz)), box(0.13, 0.05, 0.03, "end", BLACK));
+        for (const dz of [-0.045, 0.045])                      // intake rollers
+          add(mul(wr, T(0.15, 0, dz)), cyl(0.028, 0.05, "x", CREAM, 10));
+        // a Coral, held across the jaws
+        add(mul(wr, T(0.19, 0, 0)), cyl(0.028, 0.32, "z", WHITE, 12));   // a Coral, held across the jaws
         return parts;
       },
       readout(s) {
         const rad = s.shoulder * Math.PI/180;
         return [
-          ["Gripper height", (0.20 + s.height + 0.58*Math.sin(rad)).toFixed(2) + " m"],
-          ["Reach forward",  (0.58 * Math.cos(rad)).toFixed(2) + " m"],
+          ["Gripper height", (0.22 + s.height + 0.56*Math.sin(rad)).toFixed(2) + " m"],
+          ["Reach forward",  (0.56 * Math.cos(rad)).toFixed(2) + " m"],
         ];
       },
     },
 
     presto: {
-      camera: { yaw: -0.85, pitch: 0.15, dist: 1.60, target: [0.10, 0.42, 0] },
+      camera: { yaw: -0.9, pitch: 0.15, dist: 1.95, target: [0.06, 0.50, 0] },
       caption: "Presto — pivoting shooter and flywheels",
       note: "One angle and one speed decide where a Note lands.",
       controls: [
@@ -161,31 +203,44 @@
       ],
       build(s) {
         const parts = [], add = (m, b) => parts.push({ m, b });
-        chassis(parts, add);
 
-        // Shooter tower and the pivot it swings on.
-        for (const dx of [-0.16, 0.16])
-          add(T(dx, 0.19, -0.14), box(0.05, 0.28, 0.05, "base", DARK));
+        // ---- chassis: indigo bumper over a plywood frame ----
+        add(T(0, 0.14, 0), box(0.68, 0.05, 0.68, "center", "#b9a06a"));  // ply frame
+        add(T(0, 0.105, 0), box(0.80, 0.115, 0.80, "center", INDIGO));   // bumper
+        add(T(0, 0.175, 0), box(0.62, 0.02, 0.62, "center", BLACK));     // belly pan
+        swerveCorners(add, 0.30, 0.16);
 
-        const pivot = mul(T(0, 0.45, -0.14), Rz(s.arm * Math.PI/180));
-        add(pivot, cyl(0.055, 0.36, "z", GREY, 12));
+        // ---- blue side plates carrying the shooter ----
+        for (const dz of [-0.20, 0.20])
+          add(T(-0.04, 0.29, dz), box(0.38, 0.37, 0.022, "center", BLUEAL));
+        for (const dx of [-0.20, 0.10])
+          add(T(dx, 0.29, 0), box(0.03, 0.35, 0.40, "center", BLUEAL));
 
-        // The launcher body, with side plates so it reads as a housing.
-        add(mul(pivot, T(0, 0, 0)), box(0.44, 0.055, 0.26, "end", BLUE));
-        for (const dz of [-0.155, 0.155])
-          add(mul(pivot, T(0, 0, dz)), box(0.44, 0.13, 0.02, "end", GREY));
+        // ---- the row of cream rollers across the front. On the real robot
+        //      these are the first thing you see, so they matter visually. ----
+        for (const dx of [0.20, 0.29, 0.375])
+          add(T(dx, 0.185, 0), cyl(0.048, 0.44, "z", CREAM, 12));
+        for (const dz of [-0.23, 0.23])
+          add(T(0.29, 0.185, dz), box(0.26, 0.16, 0.02, "center", BLACK));
 
-        // Two flywheels at the muzzle, spinning when commanded.
+        // ---- shooter pivots about a Z axle and grows along +x ----
+        const pivot = mul(T(-0.06, 0.46, 0), Rz(s.arm * Math.PI/180));
+        add(pivot, cyl(0.05, 0.40, "z", BLACK, 12));
+        for (const dz of [-0.185, 0.185])                       // blue side plates
+          add(mul(pivot, T(0, 0, dz)), box(0.46, 0.15, 0.022, "end", BLUEAL));
+        add(mul(pivot, T(0, 0, 0)), box(0.44, 0.06, 0.34, "end", BLUEAL));
+        add(mul(pivot, T(0.10, 0.055, 0)), box(0.13, 0.10, 0.14, "center", BLACK)); // motor
+
+        // ---- the flywheels, spinning when commanded ----
         const spin = s._t * (s.rpm / 5800) * 9;
-        for (const dz of [-0.10, 0.10]) {
-          const w = mul(mul(pivot, T(0.44, 0, dz)), Rz(spin));
-          add(w, cyl(0.085, 0.055, "z", s.rpm > 0 ? GOLD : GREY, 14));
-          add(w, box(0.022, 0.155, 0.06, "center", DARK));   // spoke, shows rotation
+        for (const dz of [-0.115, 0.115]) {
+          const w = mul(mul(pivot, T(0.46, 0, dz)), Rz(spin));
+          add(w, cyl(0.075, 0.09, "z", CREAM, 14));
+          add(w, box(0.02, 0.14, 0.095, "center", s.rpm > 0 ? PURPLE : BLACK));
+          add(w, cyl(0.028, 0.10, "z", BLACK, 10));            // pulley hub
         }
-
-        // Floor intake rollers.
-        for (const dz of [-0.12, 0, 0.12])
-          add(T(0.36, 0.13, dz), cyl(0.045, 0.09, "z", DARK, 10));
+        // feed roller just behind the flywheels
+        add(mul(pivot, T(0.30, 0, 0)), cyl(0.045, 0.30, "z", CREAM, 12));
         return parts;
       },
       readout(s) {
