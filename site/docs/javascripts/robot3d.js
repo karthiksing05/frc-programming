@@ -354,6 +354,17 @@
 
   if (document.readyState !== "loading") init();
   else document.addEventListener("DOMContentLoaded", init);
-  // Material for MkDocs swaps page content without a reload.
+
+  // Material for MkDocs swaps page content without a reload, and the
+  // single-file artifact build has its own router. Rather than knowing about
+  // either, just watch for new nodes and wire up anything that appears.
   if (window.document$ && window.document$.subscribe) window.document$.subscribe(init);
+  if (window.MutationObserver) {
+    let queued = false;
+    new MutationObserver(() => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; init(); });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
 })();
