@@ -15,12 +15,12 @@ threshold, and returns the reading unchanged otherwise.
 These are the calls the rubric will make, and what each one has to give back:
 
 ```java
-applyDeadband(0.05,  0.1);   // 0.0    small enough to be noise, so throw it away
-applyDeadband(-0.05, 0.1);   // 0.0    sticks drift both ways, so handle both signs
-applyDeadband(0.8,   0.1);   // 0.8    a real request — pass it through untouched
-applyDeadband(-0.8,  0.1);   // -0.8   and keep the sign, or the robot reverses wrongly
-applyDeadband(0.15,  0.2);   // 0.0    use the threshold you were given, not a fixed 0.1
-applyDeadband(0.1,   0.1);   // 0.1    exactly on the edge still counts — use <, not <=
+applyDeadband(0.05,  0.1);   // 0.0    noise — throw it away
+applyDeadband(-0.05, 0.1);   // 0.0    sticks drift both ways
+applyDeadband(0.8,   0.1);   // 0.8    a real request, untouched
+applyDeadband(-0.8,  0.1);   // -0.8   keep the sign, or reverse breaks
+applyDeadband(0.15,  0.2);   // 0.0    use the threshold you were given
+applyDeadband(0.1,   0.1);   // 0.1    on the edge counts — use <, not <=
 ```
 
 The last two are the ones people get wrong. If you hard-code `0.1` inside the method

@@ -20,10 +20,10 @@ comments. Four numbers are currently placeholders. Replace them:
 public static final class Drive {
 
   // 0.0 means "no deadband at all" — the exact bug lesson 01 taught you to fix.
-  public static final double DEADBAND  = 0.10;   // ignore stick readings smaller than this
+  public static final double DEADBAND  = 0.10;   // ignore readings smaller than this
 
   // The most voltage we will ever command.
-  public static final double MAX_VOLTS = 12.0;   // a fresh battery is about 12 V
+  public static final double MAX_VOLTS = 12.0;   // a fresh battery is about this
 
   // Motor turns per wheel turn, decided by whichever gearbox mechanical bolted on.
   public static final double GEAR_RATIO = 8.45;  // stock AndyMark ToughBox Mini
@@ -32,7 +32,7 @@ public static final class Drive {
 public static final class Flywheels {
 
   // How fast this motor spins with 12 V and nothing loading it.
-  public static final double MAX_RPM = 5800.0;   // "free speed", from the motor's datasheet
+  public static final double MAX_RPM = 5800.0;   // free speed, from the datasheet
 }
 ```
 

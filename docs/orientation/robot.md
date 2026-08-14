@@ -11,7 +11,7 @@ it once so that `TalonFX` and `DIO 4` are not strangers when they appear.
 
 Almost everything on a robot is a link in one chain:
 
-<figure markdown="span">
+<figure class="r3d-fig">
 <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img"
      aria-label="Battery feeds the power distribution hub, which powers motor controllers, which drive motors. The roboRIO sends commands over CAN, and sensors report back."
      style="max-width:100%;height:auto">
