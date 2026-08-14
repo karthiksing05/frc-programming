@@ -31,8 +31,8 @@ curriculum spends most of its time on the second kind.
 Robots do not play alone. Three teams form an **alliance**, red or blue, and the two
 alliances play a two-and-a-half minute match against each other.
 
-<figure markdown="span">
-<svg viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img"
+<figure class="r3d-fig">
+<svg viewBox="-10 0 740 120" xmlns="http://www.w3.org/2000/svg" role="img"
      aria-label="A match timeline: 15 seconds autonomous, then teleoperated, ending with endgame."
      style="max-width:100%;height:auto">
   <style>

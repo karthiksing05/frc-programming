@@ -10,7 +10,7 @@ So: what each piece is, why it exists, and what it does for you.
 
 ## The short version
 
-<figure markdown="span">
+<figure class="r3d-fig">
 <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img"
      aria-label="Your Java code uses WPILib; Gradle compiles it; it then either deploys to a roboRIO or runs in the simulator, which publishes data over NetworkTables to AdvantageScope."
      style="max-width:100%;height:auto">

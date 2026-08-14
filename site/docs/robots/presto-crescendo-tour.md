@@ -2,7 +2,7 @@
 
 *Team 6328 Mechanical Advantage's 2024 Crescendo robot — the canonical AdvantageKit reference, and the shooter that anchors every flywheel-and-feedforward lesson in the curriculum.*
 
-<figure markdown="span">
+<figure class="r3d-fig">
 <svg viewBox="0 0 780 280" role="img" aria-label="A game piece enters Presto through the intake, is indexed by the rollers, and is launched by two flywheels; the arm sets the launch angle and the swerve drive aims the whole robot." style="max-width:100%;height:auto;color:inherit">
   <defs>
     <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

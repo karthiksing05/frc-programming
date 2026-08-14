@@ -2,7 +2,7 @@
 
 *Team 8033 Highlander Robotics's 2025 Reefscape robot — the pick-and-place reference that anchors every Stage 1B mechanism lesson.*
 
-<figure markdown="span">
+<figure class="r3d-fig">
 <svg viewBox="0 0 780 320" role="img" aria-label="Kelpie picks up coral through a funnel into a roller, then positions it with a chain of three joints — elevator, shoulder and wrist — all of which must be in position at once before the roller can place the piece on the reef." style="max-width:100%;height:auto;color:inherit">
   <defs>
     <marker id="ka" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
