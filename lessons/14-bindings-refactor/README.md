@@ -2,7 +2,18 @@
 
 **Stage 1D · 45 min · Needs: 13**
 
-Nothing in `configureBindings()` is wrong. It is just all in one pile.
+There is nothing wrong with the code in `configureBindings()`. Every line works, every
+rubric passes, and if you stopped here the robot would be fine.
+
+The problem is that it is all in one pile, and it is about to get bigger. Right now it
+holds the driver's controls, the operator's controls and the automatic behaviours in one
+method — and on a real team those three things belong to different people who will be
+editing them at the same time, in the same file, in the same week. That is how merge
+conflicts and "who changed my binding?" arguments start.
+
+This lesson is a pure refactor: the robot must behave identically when you are done. The
+skill being practised is changing a program's shape without changing what it does, which
+is something you will do far more often than writing anything from scratch.
 
 ## Do this
 
