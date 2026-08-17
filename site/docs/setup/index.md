@@ -121,6 +121,23 @@ problem to have.
 
 Ranked by how often it actually happens.
 
+**PowerShell: "The module 'tools' could not be loaded"**
+:   You are not in the project folder. When PowerShell cannot find a command it guesses
+    that the first part of the path is a *module* name and tries to load that, so the
+    error talks about modules when the real problem is simply that `tools\frcprog.cmd`
+    is not where you are standing. The useful half of the message is
+    `CommandNotFoundException`.
+
+    `cd` to the folder you copied the curriculum into and try again. Running `ls` there
+    should show `gradlew`, `build.gradle` and `tools`.
+
+    A full path also works from anywhere, because the launcher moves to the project
+    itself before doing anything:
+
+    ```powershell
+    C:\dev\frc-curriculum\tools\frcprog.cmd doctor
+    ```
+
 **"Unsupported class file major version"**
 :   Gradle is using some other Java. You typed `gradle` instead of `./gradlew`. The
     leading `./` and the `w` both matter — `gradlew` is a script in the project that

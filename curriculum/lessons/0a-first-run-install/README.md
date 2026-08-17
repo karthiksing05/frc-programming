@@ -62,6 +62,14 @@ the only reason any of this is possible on a laptop.
 
 ## Watch out for
 
+**PowerShell says "The module 'tools' could not be loaded"**
+You are not in the project folder. PowerShell guesses that the first part of an
+unfound command is a module name, so the error is about modules when the real problem
+is that `tools\frcprog.cmd` is not where you are. `cd` into the folder you copied the
+curriculum into — `ls` should show `gradlew`, `build.gradle` and `tools` — and try
+again. A full path such as `C:\dev\frc-curriculum\tools\frcprog.cmd doctor` works
+from anywhere.
+
 **"Unsupported class file major version"**
 This means Gradle is running on the wrong Java. You almost certainly typed `gradle`
 instead of `./gradlew` — the `./` and the `w` both matter, because `gradlew` is a
